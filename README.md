@@ -68,7 +68,7 @@ workshop/
 │   ├── 1_basic_setup/        # Environment setup
 │   ├── 2_data_privacy/       # Privacy implementation
 │   ├── 3_model_development/  # BERT model adaptation
-│   └── 4_full_implementation/# Network integration
+│   └── 4_full_implementation # Network integration
 └── exercises/                # Hands-on exercises
 ```
 
