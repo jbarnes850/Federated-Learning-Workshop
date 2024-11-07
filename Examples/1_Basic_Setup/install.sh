@@ -1,6 +1,4 @@
 #!/bin/bash
-
-# Exit on error
 set -e
 
 echo "Starting installation..."
@@ -19,11 +17,7 @@ if [ ! -f .env ]; then
     echo "✓ Created .env file from example"
 fi
 
-# Start AIVM devnet
-echo "Starting AIVM devnet..."
-aivm-devnet || {
-    echo "❌ Failed to start AIVM devnet"
-    exit 1
-}
-
-echo "✓ Installation complete - AIVM devnet running"
+echo "✓ Installation complete"
+echo "To start the workshop:"
+echo "1. Open a new terminal and run: aivm-devnet"
+echo "2. In this terminal, run: python Examples/1_Basic_Setup/test_setup.py"

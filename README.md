@@ -6,32 +6,90 @@
 
 A Quick Start Guide to Building Privacy-Preserving AI Networks for Social Impact using Nillion's AIVM framework.
 
-See the system, design, and architecture [here](./Presentation/Decentralized%20Federated%20Learning%20Architecture.pdf).
+## Workshop Setup
 
-## Quick Start
+### 1. Environment Setup
 
 ```bash
-# Clone and setup
+# Clone repository
 git clone https://github.com/jbarnes850/Federated-Learning-Workshop
-
 cd Federated-Learning-Workshop
 
-python3 -m venv .venv
+# Run installation script
+chmod +x Examples/1_Basic_Setup/install.sh
+./Examples/1_Basic_Setup/install.sh
+```
 
-source .venv/bin/activate
+### 2. Start AIVM Devnet
 
-pip install -r requirements.txt
+Open a new terminal and run:
 
+```bash
+# Start the devnet (keep this terminal open)
+aivm-devnet
+```
+
+### 3. Verify Installation
+
+In your original terminal:
+
+```bash
 # Verify setup
-python examples/1_basic_setup/test_setup.py
+python Examples/1_Basic_Setup/test_setup.py
 ```
 
 ## Workshop Exercises
 
-1. [Basic Setup](./exercises/1_setup_exercise.md) - Environment and AIVM setup
-2. [Data Privacy](./exercises/2_privacy_exercise.md) - Encrypt sensitive data
-3. [Model Development](./exercises/3_model_exercise.md) - Deploy BERT model
-4. [Network Implementation](./exercises/4_network_exercise.md) - Build secure network
+With devnet running in your separate terminal, proceed through the exercises:
+
+1. [Basic Setup](./Exercises/1_setup_exercise.md)
+   - Environment validation
+   - AIVM connectivity check
+   - Model support verification
+
+2. [Data Privacy](./Exercises/2_privacy_exercise.md)
+   - Generate test data
+   - Implement encryption
+   - Verify privacy preservation
+
+3. [Model Development](./Exercises/3_model_exercise.md)
+   - Deploy BERT model
+   - Test predictions
+   - Validate security
+
+4. [Network Implementation](./Exercises/4_network_exercise.md)
+   - Set up network node
+   - Enable secure collaboration
+   - Test federated predictions
+
+## Troubleshooting
+
+If you encounter issues:
+
+### Check Devnet Status
+
+```bash
+# In a new terminal
+chmod +x Examples/utils/manage_devnet.sh
+./Examples/utils/manage_devnet.sh status
+```
+
+### Restart Devnet if Needed
+
+```bash
+# Kill existing devnet
+pkill -f "aivm-devnet"
+
+# Start fresh devnet
+aivm-devnet
+```
+
+### Verify Environment
+
+```bash
+# Check installation
+python Examples/1_Basic_Setup/test_setup.py
+```
 
 ## Bridging Privacy and Social Impact: A Food Security Case Study
 

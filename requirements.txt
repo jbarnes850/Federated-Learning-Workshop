@@ -1,6 +1,5 @@
 # Core AIVM requirements
-nillion-aivm>=0.1.0            # Main AIVM package
-nillion-aivm[examples]>=0.1.0  # Required for examples
+nillion-aivm[examples]>=0.1.0  # Main package with examples
 
 # Deep Learning
 torch>=2.0.0                  # PyTorch for model operations

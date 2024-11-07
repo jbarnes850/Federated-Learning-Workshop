@@ -28,8 +28,8 @@ Run this script after completing the basic installation script in install.sh:
 
 import unittest
 import logging
-import aivm_client as aic
-from aivm_client.models import get_supported_models
+from nillion_aivm import Client as aic
+from nillion_aivm.models import get_supported_models
 import os
 import sys
 import subprocess
@@ -55,17 +55,10 @@ class TestAIVM(unittest.TestCase):
             "upload_capability": False
         }
         
-        # Validate environment
-        self.api_key = os.getenv('AIVM_API_KEY')
-        if not self.api_key:
-            raise ValueError("❌ AIVM_API_KEY environment variable not set")
-        logger.info("✓ Environment variables validated")
-        self.progress["env_setup"] = True
-        
-        # Initialize client
+        # Initialize client (no API key needed for devnet)
         try:
-            self.client = aic.Client()
-            self.client.configure(api_key=self.api_key)
+            self.client = aic()
+            # No need to configure API key for devnet
             logger.info("✓ AIVM client initialized successfully")
             self.progress["client_init"] = True
         except Exception as e:
