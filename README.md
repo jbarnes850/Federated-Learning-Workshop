@@ -6,6 +6,8 @@
 
 A Quick Start Guide to Building Privacy-Preserving AI Networks for Social Impact using Nillion's AIVM framework.
 
+See the system, design, and architecture [here](./Presentation/Decentralized%20Federated%20Learning%20Architecture.pdf).
+
 ## Quick Start
 
 ```bash
