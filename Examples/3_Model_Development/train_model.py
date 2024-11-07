@@ -4,6 +4,26 @@ Model Training Script
 
 This module implements the training pipeline for the food security BertTiny model
 using Nillion AIVM for privacy-preserving deployment.
+
+The script handles:
+- Loading and preprocessing food bank request data
+- Initializing a BertTiny model for text classification 
+- Training the model with privacy-preserving techniques
+- Evaluating model performance and saving checkpoints
+- Preparing the model for deployment on Nillion AIVM
+
+The training pipeline includes:
+- Custom FoodBankDataset class for efficient data loading
+- Tokenization using BERT tokenizer
+- Optimization with AdamW and learning rate scheduling
+- Progress tracking and logging functionality
+- Model evaluation on validation data
+
+Environment variables (see .env.local):
+- AIVM_DEVNET_HOST: Host for AIVM development network
+- AIVM_DEVNET_PORT: Port for AIVM development network
+- AIVM_DEVNET_ENABLED: Flag to enable/disable AIVM devnet
+- AIVM_LOG_LEVEL: Logging verbosity level
 """
 
 import sys
@@ -22,6 +42,7 @@ import numpy as np
 import time
 from utils.progress import log_progress, ProgressStatus
 from colorama import init, Fore, Style
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 init()
 
 # Configure logging
@@ -75,7 +96,7 @@ class ModelTrainer:
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
             self.model = AutoModelForSequenceClassification.from_pretrained(
                 self.model_name,
-                num_labels=2  # Binary classification
+                num_labels=2  
             ).to(self.device)
             
             self.progress["setup_complete"] = True
@@ -88,50 +109,77 @@ class ModelTrainer:
             raise
 
     def prepare_data(self) -> Tuple[DataLoader, DataLoader]:
-        """Prepare training and validation data with enhanced context."""
+        """Prepare training and validation data."""
         try:
             # Load synthetic data
             data_path = os.path.join(
                 os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
                 "synthetic_data.csv"
             )
-            data = pd.read_csv(data_path)
             
-            # Create enhanced text inputs with context
+            # Check if file exists
+            if not os.path.exists(data_path):
+                raise FileNotFoundError(
+                    f"Synthetic data not found at {data_path}. "
+                    "Please run food_bank_data.py first."
+                )
+            
+            # Load data
+            try:
+                data = pd.read_csv(data_path)
+            except pd.errors.EmptyDataError:
+                raise ValueError("Synthetic data file is empty")
+            except Exception as e:
+                raise ValueError(f"Error reading synthetic data: {str(e)}")
+                
+            # Validate required columns
+            required_columns = [
+                'FoodType', 'Population', 'HouseholdSize', 
+                'IncomeLevel', 'DemandAmount', 'EmergencyStatus', 
+                'SeasonalFactor'
+            ]
+            missing_columns = [col for col in required_columns if col not in data.columns]
+            if missing_columns:
+                raise ValueError(f"Missing required columns: {missing_columns}")
+                
+            # Create text inputs matching the generated data format
             texts = data.apply(
                 lambda row: (
-                    f"{row['FoodType']} - "
-                    f"Population: {row['Population']:,}, "
-                    f"Household: {row['HouseholdSize']}, "
-                    f"Income: {row['IncomeLevel']}, "
-                    f"Demand: {row['DemandAmount']}"
+                    f"Food Type: {row['FoodType']}, "
+                    f"Location Type: {'Urban' if row['Population'] > 1000000 else 'Suburban' if row['Population'] > 500000 else 'Rural'}, "
+                    f"Demographics: {row['Population']:,} residents in {row['HouseholdSize']}-person households, "
+                    f"Economic Status: {row['IncomeLevel']} income area, "
+                    f"Current Demand: {row['DemandAmount']}, "
+                    f"Emergency Status: {row['EmergencyStatus']}, "
+                    f"Season: {row['SeasonalFactor']}"
                 ),
                 axis=1
             )
             
-            # Create balanced labels
-            median_demand = data['DemandAmount'].median()
-            labels = (data['DemandAmount'] > median_demand).astype(int)
+            # Create balanced labels with better thresholding
+            demand_mean = data['DemandAmount'].mean()
+            demand_std = data['DemandAmount'].std()
             
-            # Calculate class weights for balanced training
+            # Use mean + std as threshold for more balanced classes
+            demand_threshold = demand_mean + (0.5 * demand_std)
+            labels = (data['DemandAmount'] > demand_threshold).astype(int)
+            
+            # Verify class balance
             class_counts = labels.value_counts()
-            total_samples = len(labels)
-            class_weights = {
-                0: total_samples / (2 * class_counts[0]),
-                1: total_samples / (2 * class_counts[1])
-            }
+            if min(class_counts.values) < len(labels) * 0.2:  # Ensure at least 20% in minority class
+                logger.warning(f"Imbalanced classes detected. Adjusting threshold...")
+               
+                demand_threshold = data['DemandAmount'].median()
+                labels = (data['DemandAmount'] > demand_threshold).astype(int)
+                class_counts = labels.value_counts()
             
-            # Convert to tensor weights
-            sample_weights = torch.FloatTensor([
-                class_weights[label] for label in labels
-            ])
-            
-            # Create weighted sampler for balanced batches
-            sampler = torch.utils.data.WeightedRandomSampler(
-                weights=sample_weights,
-                num_samples=len(sample_weights),
-                replacement=True
-            )
+            # Print data statistics
+            logger.info(f"Data loaded successfully:")
+            logger.info(f"Total samples: {len(data)}")
+            logger.info(f"Demand threshold: {demand_threshold:.0f}")
+            logger.info(f"Mean demand: {demand_mean:.0f}")
+            logger.info(f"Std demand: {demand_std:.0f}")
+            logger.info(f"Label distribution: {class_counts.to_dict()}")
             
             # Split into train and validation
             train_size = int(0.8 * len(texts))
@@ -144,167 +192,208 @@ class ModelTrainer:
             train_dataset = FoodBankDataset(train_texts, train_labels, self.tokenizer)
             val_dataset = FoodBankDataset(val_texts, val_labels, self.tokenizer)
             
-            # Create dataloaders with weighted sampler for training
+            # Calculate class weights
+            class_counts = train_labels.value_counts()
+            weights = torch.FloatTensor([
+                1.0 / class_counts[0],
+                1.0 / class_counts[1]
+            ])
+            weights = weights / weights.sum() 
+            
+            # Create weighted sampler
+            sample_weights = torch.FloatTensor([
+                weights[label] for label in train_labels
+            ])
+            sampler = torch.utils.data.WeightedRandomSampler(
+                weights=sample_weights,
+                num_samples=len(sample_weights),
+                replacement=True
+            )
+            
+            # Create dataloaders with weighted sampler
             train_loader = DataLoader(
                 train_dataset, 
-                batch_size=32,
-                sampler=sampler
+                batch_size=32,  
+                sampler=sampler,
+                num_workers=0  
             )
             val_loader = DataLoader(
                 val_dataset, 
-                batch_size=32
+                batch_size=16,
+                num_workers=0  
             )
             
             self.progress["data_prepared"] = True
             log_progress("Data Preparation", ProgressStatus.COMPLETE)
-            logger.info(f"✓ Data preparation complete - {len(texts)} samples")
-            logger.info(f"Class distribution - High Demand: {class_counts[1]}, Low Demand: {class_counts[0]}")
+            logger.info(f"�� Data preparation complete - {len(texts)} samples")
+            logger.info(f"Class distribution - High Demand: {sum(train_labels)}, Low Demand: {len(train_labels)-sum(train_labels)}")
             
             return train_loader, val_loader
-            
+                
         except Exception as e:
-            logger.error(f"❌ Data preparation failed: {e}")
+            logger.error(f"❌ Data preparation failed: {str(e)}")
             log_progress("Data Preparation", ProgressStatus.FAILED)
             raise
 
-    def train_model(self, train_loader: DataLoader, val_loader: DataLoader, num_epochs: int = 2) -> None:
-        """Train model with validation."""
+    def train_model(self, train_loader: DataLoader, val_loader: DataLoader, num_epochs: int = 5) -> None:
+        """Train model with improved learning process."""
         try:
             logger.info(f"\n{Fore.CYAN}Starting Model Training{Style.RESET_ALL}")
-            logger.info(f"{Fore.CYAN}{'='*50}{Style.RESET_ALL}")
             
-            # Use torch.optim.AdamW
-            optimizer = torch.optim.AdamW(self.model.parameters(), lr=2e-5)
+            # Initialize best state tracking
+            best_val_accuracy = 0.0
+            best_state = None
+            patience = 3
+            no_improve = 0
             
-            # Add warmup scheduler
+            
+            optimizer = torch.optim.AdamW(
+                self.model.parameters(),
+                lr=2e-5,          
+                weight_decay=0.01  
+            )
+            
+            
             total_steps = len(train_loader) * num_epochs
             scheduler = get_linear_schedule_with_warmup(
                 optimizer,
-                num_warmup_steps=0,
+                num_warmup_steps=total_steps // 10,  
                 num_training_steps=total_steps
             )
-
+            
             for epoch in range(num_epochs):
-                logger.info(f"\n{Fore.YELLOW}Epoch {epoch + 1}/{num_epochs}{Style.RESET_ALL}")
-                logger.info(f"{Fore.CYAN}{'='*30}{Style.RESET_ALL}")
-                
-                start_time = time.time()
+                # Training phase
                 self.model.train()
                 total_train_loss = 0
-                right_predictions = 0
-
-                try:
-                    for batch_idx, batch in enumerate(train_loader):
-                        try:
-                            # Move batch to device
-                            input_ids = batch['input_ids'].to(self.device)
-                            attention_mask = batch['attention_mask'].to(self.device)
-                            labels = batch['labels'].to(self.device)
-
-                            # Zero gradients
-                            optimizer.zero_grad()
-
-                            # Forward pass
-                            outputs = self.model(
-                                input_ids=input_ids,
-                                attention_mask=attention_mask,
-                                labels=labels
-                            )
-
-                            loss = outputs.loss
-                            if torch.isnan(loss) or torch.isinf(loss):
-                                logger.warning(f"Invalid loss value at batch {batch_idx}, skipping...")
-                                continue
-
-                            # Calculate accuracy
-                            logits = outputs.logits
-                            preds = torch.argmax(logits, dim=1)
-                            right_predictions += torch.sum(preds == labels).item()
-
-                            # Backward pass
-                            loss.backward()
-                            
-                            # Gradient clipping
-                            torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
-                            
-                            # Optimizer step
-                            optimizer.step()
-                            scheduler.step()
-
-                            total_train_loss += loss.item()
-
-                            # Log batch progress
-                            if batch_idx % 10 == 0:
-                                logger.info(
-                                    f"{Fore.BLUE}Batch Progress:{Style.RESET_ALL} "
-                                    f"{batch_idx}/{len(train_loader)} - "
-                                    f"Loss: {loss.item():.4f}"
-                                )
-
-                        except Exception as batch_error:
-                            logger.error(f"Error processing batch {batch_idx}: {str(batch_error)}")
-                            logger.error(f"Batch shapes - input_ids: {input_ids.shape}, attention_mask: {attention_mask.shape}, labels: {labels.shape}")
-                            continue  # Skip this batch and continue with next
-
-                    # Validation
-                    val_loss, val_accuracy = self._validate_epoch(val_loader)
+                train_correct = 0
+                train_total = 0
+                
+                for batch_idx, batch in enumerate(train_loader):
+                    # Move data to device
+                    input_ids = batch['input_ids'].to(self.device)
+                    attention_mask = batch['attention_mask'].to(self.device)
+                    labels = batch['labels'].to(self.device)
                     
-                    # Report metrics
-                    avg_train_loss = total_train_loss / len(train_loader)
-                    train_accuracy = right_predictions / len(train_loader.dataset)
+                    # Clear gradients
+                    optimizer.zero_grad()
                     
-                    # Log epoch results
-                    logger.info(f"\n{Fore.GREEN}Epoch Results:{Style.RESET_ALL}")
-                    logger.info(f"Average training loss: {avg_train_loss:.4f}")
-                    logger.info(f"Training accuracy: {train_accuracy:.4f}")
-                    logger.info(f"Validation loss: {val_loss:.4f}")
-                    logger.info(f"Validation accuracy: {val_accuracy:.4f}")
-                    logger.info(f"Time: {time.time() - start_time:.2f} seconds")
-
-                except Exception as epoch_error:
-                    logger.error(f"Error during epoch {epoch + 1}: {str(epoch_error)}")
-                    continue  # Skip this epoch and try next
-
+                    # Forward pass
+                    outputs = self.model(
+                        input_ids=input_ids,
+                        attention_mask=attention_mask,
+                        labels=labels
+                    )
+                    
+                    loss = outputs.loss
+                    
+                    # Backward pass
+                    loss.backward()
+                    torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+                    optimizer.step()
+                    scheduler.step()
+                    
+                    # Track metrics
+                    total_train_loss += loss.item()
+                    predictions = torch.argmax(outputs.logits, dim=1)
+                    train_correct += (predictions == labels).sum().item()
+                    train_total += labels.size(0)
+                    
+                    # Log progress
+                    if batch_idx % 10 == 0:
+                        current_lr = scheduler.get_last_lr()[0]
+                        logger.info(
+                            f"Epoch {epoch+1}/{num_epochs} - "
+                            f"Batch {batch_idx}/{len(train_loader)} - "
+                            f"Loss: {loss.item():.4f} - "
+                            f"LR: {current_lr:.2e}"
+                        )
+                
+                # Calculate training metrics
+                avg_train_loss = total_train_loss / len(train_loader)
+                train_accuracy = train_correct / train_total
+                
+                # Validation phase
+                val_loss, val_accuracy = self._validate_epoch(val_loader)
+                
+                # Log epoch results
+                logger.info(f"\nEpoch {epoch + 1} Results:")
+                logger.info(f"Training Loss: {avg_train_loss:.4f}")
+                logger.info(f"Training Accuracy: {train_accuracy:.2%}")
+                logger.info(f"Validation Loss: {val_loss:.4f}")
+                logger.info(f"Validation Accuracy: {val_accuracy:.2%}")
+                
+                # Save best model
+                if val_accuracy > best_val_accuracy:
+                    best_val_accuracy = val_accuracy
+                    best_state = self.model.state_dict().copy()  
+                    no_improve = 0
+                    logger.info(f"{Fore.GREEN}✓ New best model saved!{Style.RESET_ALL}")
+                else:
+                    no_improve += 1
+                    if no_improve >= patience:
+                        logger.info("Early stopping triggered!")
+                        break
+            
+            # Restore best model
+            if best_state is not None:
+                self.model.load_state_dict(best_state)
+                logger.info(f"Restored best model with {best_val_accuracy:.2%} validation accuracy")
+            
             self.progress["model_trained"] = True
             log_progress("Model Training", ProgressStatus.COMPLETE)
-            logger.info("✓ Model training complete")
             
         except Exception as e:
             logger.error(f"❌ Training failed: {str(e)}")
-            logger.error(f"Error type: {type(e)}")
-            logger.error(f"Error details: {e.__dict__ if hasattr(e, '__dict__') else 'No details available'}")
             log_progress("Model Training", ProgressStatus.FAILED)
             raise
 
     def _validate_epoch(self, val_loader: DataLoader) -> Tuple[float, float]:
-        """Run validation epoch."""
-        self.model.eval()
-        total_val_loss = 0
-        predictions = []
-        true_labels = []
-
-        with torch.no_grad():
-            for batch in val_loader:
-                input_ids = batch['input_ids'].to(self.device)
-                attention_mask = batch['attention_mask'].to(self.device)
-                labels = batch['labels'].to(self.device)
-
-                outputs = self.model(
-                    input_ids=input_ids,
-                    attention_mask=attention_mask,
-                    labels=labels
-                )
-
-                total_val_loss += outputs.loss.item()
-
-                preds = torch.argmax(outputs.logits, dim=1)
-                predictions.extend(preds.cpu().numpy())
-                true_labels.extend(labels.cpu().numpy())
-
-        avg_val_loss = total_val_loss / len(val_loader)
-        accuracy = np.mean(np.array(predictions) == np.array(true_labels))
-        
-        return avg_val_loss, accuracy
+        """Validate model performance with proper metrics."""
+        try:
+            self.model.eval()
+            total_val_loss = 0
+            correct = 0
+            total = 0
+            
+            with torch.no_grad():
+                for batch_idx, batch in enumerate(val_loader):
+                    # Move data to device
+                    input_ids = batch['input_ids'].to(self.device)
+                    attention_mask = batch['attention_mask'].to(self.device)
+                    labels = batch['labels'].to(self.device)
+                    
+                    # Forward pass
+                    outputs = self.model(
+                        input_ids=input_ids,
+                        attention_mask=attention_mask,
+                        labels=labels
+                    )
+                    
+                    # Calculate metrics
+                    loss = outputs.loss
+                    total_val_loss += loss.item()
+                    
+                    predictions = torch.argmax(outputs.logits, dim=1)
+                    correct += (predictions == labels).sum().item()
+                    total += labels.size(0)
+                    
+                    # Log batch progress
+                    if batch_idx % 5 == 0:
+                        batch_accuracy = correct / total
+                        logger.info(
+                            f"Validation Batch {batch_idx}/{len(val_loader)} - "
+                            f"Loss: {loss.item():.4f}, "
+                            f"Accuracy: {batch_accuracy:.2%}"
+                        )
+            
+            avg_val_loss = total_val_loss / len(val_loader)
+            accuracy = correct / total
+            
+            return avg_val_loss, accuracy
+            
+        except Exception as e:
+            logger.error(f"Validation error: {str(e)}")
+            return float('inf'), 0.0
 
     def deploy_model(self, model_path: str = "models/food_security_bert.onnx") -> None:
         """Deploy model to AIVM."""
@@ -360,6 +449,16 @@ class ModelTrainer:
 
 if __name__ == "__main__":
     try:
+        # Check if synthetic data exists
+        data_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+            "synthetic_data.csv"
+        )
+        if not os.path.exists(data_path):
+            logger.error("❌ Synthetic data not found. Please run the following first:")
+            logger.error("   python Examples/2_Data_Privacy/food_bank_data.py")
+            exit(1)
+            
         logger.info("Starting training pipeline...")
         log_progress("Training Pipeline", ProgressStatus.IN_PROGRESS)
         

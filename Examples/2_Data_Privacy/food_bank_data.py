@@ -60,7 +60,7 @@ class FoodBankDataGenerator:
                 'ZipCode': {'type': str, 'source': 'zipcode'},
                 'Population': {
                     'type': int, 
-                    'range': (100000, 5000000),
+                    'range': (50000, 5000000),
                     'distribution': 'balanced' 
                 },
                 'HouseholdSize': {
@@ -83,8 +83,33 @@ class FoodBankDataGenerator:
                 },
                 'DemandAmount': {
                     'type': int, 
-                    'range': (10, 500),
-                    'distribution': 'normal'  
+                    'range': (10, 1000),  # Increased max range to match adjusted demands
+                    'distribution': 'normal',
+                    'peaks': {  # Add demand peaks
+                        'holiday': 1.5,
+                        'summer': 1.3,
+                        'emergency': 2.0
+                    }
+                },
+                'EmergencyStatus': {
+                    'type': str,
+                    'options': ['None', 'Weather', 'Economic', 'Health'],
+                    'weights': [0.7, 0.1, 0.1, 0.1]
+                },
+                'SeasonalFactor': {
+                    'type': str,
+                    'options': ['Normal', 'Holiday', 'Summer', 'BackToSchool'],
+                    'weights': [0.6, 0.15, 0.15, 0.1]
+                },
+                'SupplyType': {  # Add this to match train_model.py features
+                    'type': str,
+                    'options': ['Perishable', 'Non-Perishable'],
+                    'derived': True  # Flag for derived field
+                },
+                'DistributionPriority': {  # Add this to match train_model.py features
+                    'type': str,
+                    'options': ['High', 'Medium', 'Standard'],
+                    'derived': True
                 }
             }
             self.progress["schema_defined"] = True
@@ -95,22 +120,38 @@ class FoodBankDataGenerator:
             logger.error(f"❌ Schema definition failed: {e}")
             raise
 
-    def generate_data(self, num_entries: int = 1000) -> Optional[pd.DataFrame]:
-        """Generate balanced synthetic dataset."""
+    def generate_data(self, num_entries: int = 5000) -> Optional[pd.DataFrame]:
+        """Generate more diverse scenarios."""
+        scenarios = [
+            # Urban centers
+            {
+                'population_range': (1000000, 5000000),
+                'income_mix': {'Low': 0.4, 'Medium': 0.4, 'High': 0.2},
+                'weight': 0.3
+            },
+            # Suburban areas
+            {
+                'population_range': (200000, 999999),
+                'income_mix': {'Low': 0.3, 'Medium': 0.5, 'High': 0.2},
+                'weight': 0.4
+            },
+            # Rural areas
+            {
+                'population_range': (50000, 199999),
+                'income_mix': {'Low': 0.5, 'Medium': 0.3, 'High': 0.2},
+                'weight': 0.2
+            },
+            # Emergency zones
+            {
+                'population_range': (50000, 5000000),
+                'emergency_status': ['Weather', 'Economic', 'Health'],
+                'demand_multiplier': 2.0,
+                'weight': 0.1
+            }
+        ]
+        
         try:
             data = []
-            
-            # Generate balanced scenarios
-            scenarios = [
-                # High population urban centers
-                {'population_range': (1000000, 5000000), 'income': 'High', 'weight': 0.2},
-                # Medium cities
-                {'population_range': (500000, 1000000), 'income': 'Medium', 'weight': 0.3},
-                # Small cities
-                {'population_range': (100000, 500000), 'income': 'Low', 'weight': 0.3},
-                # Emergency scenarios
-                {'population_range': (100000, 5000000), 'demand_multiplier': 1.5, 'weight': 0.2}
-            ]
             
             for scenario in scenarios:
                 n_entries = int(num_entries * scenario['weight'])
@@ -154,13 +195,19 @@ class FoodBankDataGenerator:
                     
             df = pd.DataFrame(data)
             
-            # Add correlations between variables
+            # Add derived features
+            df = self._add_derived_features(df)
+            
+            # Adjust demand
             df['DemandAmount'] = df.apply(
                 lambda row: self._adjust_demand_by_factors(
-                    row['DemandAmount'],
-                    row['Population'],
-                    row['HouseholdSize'],
-                    row['IncomeLevel']
+                    base_demand=row['DemandAmount'],
+                    population=row['Population'],
+                    household_size=row['HouseholdSize'],
+                    income_level=row['IncomeLevel'],
+                    food_type=row['FoodType'],
+                    emergency_status=row['EmergencyStatus'],
+                    month=row['SeasonalFactor']
                 ),
                 axis=1
             )
@@ -181,29 +228,67 @@ class FoodBankDataGenerator:
         base_demand: int, 
         population: int, 
         household_size: int, 
-        income_level: str
+        income_level: str,
+        food_type: str,
+        emergency_status: str = 'None',
+        month: str = 'Normal'
     ) -> int:
-        """Adjust demand based on demographic factors."""
-        # Population factor
-        pop_factor = np.log10(population) / np.log10(5000000)  # Normalize by max population
-        
-        # Household size factor (larger households need more)
-        household_factor = household_size / 3.0  # Normalize by average household size
-        
-        # Income level factor (inverse relationship)
-        income_factors = {'Low': 1.2, 'Medium': 1.0, 'High': 0.8}
-        income_factor = income_factors[income_level]
-        
-        # Combine factors
-        adjusted_demand = int(
-            base_demand * 
-            (0.5 + 0.5 * pop_factor) * 
-            household_factor * 
-            income_factor
-        )
-        
-        # Ensure within valid range
-        return max(10, min(500, adjusted_demand))
+        """Create more realistic demand adjustments."""
+        try:
+            # Population impact is logarithmic
+            pop_impact = np.log2(population / 100000) * 0.8  
+            
+            # Income level has inverse exponential effect 
+            income_impact = {
+                'Low': 1.5,    
+                'Medium': 1.2,
+                'High': 0.8
+            }[income_level]
+            
+            # Household size
+            household_impact = min(np.sqrt(household_size), 2.0)
+            
+            # Seasonal variations
+            seasonal_impact = {
+                'Holiday': 1.5,   
+                'Summer': 1.3,
+                'BackToSchool': 1.2,
+                'Normal': 1.0
+            }.get(month, 1.0)
+            
+            # Emergency multipliers
+            emergency_impact = {
+                'Weather': 1.7,    
+                'Economic': 1.5,
+                'Health': 1.3,
+                'None': 1.0
+            }[emergency_status]
+            
+            # Food type specific factors
+            food_type_impact = {
+                'Fresh Produce': 1.2,
+                'Meat/Poultry': 1.3,
+                'Dairy': 1.1,
+                'Canned Goods': 1.0,
+                'Dry Goods': 0.9
+            }[food_type]
+            
+            # Calculate final demand
+            adjusted_demand = base_demand * (
+                pop_impact * 
+                income_impact * 
+                household_impact * 
+                seasonal_impact * 
+                emergency_impact *
+                food_type_impact
+            )
+            
+            # Ensure within schema range
+            return max(10, min(1000, int(adjusted_demand)))
+            
+        except Exception as e:
+            logger.error(f"Demand adjustment failed: {e}")
+            return base_demand  # Return original demand if adjustment fails
 
     def _validate_data(self, data: pd.DataFrame) -> None:
         """Validate data structure and content."""
@@ -259,6 +344,49 @@ class FoodBankDataGenerator:
             for step, status in self.progress.items()
         }
 
+    def _add_domain_features(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Add domain-specific features for better prediction."""
+        # Calculate food insecurity risk score
+        data['risk_score'] = (
+            (data['Population'] / data['HouseholdSize']) * 
+            (data['IncomeLevel'].map({'Low': 3, 'Medium': 2, 'High': 1})) / 
+            1000
+        )
+        
+        # Add emergency supply ratio
+        data['emergency_ratio'] = data.apply(
+            lambda row: 1.5 if row['FoodType'] in ['Canned Goods', 'Dry Goods'] 
+            else 1.0,
+            axis=1
+        )
+        
+        # Add perishability factor
+        data['perishability'] = data['FoodType'].map({
+            'Fresh Produce': 3,
+            'Meat/Poultry': 3,
+            'Dairy': 2,
+            'Canned Goods': 1,
+            'Dry Goods': 1
+        })
+
+    def _add_derived_features(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Add derived features to match training data format."""
+        # Add SupplyType
+        df['SupplyType'] = df['FoodType'].apply(
+            lambda x: 'Perishable' if x in ['Fresh Produce', 'Meat/Poultry', 'Dairy'] 
+            else 'Non-Perishable'
+        )
+        
+        # Add DistributionPriority
+        df['DistributionPriority'] = df.apply(
+            lambda row: 'High' if row['IncomeLevel'] == 'Low' and row['HouseholdSize'] >= 4
+            else 'Medium' if row['IncomeLevel'] == 'Low'
+            else 'Standard',
+            axis=1
+        )
+        
+        return df
+
 def generate_synthetic_data(num_entries: int = 1000, save_path: str = "synthetic_data.csv") -> pd.DataFrame:
     """Convenience function for generating and saving synthetic data."""
     generator = FoodBankDataGenerator()
@@ -271,7 +399,7 @@ if __name__ == "__main__":
     try:
         # Generate and save test data
         generator = FoodBankDataGenerator()
-        data = generator.generate_data(num_entries=1000)  # Increased number of entries
+        data = generator.generate_data(num_entries=5000)
         data.to_csv("synthetic_data.csv", index=False)
         
         # Show progress and sample data
@@ -279,6 +407,7 @@ if __name__ == "__main__":
         for step, status in generator.get_progress().items():
             logger.info(f"{step}: {status}")
             
+        logger.info(f"\nGenerated {len(data)} entries")
         logger.info("\nSample Data:")
         print(data.head())
         

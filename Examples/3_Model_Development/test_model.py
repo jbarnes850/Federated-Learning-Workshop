@@ -186,11 +186,20 @@ class ModelTester:
                 # Get prediction
                 prediction = aic.get_prediction(encrypted_input, self.model_name)
                 
-                # Process prediction with proper probability calculation
-                logits = prediction[0]  # Get raw logits
-                probabilities = torch.nn.functional.softmax(logits, dim=0)  # Convert to probabilities
+                # Process prediction with temperature scaling
+                logits = prediction[0]
+                temperature = 1.5  # Adjust this to control prediction sharpness
+                scaled_logits = logits / temperature
+                
+                # Apply softmax with better numerical stability
+                probabilities = torch.nn.functional.softmax(scaled_logits, dim=0)
+                
+                # Get prediction and confidence
                 result = 1 if probabilities[1] > probabilities[0] else 0
                 confidence = float(probabilities[1] if result == 1 else probabilities[0])
+                
+                # Ensure confidence is reasonable
+                confidence = min(confidence, 0.99)  # Cap maximum confidence
                 
                 # Track metrics
                 total_confidence += confidence
@@ -204,8 +213,11 @@ class ModelTester:
                 # Color code prediction based on result
                 prediction_color = Fore.RED if result == 1 else Fore.GREEN
                 prediction_text = 'High Demand Alert' if result == 1 else 'Normal Demand'
+                
+                # Add confidence level indicator
+                confidence_indicator = "High" if confidence > 0.8 else "Medium" if confidence > 0.6 else "Low"
                 logger.info(f"{Fore.BLUE}Prediction:{Style.RESET_ALL} {prediction_color}{prediction_text}{Style.RESET_ALL}")
-                logger.info(f"{Fore.BLUE}Confidence:{Style.RESET_ALL} {confidence:.2%}")
+                logger.info(f"{Fore.BLUE}Confidence:{Style.RESET_ALL} {confidence:.2%} ({confidence_indicator})")
                 logger.info(f"{Fore.BLUE}Raw Probabilities:{Style.RESET_ALL} Low={probabilities[0]:.2%}, High={probabilities[1]:.2%}")
                 
                 # Color code recommendations
