@@ -3,7 +3,7 @@ Food Security BertTiny Model Implementation
 =========================================
 
 This module implements a custom BertTiny model for analyzing food security issues.
-It leverages AIVM for privacy-preserving inference.
+It leverages AIVM for model deployment and inference.
 
 Prerequisites:
 ------------
@@ -14,9 +14,8 @@ Prerequisites:
 Progress Tracking:
 ----------------
 - Model Initialization ✓
-- Forward Pass Implementation ✓
+- Model Loading ✓
 - Model Deployment ✓
-- Privacy Verification ✓
 
 Usage:
 -----
@@ -32,8 +31,12 @@ import aivm_client as aic
 import logging
 import torch
 from torch import nn
-from transformers import BertModel
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from typing import Dict, Any, Optional
+import os
+from colorama import init, Fore, Style
+import time
+init()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -42,58 +45,31 @@ logger = logging.getLogger(__name__)
 class FoodSecurityBertTiny(nn.Module):
     """Custom BertTiny implementation for food security analysis."""
     
-    def __init__(self, num_labels: int = 6):
-        """Initialize model with AIVM verification."""
+    def __init__(self, num_labels: int = 2):
+        """Initialize model components."""
         super(FoodSecurityBertTiny, self).__init__()
         
         self.progress = {
             "model_init": False,
             "bert_loaded": False,
-            "deployment_ready": False,
-            "privacy_verified": False
+            "deployment_ready": False
         }
         
         try:
-            # Verify AIVM connection
-            self.client = aic.Client()
-            logger.info("✓ Connected to AIVM devnet")
-            
             # Initialize BERT components
-            self.bert = BertModel.from_pretrained('bert-tiny')
-            self.classifier = nn.Linear(
-                self.bert.config.hidden_size,
-                num_labels
+            self.model_name = "prajjwal1/bert-tiny"
+            self.model = AutoModelForSequenceClassification.from_pretrained(
+                self.model_name,
+                num_labels=num_labels
             )
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
             
             self.progress["model_init"] = True
             self.progress["bert_loaded"] = True
-            logger.info("✓ Model initialized successfully")
+            logger.info(f"{Fore.GREEN}✓ Model initialized successfully{Style.RESET_ALL}")
             
         except Exception as e:
-            logger.error(f"❌ Model initialization failed: {e}")
-            raise
-
-    def forward(self, input_ids: torch.Tensor, attention_mask: Optional[torch.Tensor] = None):
-        """
-        Forward pass implementation.
-        
-        Args:
-            input_ids: Tokenized input tensor
-            attention_mask: Optional attention mask
-            
-        Returns:
-            torch.Tensor: Classification logits
-        """
-        try:
-            outputs = self.bert(
-                input_ids,
-                attention_mask=attention_mask
-            )
-            pooled_output = outputs[1]
-            logits = self.classifier(pooled_output)
-            return logits
-        except Exception as e:
-            logger.error(f"❌ Forward pass failed: {e}")
+            logger.error(f"{Fore.RED}❌ Model initialization failed: {e}{Style.RESET_ALL}")
             raise
 
     def deploy_model(self, model_path: str) -> bool:
@@ -107,41 +83,55 @@ class FoodSecurityBertTiny(nn.Module):
             bool: Success status
         """
         try:
-            # Save model state
-            torch.save(self.state_dict(), model_path)
+            logger.info(f"\n{Fore.CYAN}Model Deployment{Style.RESET_ALL}")
+            logger.info(f"{Fore.CYAN}{'='*50}{Style.RESET_ALL}")
             
-            # Upload to AIVM
-            aic.upload_bert_tiny_model(model_path, "FoodSecurityBERT")
+            # Ensure the directory exists
+            directory = os.path.dirname(model_path)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+                logger.info(f"✓ Created directory: {directory}")
+
+            # Create unique model name with timestamp
+            timestamp = int(time.time())
+            model_name = f"FoodSecurityBERT_{timestamp}"
+
+            # Export model to ONNX format
+            dummy_input = self.tokenizer(
+                "Example text",
+                return_tensors="pt",
+                padding="max_length",
+                max_length=128,
+                truncation=True
+            )
+            
+            # Export to ONNX
+            torch.onnx.export(
+                self.model,
+                (dummy_input["input_ids"], dummy_input["attention_mask"]),
+                model_path,
+                input_names=["input_ids", "attention_mask"],
+                output_names=["logits"],
+                dynamic_axes={
+                    "input_ids": {0: "batch_size"},
+                    "attention_mask": {0: "batch_size"},
+                    "logits": {0: "batch_size"}
+                },
+                opset_version=14
+            )
+            
+            # Upload to AIVM with timestamped name
+            aic.upload_bert_tiny_model(model_path, model_name)
             
             self.progress["deployment_ready"] = True
-            logger.info("✓ Model deployed successfully")
-            
-            # Verify privacy preservation
-            self._verify_privacy()
+            logger.info(f"{Fore.GREEN}✓ Model deployed successfully{Style.RESET_ALL}")
+            logger.info(f"{Fore.BLUE}Model Path: {model_path}{Style.RESET_ALL}")
+            logger.info(f"{Fore.BLUE}Model Name: {model_name}{Style.RESET_ALL}")
             return True
             
         except Exception as e:
-            logger.error(f"❌ Model deployment failed: {e}")
+            logger.error(f"{Fore.RED}❌ Deployment failed: {e}{Style.RESET_ALL}")
             return False
-
-    def _verify_privacy(self) -> None:
-        """Verify privacy preservation of deployed model."""
-        try:
-            # Check model encryption
-            if not hasattr(self, 'client'):
-                raise ValueError("AIVM client not initialized")
-                
-            # Verify model support
-            models = aic.get_supported_models()
-            if "BertTiny" not in models:
-                raise ValueError("BertTiny model not supported")
-            
-            self.progress["privacy_verified"] = True
-            logger.info("✓ Privacy verification complete")
-            
-        except Exception as e:
-            logger.error(f"❌ Privacy verification failed: {e}")
-            raise
 
     def get_progress(self) -> Dict[str, str]:
         """Get current progress status."""
@@ -156,21 +146,23 @@ if __name__ == "__main__":
         model = FoodSecurityBertTiny()
         
         # Test deployment
-        success = model.deploy_model("models/food_security_bert.pth")
+        success = model.deploy_model("models/food_security_bert.onnx")
         
         # Show progress
-        logger.info("\nModel Status:")
+        logger.info(f"\n{Fore.CYAN}Model Status:{Style.RESET_ALL}")
         for step, status in model.get_progress().items():
-            logger.info(f"{step}: {status}")
+            status_color = Fore.GREEN if status else Fore.RED
+            status_symbol = "✓" if status else "❌"
+            logger.info(f"{status_color}{step}: {status_symbol}{Style.RESET_ALL}")
             
         if not success:
-            logger.error("❌ Model setup failed")
+            logger.error(f"{Fore.RED}❌ Model setup failed{Style.RESET_ALL}")
             exit(1)
             
-        logger.info("✓ Model setup completed successfully")
+        logger.info(f"{Fore.GREEN}✓ Model setup completed successfully{Style.RESET_ALL}")
         
     except Exception as e:
-        logger.error(f"❌ Setup failed: {e}")
+        logger.error(f"{Fore.RED}❌ Setup failed: {e}{Style.RESET_ALL}")
         exit(1)
 
 

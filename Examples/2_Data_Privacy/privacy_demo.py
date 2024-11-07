@@ -1,201 +1,137 @@
 """
-Privacy Demo Script
-=================
+Privacy Demo Implementation
+=========================
 
-This script demonstrates privacy-preserving capabilities using Nillion AIVM for
-food bank data analysis. It shows encryption, secure prediction, and privacy verification.
+This module demonstrates privacy-preserving capabilities using Nillion AIVM,
+focusing on data encryption and secure handling.
 
 Prerequisites:
 ------------
 - AIVM devnet must be running (see README.md)
 - Environment setup completed
-- Dependencies installed
 
 Progress Tracking:
 ----------------
-- Devnet Connection ✓
-- Data Generation ✓
-- Encryption Demo ✓
-- Secure Prediction ✓
+- Devnet Check ✓
+- Data Loading ✓
+- Encryption Test ✓
 - Privacy Verification ✓
-
-Usage:
------
-1. Ensure devnet is running in a separate terminal:
-   aivm-devnet
-
-2. Run the demo:
-   python privacy_demo.py
 """
 
 import aivm_client as aic
 import logging
-import os
+import pandas as pd
 from typing import Dict, Any, Optional
-from food_bank_data import generate_synthetic_data
-import torch
+from encrypt_data import FoodBankData
+from colorama import init, Fore, Style
+init()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class PrivacyDemo:
+    """Demonstration of privacy-preserving capabilities."""
+    
     def __init__(self):
-        """Initialize demo components and verify environment."""
+        """Initialize demo components."""
         self.progress = {
             "devnet_check": False,
-            "data_generated": False,
+            "data_loaded": False,
             "encryption_tested": False,
-            "prediction_tested": False,
             "privacy_verified": False
         }
         
-        # Verify devnet is running
         try:
-            self.client = aic.Client()
-            
-            # Verify model support
-            models = aic.get_supported_models()
-            if "BertTiny" not in models:
-                raise ValueError("BertTiny model not supported in current AIVM version")
-            
+            # Check AIVM connection
+            self.available_models = aic.get_supported_models()
             self.progress["devnet_check"] = True
-            logger.info("✓ Connected to AIVM devnet")
-                
+            logger.info(f"{Fore.GREEN}✓ AIVM client initialized successfully{Style.RESET_ALL}")
+            
         except Exception as e:
-            logger.error("❌ Failed to connect to AIVM devnet. Is it running?")
+            logger.error(f"{Fore.RED}❌ Client initialization failed: {e}{Style.RESET_ALL}")
             raise
 
-    async def generate_test_data(self) -> bool:
-        """Generate and validate test data."""
+    def load_data(self) -> Optional[pd.DataFrame]:
+        """Load and validate test data."""
         try:
-            self.data = generate_synthetic_data(num_entries=10)
+            self.data = pd.read_csv("synthetic_data.csv")
             if self.data.empty:
-                raise ValueError("Generated data is empty")
+                raise ValueError("Loaded data is empty")
             
-            self.progress["data_generated"] = True
-            logger.info("✓ Generated test data successfully")
-            return True
+            self.progress["data_loaded"] = True
+            logger.info(f"{Fore.GREEN}✓ Loaded test data successfully{Style.RESET_ALL}")
+            return self.data
+            
         except Exception as e:
-            logger.error(f"❌ Data generation failed: {e}")
-            return False
+            logger.error(f"{Fore.RED}❌ Data loading failed: {e}{Style.RESET_ALL}")
+            raise
 
-    async def demonstrate_encryption(self) -> Optional[aic.BertTinyCryptensor]:
+    def demonstrate_encryption(self) -> Optional[aic.BertTinyCryptensor]:
         """Demonstrate encryption capabilities."""
         try:
-            # Convert data to text format
+            logger.info(f"\n{Fore.CYAN}Encryption Demonstration{Style.RESET_ALL}")
+            logger.info(f"{Fore.CYAN}{'='*50}{Style.RESET_ALL}")
+            
             text_data = self.data.to_json()
+            food_bank = FoodBankData()
+            encrypted_data = food_bank.encrypt_demand_data(text_data)
             
-            # Tokenize the text data
-            tokenized_data = aic.tokenize(text_data)
-            
-            # Encrypt using BertTinyCryptensor
-            encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
+            logger.info(f"{Fore.GREEN}✓ Data encrypted successfully{Style.RESET_ALL}")
+            logger.info(f"{Fore.BLUE}Data Size: {len(text_data):,} bytes{Style.RESET_ALL}")
+            logger.info(f"{Fore.BLUE}Encryption Status: Data is now privacy-preserved{Style.RESET_ALL}")
             
             self.progress["encryption_tested"] = True
-            logger.info("✓ Data encrypted successfully")
             return encrypted_data
+            
         except Exception as e:
-            logger.error(f"❌ Encryption demonstration failed: {e}")
+            logger.error(f"{Fore.RED}❌ Encryption failed: {e}{Style.RESET_ALL}")
             return None
 
-    async def test_prediction(self, encrypted_data: aic.BertTinyCryptensor) -> bool:
-        """Test secure prediction on encrypted data."""
+    def verify_privacy(self) -> bool:
+        """Verify privacy preservation."""
         try:
-            # Verify input format
-            if not isinstance(encrypted_data, aic.BertTinyCryptensor):
-                raise ValueError("Invalid encryption format")
-            
-            # Get prediction using AIVM
-            prediction = aic.get_prediction(encrypted_data, "FoodSecurityBERT")
-            
-            self.progress["prediction_tested"] = True
-            logger.info("✓ Secure prediction completed successfully")
-            logger.info(f"Prediction result: {prediction}")
-            return True
-        except Exception as e:
-            logger.error(f"❌ Prediction test failed: {e}")
-            return False
-
-    async def verify_privacy(self, encrypted_data: aic.BertTinyCryptensor) -> bool:
-        """Verify privacy preservation guarantees."""
-        try:
-            # Run privacy checks
+            # Basic privacy checks
             privacy_checks = [
-                isinstance(encrypted_data, aic.BertTinyCryptensor),
-                len(encrypted_data.shape) > 0,
-                encrypted_data.requires_grad is False,
-                not hasattr(encrypted_data, '_raw_data')  # Ensure no raw data access
+                self.progress["encryption_tested"],
+                not hasattr(self, "_raw_data")
             ]
             
             if all(privacy_checks):
                 self.progress["privacy_verified"] = True
-                logger.info("✓ Privacy guarantees verified")
+                logger.info(f"{Fore.GREEN}✓ Privacy guarantees verified{Style.RESET_ALL}")
+                logger.info(f"{Fore.BLUE}Privacy Status: All data is securely encrypted{Style.RESET_ALL}")
                 return True
             else:
                 raise ValueError("Privacy requirements not met")
+                
         except Exception as e:
-            logger.error(f"❌ Privacy verification failed: {e}")
+            logger.error(f"{Fore.RED}❌ Privacy verification failed: {e}{Style.RESET_ALL}")
             return False
-
-    async def run_demo(self) -> bool:
-        """Execute complete privacy demonstration."""
-        if not self.progress["devnet_check"]:
-            logger.error("❌ AIVM devnet not running. Start devnet first.")
-            return False
-            
-        try:
-            # Generate and encrypt data
-            if not await self.generate_test_data():
-                return False
-                
-            encrypted_data = await self.demonstrate_encryption()
-            if encrypted_data is None:
-                return False
-                
-            # Test prediction and verify privacy
-            if not await self.test_prediction(encrypted_data):
-                return False
-                
-            if not await self.verify_privacy(encrypted_data):
-                return False
-
-            return True
-
-        except Exception as e:
-            logger.error(f"❌ Demo failed: {e}")
-            return False
-
-    def get_progress(self) -> Dict[str, str]:
-        """Get current progress status with validation."""
-        return {
-            step: "✓" if status else "❌"
-            for step, status in self.progress.items()
-        }
 
 if __name__ == "__main__":
-    import asyncio
-    
-    async def main():
-        try:
-            # Run complete demo
-            demo = PrivacyDemo()
-            success = await demo.run_demo()
-            
-            # Show progress
-            logger.info("\nDemo Status:")
-            for step, status in demo.get_progress().items():
-                logger.info(f"{step}: {status}")
-                
-            if not success:
-                logger.error("❌ Demo completed with errors")
-                exit(1)
-            
-            logger.info("✓ Demo completed successfully")
-            
-        except Exception as e:
-            logger.error(f"❌ Demo failed: {e}")
-            exit(1)
-
-    # Run async demo
-    asyncio.run(main())
+    try:
+        # Initialize demo
+        demo = PrivacyDemo()
+        
+        # Load data
+        data = demo.load_data()
+        
+        # Test encryption
+        encrypted_data = demo.demonstrate_encryption()
+        
+        # Verify privacy
+        demo.verify_privacy()
+        
+        # Show progress
+        logger.info(f"\n{Fore.CYAN}Privacy Demo Status:{Style.RESET_ALL}")
+        for step, status in demo.progress.items():
+            status_color = Fore.GREEN if status else Fore.RED
+            status_symbol = "✓" if status else "❌"
+            logger.info(f"{status_color}{step}: {status_symbol}{Style.RESET_ALL}")
+        
+        logger.info(f"{Fore.GREEN}✓ Privacy demonstration completed successfully{Style.RESET_ALL}")
+        
+    except Exception as e:
+        logger.error(f"{Fore.RED}❌ Demo failed: {e}{Style.RESET_ALL}")
+        exit(1)

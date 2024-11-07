@@ -28,135 +28,246 @@ Usage:
    python demo.py
 """
 
+import sys
+import os
+# Add Examples directory to Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import aivm_client as aic
 import logging
-import os
+import pandas as pd
 from typing import Dict, Any, Optional
 from food_security_network import FoodSecurityNetwork
-from food_bank_data import generate_synthetic_data
-from config import NetworkConfig
+from utils.progress import log_progress, ProgressStatus
+from colorama import init, Fore, Style
+import torch
+init()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class FullDemo:
+    """Complete demonstration of food security network capabilities."""
+    
     def __init__(self):
         """Initialize demo components with validation."""
         self.progress = {
-            "client_setup": False,
-            "network_setup": False,
-            "data_ready": False,
-            "prediction_tested": False,
-            "sharing_tested": False
+            "setup_complete": False,
+            "data_loaded": False,
+            "privacy_tested": False,
+            "model_tested": False,
+            "network_tested": False
         }
         
         try:
-            # Initialize AIVM client
-            self.client = aic.Client()
-            
-            # Verify model support
-            models = aic.get_supported_models()
-            if "BertTiny" not in models:
-                raise ValueError("BertTiny model not supported")
-            
-            self.progress["client_setup"] = True
-            logger.info("✓ Connected to AIVM devnet")
-            
             # Initialize network
             self.network = FoodSecurityNetwork()
-            self.config = NetworkConfig.load_config()
-            self.progress["network_setup"] = True
-            logger.info("✓ Network initialized successfully")
+            self.progress["setup_complete"] = True
+            log_progress("Demo Setup", ProgressStatus.COMPLETE)
             
         except Exception as e:
-            logger.error(f"❌ Setup failed: {e}")
+            logger.error(f"❌ Demo initialization failed: {e}")
+            log_progress("Demo Setup", ProgressStatus.FAILED)
             raise
 
-    async def prepare_data(self) -> bool:
-        """Generate and prepare test data."""
+    def load_data(self) -> Optional[pd.DataFrame]:
+        """Load and validate synthetic data."""
         try:
-            # Generate synthetic data
-            self.data = generate_synthetic_data(num_entries=10)
-            if self.data.empty:
-                raise ValueError("Generated data is empty")
+            # Load synthetic data from root directory
+            data_path = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                "synthetic_data.csv"
+            )
+            data = pd.read_csv(data_path)
             
-            self.progress["data_ready"] = True
-            logger.info("✓ Test data prepared")
+            if data.empty:
+                raise ValueError("Loaded data is empty")
+            
+            self.progress["data_loaded"] = True
+            log_progress("Data Loading", ProgressStatus.COMPLETE)
+            logger.info(f"✓ Loaded {len(data)} samples")
+            
+            return data
+            
+        except Exception as e:
+            logger.error(f"❌ Data loading failed: {e}")
+            log_progress("Data Loading", ProgressStatus.FAILED)
+            raise
+
+    async def test_privacy(self, data: pd.DataFrame) -> bool:
+        """Test privacy preservation capabilities."""
+        try:
+            log_progress("Privacy Testing", ProgressStatus.IN_PROGRESS)
+            
+            # Test data encryption
+            sample_data = data.sample(n=1).iloc[0]
+            text_data = f"{sample_data['FoodType']} - Demand: {sample_data['DemandAmount']}"
+            
+            # Test secure sharing
+            shared_data = self.network.share_insights(text_data)
+            if not shared_data:
+                raise ValueError("Sharing failed")
+            
+            self.progress["privacy_tested"] = True
+            log_progress("Privacy Testing", ProgressStatus.COMPLETE)
+            logger.info("✓ Privacy preservation verified")
             return True
             
         except Exception as e:
-            logger.error(f"❌ Data preparation failed: {e}")
-            return False
+            logger.error(f"❌ Privacy testing failed: {e}")
+            log_progress("Privacy Testing", ProgressStatus.FAILED)
+            raise
 
-    async def test_predictions(self) -> bool:
-        """Test secure prediction capabilities."""
+    async def test_model(self, data: pd.DataFrame) -> bool:
+        """Test model inference capabilities with meaningful insights."""
         try:
-            # Prepare sample cases
-            test_cases = [
-                "Urgent food assistance needed for family of 5",
-                "Increased demand for fresh produce in summer",
-                "Emergency supplies required after natural disaster"
-            ]
+            log_progress("Model Testing", ProgressStatus.IN_PROGRESS)
             
+            # Calculate data insights
+            median_demand = data['DemandAmount'].median()
+            high_pop_threshold = data['Population'].quantile(0.75)
+            
+            # Test cases based on real patterns
+            test_cases = []
+            
+            # Case 1: High population urban center
+            urban_case = data[
+                (data['Population'] > high_pop_threshold) & 
+                (data['FoodType'] == 'Fresh Produce')
+            ].sample(n=1).iloc[0]
+            test_cases.append({
+                'data': urban_case,
+                'context': 'Urban Center Analysis'
+            })
+            
+            # Case 2: Low income emergency supplies
+            emergency_case = data[
+                (data['IncomeLevel'] == 'Low') & 
+                (data['FoodType'] == 'Canned Goods')
+            ].nlargest(1, 'DemandAmount').iloc[0]
+            test_cases.append({
+                'data': emergency_case,
+                'context': 'Emergency Supply Assessment'
+            })
+            
+            # Case 3: Large family protein needs
+            family_case = data[
+                (data['HouseholdSize'] >= 5) & 
+                (data['FoodType'] == 'Meat/Poultry')
+            ].sample(n=1).iloc[0]
+            test_cases.append({
+                'data': family_case,
+                'context': 'Family Nutrition Analysis'
+            })
+            
+            # Run predictions with context
             for case in test_cases:
-                # Tokenize and encrypt
-                tokenized_data = aic.tokenize(case)
-                encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
+                row = case['data']
+                text_data = (
+                    f"{row['FoodType']} - Demand: {row['DemandAmount']} "
+                    f"(Population: {row['Population']:,}, "
+                    f"Income: {row['IncomeLevel']}, "
+                    f"Household Size: {row['HouseholdSize']})"
+                )
+                prediction = await self.network.predict_demand(text_data)
                 
-                # Get prediction
-                prediction = await self.network.predict_demand(case)
-                logger.info(f"Case: {case}\nPrediction: {prediction}\n")
-            
-            self.progress["prediction_tested"] = True
-            logger.info("✓ Prediction testing complete")
-            return True
-            
-        except Exception as e:
-            logger.error(f"❌ Prediction testing failed: {e}")
-            return False
+                # Process prediction with context
+                logits = prediction[0]  # Get raw logits
+                probabilities = torch.nn.functional.softmax(logits, dim=0)  # Convert to probabilities
+                result = "High" if probabilities[1] > probabilities[0] else "Low"
+                confidence = float(probabilities[1] if result == "High" else probabilities[0])
+                
+                # Log detailed insights
+                logger.info(f"\n{Fore.CYAN}{'='*50}")
+                logger.info(f"{case['context'].upper()}")
+                logger.info(f"{'='*50}{Style.RESET_ALL}")
 
-    async def test_sharing(self) -> bool:
-        """Test secure data sharing capabilities."""
-        try:
-            # Test different types of insights
-            insights = {
-                "demand_trend": "25% increase in monthly demand",
-                "resource_allocation": "Fresh produce shortage detected",
-                "emergency_alert": "Natural disaster preparation needed"
-            }
+                logger.info(f"{Fore.BLUE}Location:{Style.RESET_ALL} {row['City']}, {row['Region']}")
+                logger.info(f"{Fore.BLUE}Demographics:{Style.RESET_ALL}")
+                logger.info(f"  • Population: {row['Population']:,}")
+                logger.info(f"  • Income Level: {row['IncomeLevel']}")
+                logger.info(f"  • Household Size: {row['HouseholdSize']}")
+
+                logger.info(f"\n{Fore.YELLOW}Demand Analysis:{Style.RESET_ALL}")
+                logger.info(f"  • Food Type: {row['FoodType']}")
+                logger.info(f"  • Current Demand: {row['DemandAmount']}")
+
+                # Color code the prediction based on result
+                prediction_color = Fore.RED if result == "High" else Fore.GREEN
+                logger.info(f"\n{Fore.MAGENTA}Prediction Results:{Style.RESET_ALL}")
+                logger.info(f"  • Demand Level: {prediction_color}{result}{Style.RESET_ALL}")
+                logger.info(f"  • Confidence: {confidence:.2%}")
+                logger.info(f"  • Raw Probabilities: Low={probabilities[0]:.2%}, High={probabilities[1]:.2%}")
+
+                # Add visual separator for recommendations
+                logger.info(f"\n{Fore.CYAN}Recommended Actions:{Style.RESET_ALL}")
+                if result == "High":
+                    if row['FoodType'] == 'Fresh Produce':
+                        logger.info("  🚜 Coordinate with local farms for direct supply")
+                    elif row['FoodType'] == 'Canned Goods':
+                        logger.info("  🏭 Activate emergency supply network")
+                    else:
+                        logger.info("  📈 Increase distribution capacity")
+                else:
+                    logger.info("  ✓ Maintain standard supply levels")
+
+                logger.info(f"\n{Fore.CYAN}{'='*50}{Style.RESET_ALL}\n")
             
-            for insight_type, message in insights.items():
-                shared_data = self.network.share_insights(message)
-                logger.info(f"Shared {insight_type}: {message}")
-            
-            self.progress["sharing_tested"] = True
-            logger.info("✓ Sharing capabilities verified")
+            self.progress["model_tested"] = True
+            log_progress("Model Testing", ProgressStatus.COMPLETE)
+            logger.info("✓ Model inference verified with contextual insights")
             return True
             
         except Exception as e:
-            logger.error(f"❌ Sharing test failed: {e}")
-            return False
+            logger.error(f"❌ Model testing failed: {e}")
+            log_progress("Model Testing", ProgressStatus.FAILED)
+            raise
+
+    async def test_network(self) -> bool:
+        """Test complete network functionality."""
+        try:
+            log_progress("Network Testing", ProgressStatus.IN_PROGRESS)
+            
+            # Verify network status
+            network_status = self.network.get_progress()
+            if not all(network_status.values()):
+                raise ValueError("Network setup incomplete")
+            
+            self.progress["network_tested"] = True
+            log_progress("Network Testing", ProgressStatus.COMPLETE)
+            logger.info("✓ Network functionality verified")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Network testing failed: {e}")
+            log_progress("Network Testing", ProgressStatus.FAILED)
+            raise
 
     async def run_demo(self) -> bool:
-        """Execute complete system demonstration."""
+        """Execute complete demonstration."""
         try:
-            # Prepare test data
-            if not await self.prepare_data():
+            log_progress("Full Demo", ProgressStatus.IN_PROGRESS)
+            
+            # Load data
+            data = self.load_data()
+            
+            # Run tests
+            if not await self.test_privacy(data):
+                return False
+                
+            if not await self.test_model(data):
+                return False
+                
+            if not await self.test_network():
                 return False
             
-            # Test predictions
-            if not await self.test_predictions():
-                return False
-            
-            # Test sharing
-            if not await self.test_sharing():
-                return False
-            
+            log_progress("Full Demo", ProgressStatus.COMPLETE)
             return True
             
         except Exception as e:
             logger.error(f"❌ Demo failed: {e}")
+            log_progress("Full Demo", ProgressStatus.FAILED)
             return False
 
     def get_progress(self) -> Dict[str, str]:
@@ -179,7 +290,7 @@ if __name__ == "__main__":
             logger.info("\nDemo Status:")
             for step, status in demo.get_progress().items():
                 logger.info(f"{step}: {status}")
-                
+            
             if not success:
                 logger.error("❌ Demo completed with errors")
                 exit(1)

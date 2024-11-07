@@ -1,52 +1,32 @@
 """
-Progress Tracking Utility
-========================
+Progress Tracking Utilities
+=========================
 
-This module provides consistent progress tracking and validation across all workshop components.
+This module provides utilities for tracking and logging progress during model training
+and deployment.
 """
 
 import logging
-from typing import Dict, Any, Optional
-from dataclasses import dataclass
-from datetime import datetime
+from enum import Enum
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-@dataclass
-class ProgressStep:
-    name: str
-    status: bool
-    timestamp: datetime
-    details: Optional[str] = None
+class ProgressStatus(Enum):
+    """Status indicators for progress tracking."""
+    NOT_STARTED = "⏳"
+    IN_PROGRESS = "🔄"
+    COMPLETE = "✓"
+    FAILED = "❌"
 
-class ProgressTracker:
-    def __init__(self, component_name: str):
-        self.component_name = component_name
-        self.steps: Dict[str, ProgressStep] = {}
-        
-    def mark_complete(self, step: str, details: Optional[str] = None) -> None:
-        """Mark a step as complete with optional details."""
-        self.steps[step] = ProgressStep(
-            name=step,
-            status=True,
-            timestamp=datetime.now(),
-            details=details
-        )
-        logger.info(f"✓ {step} completed")
-        
-    def mark_failed(self, step: str, error: str) -> None:
-        """Mark a step as failed with error details."""
-        self.steps[step] = ProgressStep(
-            name=step,
-            status=False,
-            timestamp=datetime.now(),
-            details=error
-        )
-        logger.error(f"❌ {step} failed: {error}")
-        
-    def get_progress(self) -> Dict[str, str]:
-        """Get current progress status."""
-        return {
-            step.name: "✓" if step.status else "❌"
-            for step in self.steps.values()
-        } 
+def log_progress(step: str, status: ProgressStatus) -> None:
+    """
+    Log progress status with consistent formatting.
+    
+    Args:
+        step: Name of the step being tracked
+        status: Current status from ProgressStatus enum
+    """
+    status_icon = status.value
+    logger.info(f"{status_icon} {step}")

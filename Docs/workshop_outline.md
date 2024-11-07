@@ -1,190 +1,105 @@
-# Privacy-Preserved Food Security Networks Workshop
+# Federated Learning Workshop Outline
 
-## Using Nillion AIVM for Secure, Collaborative Impact
+## Prerequisites
 
-### Workshop Overview
+- Python 3.8 or higher
+- AIVM devnet installed
+- Basic understanding of machine learning concepts
 
-This technical workshop teaches developers how to build privacy-preserving AI applications for food security networks using Nillion's AIVM framework. Participants will learn to implement secure, collaborative systems where food banks can share insights and predictions without exposing sensitive data about vulnerable populations.
+## Workshop Flow
 
-### Target Audience
+### 1. Basic Setup and Environment
 
-- Backend developers with Python experience
-- AI/ML practitioners interested in privacy-preservation
-- Organizations working on food security solutions
-- Public goods developers and builders
+```bash
+# Install dependencies and setup environment
+./Examples/1_Basic_Setup/install.sh
 
-### Technical Prerequisites
+# Start AIVM devnet (in separate terminal)
+# Option 1: Run directly
+aivm-devnet
 
-- Python programming experience
-- Basic understanding of ML/AI concepts
-- Familiarity with PyTorch (helpful but not required)
-- Basic command line proficiency
+# Option 2: Use helper script 
+./Examples/utils/manage_devnet.sh start
 
-### Learning Objectives
-
-1. Understand privacy-preserving computation in food security context
-2. Implement secure data handling using Nillion AIVM
-3. Deploy custom models for demand prediction
-4. Build collaborative networks with privacy guarantees
-5. Create impact-driven applications using decentralized AI
-
-## Workshop Structure (4 hours)
-
-### Module 1: Foundations & Architecture (45 mins)
-
-#### Technical Setup (15 mins)
-
-- Installing Nillion AIVM
-- Environment configuration
-- Development network setup
-- Initial testing
-
-#### Architecture Overview (30 mins)
-
-- Food security network challenges
-- Privacy requirements for vulnerable populations
-- Nillion AIVM's privacy guarantees
-- System architecture walkthrough
-- Data flow and security model
-
-### Module 2: Privacy-Preserved Data Handling (60 mins)
-
-#### Secure Data Implementation (30 mins)
-
-```python
-# Key concepts demonstrated
-- Data encryption using Cryptensors
-- Secure computation principles
-- Privacy-preserving data sharing
-- Local data sovereignty
+# Verify setup
+python Examples/1_Basic_Setup/test_setup.py
 ```
 
-#### Privacy Mechanics Demo (30 mins)
+- Introduction to AIVM
+- Environment setup verification
+- Basic connectivity testing
 
-- Implementing encryption
-- Secure data transforms
-- Privacy guarantees verification
-- Testing privacy preservation
+### 2. Data Privacy Implementation
 
-### Module 3: Model Development & Deployment (60 mins)
+```bash
+# Generate synthetic data
+python Examples/2_Data_Privacy/food_bank_data.py
 
-#### Custom Model Creation (30 mins)
+# Test encryption capabilities
+python Examples/2_Data_Privacy/encrypt_data.py
 
-```python
-# Topics covered
-- BertTiny architecture adaptation
-- Food security prediction models
-- Demand forecasting implementation
-- Privacy-aware training
+# Run privacy demonstration
+python Examples/2_Data_Privacy/privacy_demo.py
 ```
 
-#### Secure Model Deployment (30 mins)
+- Synthetic data generation
+- Data encryption techniques
+- Privacy preservation demonstration
+- Secure data handling
 
-- Model uploading to AIVM
-- Secure inference setup
-- Performance optimization
-- Testing and validation
+### 3. Model Development
 
-### Module 4: Network Implementation (75 mins)
+```bash
+# Setup base model
+python Examples/3_Model_Development/bert_food_security.py
 
-#### Core Components (45 mins)
+# Train model with enhanced data
+python Examples/3_Model_Development/train_model.py
 
-```python
-# Implementation focus
-- Network node setup
-- Secure data flow
-- Collaborative prediction
-- Result aggregation
+# Test model capabilities
+python Examples/3_Model_Development/test_model.py
 ```
 
-#### Integration & Testing (30 mins)
+- BertTiny model setup
+- Training process
+- Model testing and validation
+- Performance evaluation
 
-- System integration
-- Network testing
-- Performance validation
-- Security verification
+### 4. Full Implementation
 
-### Module 5: Hands-on Project (60 mins)
+```bash
+# Configure network
+python Examples/4_Full_Implementation/config.py
 
-Participants build a complete food security network implementation:
+# Initialize network
+python Examples/4_Full_Implementation/food_security_network.py
 
-1. Set up local food bank node
-2. Implement secure data sharing
-3. Deploy prediction model
-4. Test collaborative features
-
-## Technical Components
-
-### 1. Data Privacy Layer
-
-```python
-class FoodBankPrivacy:
-    """Core privacy preservation for food bank data"""
-    def encrypt_demand_data(self, data):
-        return aic.BertTinyCryptensor(data)
-        
-    def secure_compute(self, encrypted_data):
-        return aic.get_prediction(encrypted_data)
+# Run complete demonstration
+python Examples/4_Full_Implementation/demo.py
 ```
 
-### 2. Model Architecture
+- Network configuration
+- Full system integration
+- End-to-end demonstration
+- Real-world application scenarios
 
-```python
-class FoodSecurityModel:
-    """Custom BertTiny for food security"""
-    def __init__(self):
-        self.model_name = "FoodSecurityBERT"
-        
-    def deploy(self):
-        upload_bert_tiny_model(
-            self.model_path,
-            self.model_name
-        )
-```
+## Learning Objectives
 
-### 3. Network Implementation
+- Understand privacy-preserving machine learning
+- Implement secure data handling
+- Deploy and train models with AIVM
+- Build complete federated learning systems
 
-```python
-class FoodSecurityNetwork:
-    """Collaborative food security network"""
-    async def predict_demand(self, local_data):
-        encrypted = self.encrypt_data(local_data)
-        return await self.secure_predict(encrypted)
-```
+## Workshop Materials
 
-## Impact Focus
+- Code examples in Python
+- Synthetic dataset for food security
+- AIVM integration examples
+- Network configuration templates
 
-Throughout the workshop, we emphasize:
+## Expected Outcomes
 
-1. Real-world application to food security
-2. Privacy protection for vulnerable populations
-3. Collaborative impact through secure sharing
-4. Scalable, sustainable solutions
-
-## Workshop Outcomes
-
-Participants will:
-
-1. Understand privacy-preserving AI fundamentals
-2. Build secure, collaborative systems
-3. Deploy custom models safely
-4. Create impact-driven applications
-5. Implement production-ready solutions
-
-## Technical Resources
-
-- Nillion AIVM documentation
-- Workshop GitHub repository
-- Example implementations
-- Testing frameworks
-- Deployment guides
-
-## Next Steps for Participants
-
-1. Further model customization
-2. Network expansion
-3. Additional use cases
-4. Production deployment
-5. Impact measurement
-
-This workshop bridges technical implementation with real-world impact, teaching participants to build privacy-preserving systems that enable collaboration while protecting vulnerable populations.
+- Working knowledge of AIVM
+- Understanding of privacy preservation
+- Ability to implement secure ML systems
+- Practical experience with federated learning

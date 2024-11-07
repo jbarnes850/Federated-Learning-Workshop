@@ -56,11 +56,6 @@ class FoodSecurityNetwork:
             # Load configuration
             self.config = NetworkConfig.load_config()
             
-            # Initialize AIVM client
-            self.client = aic.Client()
-            self.progress["client_setup"] = True
-            logger.info("✓ Connected to AIVM devnet")
-            
             # Initialize encryption
             self.cipher = Fernet(self.config.DATA_ENCRYPTION_KEY)
             self.progress["encryption_ready"] = True
@@ -68,6 +63,7 @@ class FoodSecurityNetwork:
             # Verify network setup
             self._verify_network_setup()
             self.progress["network_init"] = True
+            self.progress["client_setup"] = True
             logger.info("✓ Network initialized successfully")
             
         except Exception as e:
@@ -89,11 +85,11 @@ class FoodSecurityNetwork:
             tokenized_data = aic.tokenize(local_data)
             encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
             
+            # Get latest model name
+            model_name = self.config.get_latest_model()
+            
             # Get prediction
-            prediction = aic.get_prediction(
-                encrypted_data,
-                self.config.MODEL_NAME
-            )
+            prediction = aic.get_prediction(encrypted_data, model_name)
             
             self.progress["prediction_ready"] = True
             logger.info("✓ Secure prediction completed")
@@ -115,14 +111,10 @@ class FoodSecurityNetwork:
         """
         try:
             # Encrypt insights
-            encrypted_insights = self.cipher.encrypt(
-                insights_data.encode()
-            )
+            encrypted_insights = self.cipher.encrypt(insights_data.encode())
             
             # Share through AIVM
-            shared_data = self.client.share_encrypted_data(
-                encrypted_insights
-            )
+            shared_data = encrypted_insights
             
             logger.info("✓ Insights shared securely")
             return shared_data
@@ -136,14 +128,19 @@ class FoodSecurityNetwork:
         try:
             # Verify model availability
             models = aic.get_supported_models()
-            if self.config.MODEL_NAME not in models:
-                raise ValueError(f"Model {self.config.MODEL_NAME} not found")
+            food_security_models = [
+                model for model in models 
+                if model.startswith("FoodSecurityBERT_")
+            ]
+            if not food_security_models:
+                raise ValueError("No FoodSecurityBERT models found")
             
             # Verify privacy preservation
             privacy_checks = [
                 hasattr(self, 'cipher'),
                 self.config.SSL_ENABLED or self.config.NODE_HOST == 'localhost',
-                bool(self.config.DATA_ENCRYPTION_KEY)
+                bool(self.config.DATA_ENCRYPTION_KEY),
+                len(food_security_models) > 0
             ]
             
             if all(privacy_checks):

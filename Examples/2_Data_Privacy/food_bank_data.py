@@ -20,7 +20,7 @@ Progress Tracking:
 Usage:
 -----
 Generate synthetic food bank data:
-    data = generate_synthetic_data(num_entries=100)
+    data = generate_synthetic_data(num_entries=1000)
     print(data.head())
 """
 
@@ -29,6 +29,7 @@ from faker import Faker
 import logging
 from typing import Optional, Dict, List
 import numpy as np
+from numpy.random import choice
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -51,20 +52,40 @@ class FoodBankDataGenerator:
         self.schema = self._define_schema()
         
     def _define_schema(self) -> Dict[str, Dict]:
-        """Define and validate data schema."""
+        """Define and validate data schema with balanced scenarios."""
         try:
             schema = {
                 'Region': {'type': str, 'source': 'city'},
                 'City': {'type': str, 'source': 'city'},
                 'ZipCode': {'type': str, 'source': 'zipcode'},
-                'Population': {'type': int, 'range': (1000, 50000)},
-                'HouseholdSize': {'type': int, 'range': (1, 6)},
-                'IncomeLevel': {'type': str, 'options': ['Low', 'Medium', 'High']},
-                'FoodType': {'type': str, 'options': [
-                    'Canned Goods', 'Dry Goods', 'Fresh Produce', 
-                    'Meat/Poultry', 'Dairy'
-                ]},
-                'DemandAmount': {'type': int, 'range': (10, 500)}
+                'Population': {
+                    'type': int, 
+                    'range': (100000, 5000000),
+                    'distribution': 'balanced' 
+                },
+                'HouseholdSize': {
+                    'type': int, 
+                    'range': (1, 6),
+                    'distribution': 'weighted'  
+                },
+                'IncomeLevel': {
+                    'type': str, 
+                    'options': ['Low', 'Medium', 'High'],
+                    'weights': [0.4, 0.4, 0.2]  
+                },
+                'FoodType': {
+                    'type': str, 
+                    'options': [
+                        'Canned Goods', 'Dry Goods', 'Fresh Produce', 
+                        'Meat/Poultry', 'Dairy'
+                    ],
+                    'weights': [0.25, 0.25, 0.2, 0.15, 0.15] 
+                },
+                'DemandAmount': {
+                    'type': int, 
+                    'range': (10, 500),
+                    'distribution': 'normal'  
+                }
             }
             self.progress["schema_defined"] = True
             logger.info("✓ Schema defined successfully")
@@ -74,28 +95,78 @@ class FoodBankDataGenerator:
             logger.error(f"❌ Schema definition failed: {e}")
             raise
 
-    def generate_data(self, num_entries: int = 100) -> Optional[pd.DataFrame]:
-        """Generate synthetic dataset with privacy considerations."""
+    def generate_data(self, num_entries: int = 1000) -> Optional[pd.DataFrame]:
+        """Generate balanced synthetic dataset."""
         try:
             data = []
-            for _ in range(num_entries):
-                entry = {}
-                for col, props in self.schema.items():
-                    if props['type'] == str:
-                        if 'options' in props:
-                            entry[col] = fake.random_choice(props['options'])
-                        else:
-                            entry[col] = getattr(fake, props['source'])()
-                    elif props['type'] == int:
-                        entry[col] = fake.random_int(
-                            min=props['range'][0],
-                            max=props['range'][1]
-                        )
-                data.append(entry)
-                
+            
+            # Generate balanced scenarios
+            scenarios = [
+                # High population urban centers
+                {'population_range': (1000000, 5000000), 'income': 'High', 'weight': 0.2},
+                # Medium cities
+                {'population_range': (500000, 1000000), 'income': 'Medium', 'weight': 0.3},
+                # Small cities
+                {'population_range': (100000, 500000), 'income': 'Low', 'weight': 0.3},
+                # Emergency scenarios
+                {'population_range': (100000, 5000000), 'demand_multiplier': 1.5, 'weight': 0.2}
+            ]
+            
+            for scenario in scenarios:
+                n_entries = int(num_entries * scenario['weight'])
+                for _ in range(n_entries):
+                    entry = {}
+                    for col, props in self.schema.items():
+                        if col == 'Population':
+                            entry[col] = fake.random_int(
+                                min=scenario['population_range'][0],
+                                max=scenario['population_range'][1]
+                            )
+                        elif col == 'IncomeLevel':
+                            if 'income' in scenario:
+                                entry[col] = scenario['income']
+                            else:
+                                entry[col] = choice(
+                                    props['options'],
+                                    p=props['weights']
+                                )
+                        elif col == 'DemandAmount':
+                            base_demand = fake.random_int(
+                                min=props['range'][0],
+                                max=props['range'][1]
+                            )
+                            entry[col] = int(base_demand * scenario.get('demand_multiplier', 1.0))
+                        elif props['type'] == str:
+                            if 'options' in props:
+                                # Use numpy's choice for weighted selection
+                                entry[col] = choice(
+                                    props['options'],
+                                    p=props.get('weights')
+                                )
+                            else:
+                                entry[col] = getattr(fake, props['source'])()
+                        elif props['type'] == int:
+                            entry[col] = fake.random_int(
+                                min=props['range'][0],
+                                max=props['range'][1]
+                            )
+                    data.append(entry)
+                    
             df = pd.DataFrame(data)
+            
+            # Add correlations between variables
+            df['DemandAmount'] = df.apply(
+                lambda row: self._adjust_demand_by_factors(
+                    row['DemandAmount'],
+                    row['Population'],
+                    row['HouseholdSize'],
+                    row['IncomeLevel']
+                ),
+                axis=1
+            )
+            
             self.progress["data_generated"] = True
-            logger.info(f"✓ Generated {num_entries} synthetic entries")
+            logger.info(f"✓ Generated {len(df)} balanced synthetic entries")
             
             # Validate generated data
             self._validate_data(df)
@@ -104,6 +175,35 @@ class FoodBankDataGenerator:
         except Exception as e:
             logger.error(f"❌ Data generation failed: {e}")
             raise
+
+    def _adjust_demand_by_factors(
+        self, 
+        base_demand: int, 
+        population: int, 
+        household_size: int, 
+        income_level: str
+    ) -> int:
+        """Adjust demand based on demographic factors."""
+        # Population factor
+        pop_factor = np.log10(population) / np.log10(5000000)  # Normalize by max population
+        
+        # Household size factor (larger households need more)
+        household_factor = household_size / 3.0  # Normalize by average household size
+        
+        # Income level factor (inverse relationship)
+        income_factors = {'Low': 1.2, 'Medium': 1.0, 'High': 0.8}
+        income_factor = income_factors[income_level]
+        
+        # Combine factors
+        adjusted_demand = int(
+            base_demand * 
+            (0.5 + 0.5 * pop_factor) * 
+            household_factor * 
+            income_factor
+        )
+        
+        # Ensure within valid range
+        return max(10, min(500, adjusted_demand))
 
     def _validate_data(self, data: pd.DataFrame) -> None:
         """Validate data structure and content."""
@@ -159,16 +259,20 @@ class FoodBankDataGenerator:
             for step, status in self.progress.items()
         }
 
-def generate_synthetic_data(num_entries: int = 100) -> pd.DataFrame:
-    """Convenience function for generating synthetic data."""
+def generate_synthetic_data(num_entries: int = 1000, save_path: str = "synthetic_data.csv") -> pd.DataFrame:
+    """Convenience function for generating and saving synthetic data."""
     generator = FoodBankDataGenerator()
-    return generator.generate_data(num_entries)
+    data = generator.generate_data(num_entries)
+    data.to_csv(save_path, index=False)
+    logger.info(f"✓ Synthetic data saved to {save_path}")
+    return data
 
 if __name__ == "__main__":
     try:
-        # Generate test data
+        # Generate and save test data
         generator = FoodBankDataGenerator()
-        data = generator.generate_data(num_entries=50)
+        data = generator.generate_data(num_entries=1000)  # Increased number of entries
+        data.to_csv("synthetic_data.csv", index=False)
         
         # Show progress and sample data
         logger.info("\nGeneration Status:")

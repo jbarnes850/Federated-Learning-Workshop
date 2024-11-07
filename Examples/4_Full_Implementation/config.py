@@ -28,7 +28,8 @@ import os
 import logging
 import aivm_client as aic
 from cryptography.fernet import Fernet
-from typing import Dict, Any
+from typing import Dict, Any, List
+import time
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -47,10 +48,6 @@ class NetworkConfig:
         }
         
         try:
-            # Verify AIVM connection
-            self.client = aic.Client()
-            logger.info("✓ Connected to AIVM devnet")
-            
             # Network identification
             self.NETWORK_NAME = "FoodSecurityNetwork"
             self.NODE_ID = os.getenv('NODE_ID', 'default_node')
@@ -64,12 +61,13 @@ class NetworkConfig:
             self.DATA_STORAGE_PATH = "data_storage"
             self.SSL_ENABLED = os.getenv('SSL_ENABLED', 'false').lower() == 'true'
             
-            # Model configuration
-            self.MODEL_NAME = "FoodSecurityBERT"
+            # Model configuration with versioning
+            timestamp = int(time.time())
+            self.MODEL_NAME = f"FoodSecurityBERT_{timestamp}"
             self.MODEL_VERSION = "v1.0"
             self.MODEL_PATH = os.path.join(
                 self.DATA_STORAGE_PATH,
-                f"{self.MODEL_NAME}_{self.NODE_ID}.pth"
+                f"{self.MODEL_NAME}.onnx"
             )
             
             self._validate_configuration()
@@ -124,8 +122,19 @@ class NetworkConfig:
     def _validate_model(self) -> None:
         """Validate model configuration."""
         models = aic.get_supported_models()
-        if "BertTiny" not in models:
+        if "BertTinySMS" not in models:
             raise ValueError("Required model not supported")
+    
+    def get_latest_model(self) -> str:
+        """Get the latest deployed model name."""
+        models = aic.get_supported_models()
+        food_security_models = [
+            model for model in models 
+            if model.startswith("FoodSecurityBERT_")
+        ]
+        if not food_security_models:
+            return self.MODEL_NAME
+        return sorted(food_security_models)[-1]
     
     def get_progress(self) -> Dict[str, str]:
         """Get current progress status."""

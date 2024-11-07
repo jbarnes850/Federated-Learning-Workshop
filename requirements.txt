@@ -9,6 +9,7 @@ transformers>=4.30.0         # For BERT models
 # Data Processing
 pandas>=2.0.0                # Data manipulation
 numpy>=1.24.0               # Numerical operations
+colorama>=0.4.6             # Colorama for colored terminal output
 
 # Development & Testing
 pytest>=7.0.0              # Testing framework

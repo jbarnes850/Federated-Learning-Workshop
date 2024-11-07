@@ -31,6 +31,7 @@ import os
 import sys
 import torch
 from dotenv import load_dotenv
+from colorama import init, Fore, Style
 
 # Load environment variables
 load_dotenv('.env.local')
@@ -42,10 +43,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Initialize colorama
+init()
+
 class TestAIVM(unittest.TestCase):
     def setUp(self):
         """Initialize AIVM client and validate environment."""
-        logger.info("Starting AIVM setup validation...")
+        logger.info(f"\n{Fore.CYAN}Starting AIVM Setup Validation{Style.RESET_ALL}")
+        logger.info(f"{Fore.CYAN}{'='*50}{Style.RESET_ALL}")
         
         # Track setup progress
         self.progress = {
@@ -127,9 +132,12 @@ class TestAIVM(unittest.TestCase):
 
     def tearDown(self):
         """Report final setup status."""
-        logger.info("\nSetup Validation Summary:")
+        logger.info(f"\n{Fore.CYAN}Setup Validation Summary{Style.RESET_ALL}")
+        logger.info(f"{Fore.CYAN}{'='*50}{Style.RESET_ALL}")
         for step, status in self.progress.items():
-            logger.info(f"{step}: {'✓' if status else '❌'}")
+            status_color = Fore.GREEN if status else Fore.RED
+            status_symbol = "✓" if status else "❌"
+            logger.info(f"{status_color}{status_symbol} {step}{Style.RESET_ALL}")
 
 if __name__ == "__main__":
     unittest.main()

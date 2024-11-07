@@ -1,0 +1,1001 @@
+Region,City,ZipCode,Population,HouseholdSize,IncomeLevel,FoodType,DemandAmount
+Riveraburgh,Stevensburgh,77059,3705620,5,High,Fresh Produce,275
+North Glen,South Felicia,92427,3632848,6,High,Dry Goods,128
+East Laurenberg,North Joseph,55449,1550568,3,High,Dry Goods,93
+East Amber,Port Waynechester,19288,3451362,6,High,Dry Goods,500
+North Samanthamouth,Natashaburgh,10206,2218425,3,High,Canned Goods,11
+Port Robert,Port Ann,08564,4893384,5,High,Fresh Produce,500
+Port Cheryl,Danielburgh,40121,2994919,5,High,Dairy,287
+Jenkinsshire,Tylerview,08701,1209742,6,High,Dry Goods,500
+East Lisatown,Michaelside,79462,1025498,5,High,Dairy,146
+Jenniferhaven,Garciatown,11657,2427930,4,High,Canned Goods,163
+Hallhaven,Kaylaview,62160,4720528,6,High,Canned Goods,305
+Adamsmouth,Justinborough,19309,4913315,3,High,Dairy,366
+New Mary,Waltersland,12098,1584196,6,High,Fresh Produce,70
+Lake Chelsea,Jeremyville,63543,4360945,5,High,Meat/Poultry,108
+Grossfurt,South Elizabethville,74842,3424637,6,High,Fresh Produce,436
+Jamestown,Williamsborough,40339,1999966,5,High,Dairy,393
+East Johnshire,Fieldstown,13291,3671227,1,High,Canned Goods,114
+Lake Tiffany,Oconnorfort,38761,1952888,3,High,Fresh Produce,377
+Stevensville,Ramirezfort,32352,4980906,4,High,Fresh Produce,500
+Whiteside,Markview,23700,4369707,1,High,Dry Goods,54
+South Trevortown,Lindafurt,44055,1893118,3,High,Dairy,240
+Jordanchester,Davidfort,30929,4056845,6,High,Canned Goods,483
+South Loganhaven,Angelaville,11234,3672158,2,High,Canned Goods,148
+Port Thomas,Port Walter,20094,1161197,5,High,Meat/Poultry,257
+Collinstown,Brownborough,68229,3633885,3,High,Dry Goods,302
+Wangmouth,West Amanda,99939,1245824,5,High,Dry Goods,500
+Lake Brandon,Kirkhaven,17712,4219936,3,High,Dairy,149
+West Monica,Port Rachelport,10597,3758576,3,High,Canned Goods,26
+Gonzalezside,Sergiostad,73450,4684216,2,High,Fresh Produce,259
+Brianview,East Sean,27472,4395724,2,High,Dairy,265
+Kathyberg,Wilsonstad,22414,2343652,1,High,Dry Goods,73
+Heidiland,Daniellechester,14358,3402942,3,High,Canned Goods,375
+East Sarahhaven,South Gina,09943,3573024,3,High,Canned Goods,374
+South Jeremyfurt,West Jonathan,18250,1721698,2,High,Dry Goods,111
+North Michael,Turnerstad,22678,2195340,5,High,Dry Goods,201
+New Stephanie,North Valerie,52879,2408911,2,High,Dairy,251
+Thomasberg,Allisonshire,39949,3896489,3,High,Dry Goods,44
+South Katherinemouth,Johnberg,25974,2079576,4,High,Fresh Produce,208
+Port Jenniferbury,Lake Danielle,75124,1895789,1,High,Dry Goods,12
+Dawnshire,Michaeltown,60098,2725366,3,High,Meat/Poultry,84
+Ryanview,Melissaborough,80128,3933007,4,High,Canned Goods,323
+Smithberg,Riceville,79691,3079382,3,High,Dry Goods,290
+West Joseph,Joeview,13542,4270118,1,High,Dry Goods,102
+Hendersonchester,Lake Darlene,83848,3475743,2,High,Canned Goods,34
+Davidville,Lake Nicholefort,74396,3100030,6,High,Fresh Produce,193
+North Christinaland,West Paige,22746,1240953,2,High,Canned Goods,113
+Anneville,Jacksonmouth,33471,3046143,4,High,Dry Goods,194
+Ryanburgh,Lake Stephanie,83418,4777097,4,High,Dairy,366
+Mendezchester,Jasonberg,31969,3054421,6,High,Fresh Produce,146
+Matthewsmouth,Timothyfort,41301,1603872,2,High,Dry Goods,115
+Brooksmouth,Victorview,95221,1999734,4,High,Fresh Produce,385
+North Lisatown,Macdonaldfurt,53203,2980305,6,High,Canned Goods,184
+Kurtbury,Gentryburgh,10072,2921801,2,High,Dry Goods,124
+South Johntown,North Michaelville,54298,4314223,5,High,Canned Goods,244
+South Carlaberg,East Adamburgh,58688,2722954,2,High,Canned Goods,122
+New Kimberly,Caseystad,73004,3191865,6,High,Fresh Produce,500
+Perezburgh,Kingburgh,21471,1931286,5,High,Fresh Produce,500
+South Patriciatown,Parsonsfurt,32397,3298542,1,High,Canned Goods,87
+South Kellihaven,Lake Thomas,54676,1219322,6,High,Dry Goods,24
+Shawnstad,Port Clinton,83413,2544048,3,High,Dry Goods,162
+New Amandaberg,North Gregorytown,36109,1002950,2,High,Fresh Produce,33
+North Brandy,Westmouth,60437,1385934,1,High,Fresh Produce,79
+Jennifertown,East Georgeberg,03895,3648663,1,High,Dry Goods,90
+West Madisonside,Amandafurt,38353,3895890,2,High,Dairy,149
+Lake Christinahaven,Lake Lisamouth,50165,2852889,3,High,Fresh Produce,150
+West Apriltown,East Jessicaborough,60554,2775066,6,High,Dry Goods,133
+South Natalieburgh,South Brandonland,11960,3466529,4,High,Meat/Poultry,229
+East Jorge,Lake Heatherton,60311,1743653,6,High,Dry Goods,500
+Smithfort,Dayborough,70594,1078960,2,High,Dry Goods,98
+Williamsonfort,South Andrewborough,63772,3827272,5,High,Dry Goods,500
+Dianashire,Robertfort,79022,1532934,1,High,Meat/Poultry,116
+West Andreport,Hernandezbury,35692,1314771,3,High,Dairy,29
+Malloryport,Lake Ashleyberg,11460,3585189,4,High,Meat/Poultry,333
+Ochoashire,North Jonathan,75487,2535523,3,High,Meat/Poultry,25
+East Bryanborough,Robertton,55378,3696316,2,High,Dry Goods,245
+Austinburgh,Suzannemouth,33054,2150602,3,High,Dry Goods,310
+South David,New Christianton,34673,3464499,1,High,Fresh Produce,97
+West Jenniferhaven,New Nathanmouth,51420,3665907,3,High,Dry Goods,331
+Vasquezshire,Andrewstad,35588,3102399,5,High,Canned Goods,255
+North Kayla,Lake Sharonborough,71445,1222670,6,High,Fresh Produce,500
+Zacharychester,Port Henryport,68985,1648361,1,High,Dry Goods,107
+West April,Lake Brenda,29021,3493831,6,High,Dry Goods,371
+Josephland,Samuelshire,33315,3344703,4,High,Dairy,286
+West Erin,Jerrymouth,71314,3803771,6,High,Canned Goods,500
+Lake Heatherstad,South Victoriamouth,69991,1319461,1,High,Dry Goods,10
+Jenniferborough,Laurabury,53639,2113783,1,High,Meat/Poultry,14
+Markport,East Karen,48879,4704330,4,High,Canned Goods,484
+North Tonyatown,Jonesburgh,71854,2619675,3,High,Meat/Poultry,145
+Davisborough,North Marychester,76832,3507609,5,High,Dry Goods,500
+West Jeremyview,Fostertown,04781,2344179,2,High,Dry Goods,177
+Lake Alexandermouth,North Coreyberg,39235,4435590,3,High,Fresh Produce,245
+Nguyenbury,North Allenchester,61346,3475050,3,High,Canned Goods,248
+Samanthaview,North Victoriafurt,29087,2300509,3,High,Fresh Produce,107
+Randymouth,Clarkville,26694,1798753,3,High,Fresh Produce,304
+New Benjamin,Lake Amy,17819,4831047,3,High,Dry Goods,184
+Lake Emilyton,Port Robertfort,82816,1616953,3,High,Canned Goods,370
+South Maryton,Maryton,02813,4422601,6,High,Fresh Produce,199
+Wolfmouth,Kylemouth,83330,2986857,6,High,Fresh Produce,500
+New Patrick,New Donald,95090,4510806,4,High,Fresh Produce,40
+Lake Edward,Lake Molly,73794,4968202,5,High,Dry Goods,139
+East Cameron,Katherineburgh,13355,4877579,5,High,Fresh Produce,342
+Kristinatown,Kennethhaven,94771,1586137,6,High,Fresh Produce,375
+North Traceyview,Carrollburgh,31156,1928761,1,High,Dry Goods,46
+New Carrieside,East Leah,43618,3301395,3,High,Canned Goods,90
+Adamsberg,East Jonathan,94253,2063965,5,High,Canned Goods,73
+East Timothy,New Kimberly,56332,1082894,1,High,Dairy,78
+Monicaview,Jessicafurt,66305,4509749,6,High,Fresh Produce,500
+Rodrigueztown,New Mauriceborough,37676,4467917,4,High,Fresh Produce,243
+East Tanyashire,West Jasonmouth,36224,1741754,2,High,Dairy,237
+West Mariafort,Andersonshire,34666,2697607,6,High,Meat/Poultry,117
+Caseyview,South Seanhaven,40943,3302635,3,High,Fresh Produce,41
+East Michellebury,Port Jessicafurt,76239,1994791,5,High,Fresh Produce,227
+North Martinville,South Adam,49552,4764250,4,High,Meat/Poultry,205
+East April,Michaelfurt,64232,1687339,6,High,Dry Goods,58
+Walkerton,Lake Lisa,69902,4957207,1,High,Canned Goods,71
+Christineburgh,East Rebecca,94193,4280153,3,High,Dry Goods,284
+New Amandamouth,Port Paul,94430,4008891,5,High,Canned Goods,500
+Halefurt,Cranefort,67915,3579619,4,High,Canned Goods,450
+New Veronicaborough,Lauraton,84914,2393593,1,High,Fresh Produce,10
+Nathanielbury,New Ericborough,01516,2553454,3,High,Meat/Poultry,82
+Karenport,Johnsonton,30051,1104870,3,High,Fresh Produce,353
+Lake Emily,Port Vicki,02927,4124240,2,High,Dairy,219
+West John,Walkerside,27763,4551314,6,High,Fresh Produce,500
+Sylviachester,West Traceymouth,49784,1715819,2,High,Dairy,83
+Davidtown,Lake Petermouth,92629,1636012,1,High,Meat/Poultry,55
+Brennanberg,Henrytown,41474,2792844,3,High,Dry Goods,288
+Toddland,Courtneybury,74988,2041297,6,High,Dairy,413
+Lauramouth,Port Brandon,44158,2565913,4,High,Fresh Produce,90
+Dianeland,Chrisport,85117,2690047,4,High,Dairy,151
+Thomasstad,Lake Laura,41189,4549204,6,High,Canned Goods,500
+Alexandriatown,Lisaview,69407,3493515,3,High,Fresh Produce,300
+Nicholasmouth,Hallstad,30544,4707084,4,High,Canned Goods,70
+Port Davidville,Brianaborough,14352,4660737,1,High,Dry Goods,61
+Lake Tina,Brownburgh,74716,4759312,3,High,Fresh Produce,242
+Lake Ginatown,Melissafort,91434,3240677,2,High,Dry Goods,92
+New Aaron,North Michaelburgh,04105,3008797,3,High,Canned Goods,268
+Dawnton,New Alexandrastad,39204,2274842,1,High,Dairy,57
+South Josephmouth,Port Tamara,20064,3129646,3,High,Meat/Poultry,393
+Amyport,Lake Eddiemouth,81175,3607728,3,High,Meat/Poultry,224
+Heatherchester,Morriston,06679,4631303,1,High,Canned Goods,10
+Stevenmouth,Martinstad,94324,3992770,6,High,Meat/Poultry,368
+Joanfort,East Donald,02458,3172632,1,High,Dry Goods,21
+South Alyssa,Port Adamville,56226,1382248,5,High,Fresh Produce,500
+Joditown,Moorechester,17864,2144763,3,High,Canned Goods,346
+Lorimouth,Cainburgh,98052,1785974,3,High,Canned Goods,136
+Kellyside,Lake Sharon,66950,4662640,2,High,Dry Goods,180
+North Joymouth,Helenstad,09285,3376453,4,High,Dry Goods,255
+North Marystad,South Christopherburgh,51239,2220118,6,High,Fresh Produce,500
+Lake Cheryl,North Shari,94113,4493484,3,High,Dry Goods,219
+Courtneyhaven,Patrickshire,22570,2606704,1,High,Dairy,130
+New Pamela,North Brittany,39443,1672714,2,High,Dry Goods,122
+Lake Jacob,Richardsonland,04143,2703798,4,High,Canned Goods,393
+East Jessicaton,North Scott,61326,4338844,3,High,Canned Goods,203
+Port Thomas,West Mark,97518,4696895,4,High,Dairy,228
+West Elizabeth,Washingtonland,88181,1301330,5,High,Meat/Poultry,350
+North Kevin,North Stephanie,22988,3225045,1,High,Fresh Produce,123
+Williamville,Tonyburgh,79432,4894873,3,High,Meat/Poultry,143
+Port Tabithaland,Acevedoview,18668,3360770,4,High,Meat/Poultry,65
+Burnetthaven,Sarahstad,26350,2138559,1,High,Dry Goods,10
+Shawnton,South Ebony,70443,3838143,6,High,Dry Goods,122
+Port Darlene,West Elizabeth,10465,4294635,4,High,Fresh Produce,40
+Port Kevinland,Charlotteview,89429,2082660,4,High,Dry Goods,301
+Jennyville,Port Danieltown,93520,2422027,3,High,Fresh Produce,250
+Lake Keith,Lake Lauraburgh,44977,4991090,1,High,Meat/Poultry,78
+South Steven,North Jameston,13965,3090811,1,High,Dry Goods,72
+Parkerside,Amandashire,40336,1823882,4,High,Canned Goods,205
+Atkinsonmouth,Andrewborough,79639,4431720,1,High,Canned Goods,20
+New Trevor,New Amyfurt,97771,3275793,4,High,Meat/Poultry,442
+New Benjaminville,Sarahburgh,55628,2524939,4,High,Canned Goods,399
+West Jennifer,South Donna,58412,1224615,3,High,Meat/Poultry,85
+North Adamborough,Alexstad,38120,2985473,6,High,Dry Goods,130
+East Sydney,West Toni,71889,4771596,3,High,Dairy,43
+East Lisa,Lake Sabrina,69737,3369096,2,High,Dairy,179
+New Melissamouth,Jodiberg,95323,1666551,2,High,Fresh Produce,56
+Phelpsland,Lake Steve,87414,3722934,6,High,Meat/Poultry,375
+Riverachester,Mirandatown,24865,1388030,6,High,Meat/Poultry,35
+Chanfurt,Murilloton,88537,1760626,3,High,Dairy,46
+Williamstown,East Kevin,16799,2485945,4,High,Meat/Poultry,499
+Oliviaton,Port Paul,99337,3898871,4,High,Canned Goods,376
+North Kennethbury,Hardyview,92519,1953179,1,High,Dry Goods,44
+North Donaldburgh,East Misty,27623,1828083,2,High,Meat/Poultry,233
+Calhounberg,Garyborough,42817,2608489,2,High,Fresh Produce,209
+Tammiemouth,Simmonsfort,13774,1377569,6,High,Fresh Produce,500
+Jessicabury,West Mark,78575,4791713,6,High,Dry Goods,500
+New Matthew,Richardborough,24394,4246573,5,High,Meat/Poultry,500
+Duncanborough,South Renee,00682,4453236,5,High,Canned Goods,500
+West Alexanderfurt,Williamberg,54296,1267723,2,High,Canned Goods,150
+Murphyport,Jameston,81977,3326935,3,High,Dry Goods,99
+Darrenstad,West Kimberly,30480,4200217,2,High,Canned Goods,90
+Burnettshire,New Deborahfurt,40418,4765443,2,High,Canned Goods,44
+Shannonburgh,North Scott,88419,4705334,3,High,Dry Goods,257
+New James,Normanhaven,92767,2623137,4,High,Canned Goods,45
+New Charlesview,Stevensburgh,34705,1150226,6,High,Canned Goods,364
+Maryville,Sanchezville,92508,4922229,2,High,Dry Goods,83
+South Amanda,Rodriguezfort,68119,3159381,1,High,Dry Goods,101
+Markburgh,Annahaven,39722,1858113,4,High,Canned Goods,195
+Mcdonaldton,West Jennifer,95987,2556803,3,High,Dry Goods,177
+Robinsonshire,North Benjaminbury,38465,3314757,4,High,Dairy,72
+West Jessicaburgh,West Erin,70419,3896773,1,High,Dry Goods,58
+Kyliemouth,Kimberlyfort,15514,2208471,1,High,Dry Goods,108
+North Donburgh,Port Laura,83172,942848,6,Medium,Fresh Produce,332
+Lake Jeffrey,Howellstad,30956,954991,3,Medium,Canned Goods,54
+Port Evelynport,Port Steven,59705,547817,4,Medium,Dry Goods,162
+Mayoborough,Rodriguezmouth,50035,743411,6,Medium,Dry Goods,52
+Rodriguezfort,East Richard,12607,628632,1,Medium,Canned Goods,46
+West Tiffanyfort,Lake Katherine,46369,767252,6,Medium,Meat/Poultry,400
+North Donnaton,Davidland,14526,965221,6,Medium,Dairy,500
+Obrienville,Tiffanytown,22237,944391,2,Medium,Dry Goods,108
+Manningside,Toddfort,57535,519023,5,Medium,Dry Goods,452
+Aaronland,Richmondshire,45498,550054,6,Medium,Fresh Produce,500
+Erinborough,West Margarethaven,54232,984493,4,Medium,Dry Goods,234
+South Gregorymouth,Port Ericaburgh,15673,601794,6,Medium,Fresh Produce,495
+Lake Anthonymouth,Jacksonfort,73081,924624,5,Medium,Dairy,500
+South Michaeltown,Dunnbury,56800,819582,3,Medium,Fresh Produce,324
+Millerstad,Port Susanside,73644,911189,3,Medium,Dairy,44
+New Emily,East Jeffrey,78124,557326,1,Medium,Canned Goods,79
+North Markport,Laurachester,21022,597827,3,Medium,Dry Goods,260
+New Debra,Hendersonborough,12042,647576,4,Medium,Dairy,377
+New Kendraview,Scottmouth,02809,930823,3,Medium,Meat/Poultry,227
+North Maryhaven,Tylerton,65385,541061,4,Medium,Fresh Produce,500
+Port Cassandraberg,South Trevor,90526,627584,6,Medium,Canned Goods,500
+Lake Christophertown,Port Scottview,98096,570099,6,Medium,Dry Goods,314
+North Julianshire,Pooleberg,80078,584016,4,Medium,Dry Goods,261
+Richardshire,Lorishire,04307,547287,1,Medium,Dry Goods,109
+South Julie,Perezton,02514,586339,6,Medium,Dry Goods,500
+Edwardston,Port Cassidyview,12549,676550,6,Medium,Canned Goods,500
+Weberport,East Jaymouth,96298,950058,2,Medium,Fresh Produce,112
+Schultzfort,West Jackton,34735,602317,2,Medium,Dairy,90
+Smithstad,East Deniseberg,05736,918720,4,Medium,Dry Goods,367
+New Jenniferfort,Lake Nicole,25873,978592,5,Medium,Fresh Produce,500
+Oliviaport,Lake Brett,64985,743775,4,Medium,Dry Goods,400
+North Williamside,North Rachel,03062,749471,2,Medium,Meat/Poultry,27
+Bowmanburgh,Jimmychester,33773,543754,3,Medium,Fresh Produce,400
+Jennaville,Robertsstad,57141,847187,2,Medium,Dry Goods,54
+New Annette,Stephensberg,44545,709893,5,Medium,Canned Goods,67
+Danielchester,Lake Sandy,33206,899229,4,Medium,Fresh Produce,358
+New Debbietown,Kennethchester,13746,524689,3,Medium,Fresh Produce,287
+Austinville,East Elizabethtown,08106,729159,3,Medium,Dairy,443
+Jonathanborough,New Jennifer,77616,655696,4,Medium,Dry Goods,286
+West Jennifer,Port Robertmouth,69991,883665,1,Medium,Dry Goods,120
+New Aaron,Davisburgh,72845,790251,4,Medium,Meat/Poultry,440
+Port Meganhaven,Aliciastad,10025,518677,5,Medium,Meat/Poultry,484
+Lake Jordanshire,Harrismouth,03033,528256,1,Medium,Dry Goods,114
+New Juanborough,West Scottmouth,97092,741988,1,Medium,Meat/Poultry,31
+Andersonbury,Sandersberg,79449,903335,2,Medium,Dairy,128
+Garzamouth,Port Paulaborough,24279,790951,2,Medium,Fresh Produce,187
+New Cynthia,South James,86508,536243,5,Medium,Dry Goods,500
+Stevensland,Armstrongside,02525,536013,1,Medium,Fresh Produce,14
+Michelleborough,South Justin,20643,685189,4,Medium,Meat/Poultry,137
+Brownchester,Stacyview,84037,944750,2,Medium,Dry Goods,291
+Edwardsmouth,Huynhbury,56593,919801,1,Medium,Canned Goods,19
+Allenbury,Daltonchester,85483,984759,1,Medium,Dry Goods,126
+East Allisonhaven,East Morgan,90667,530106,1,Medium,Dry Goods,86
+Chanborough,Maryburgh,16254,891432,3,Medium,Dairy,109
+Murphyland,Brandtville,03938,788946,5,Medium,Fresh Produce,500
+South Blake,Lake Tinaborough,52981,734739,2,Medium,Dairy,151
+Walshport,Combsbury,97103,526438,4,Medium,Dry Goods,116
+Sandraside,Levymouth,63573,977457,6,Medium,Dry Goods,350
+East Rodney,East Christine,72413,935825,4,Medium,Dairy,81
+Codyfurt,Port Sierraville,59210,733433,4,Medium,Meat/Poultry,500
+Lake Stephen,West Zachary,33712,585877,2,Medium,Meat/Poultry,242
+Mariafort,Carrilloburgh,01750,915422,6,Medium,Meat/Poultry,109
+Lake Michael,West Mariaborough,50427,608015,6,Medium,Canned Goods,500
+Port Lisafurt,North Phillip,91791,625707,3,Medium,Meat/Poultry,192
+Haydenhaven,Hallfurt,38459,603592,2,Medium,Meat/Poultry,24
+Lake Jeanton,East Dianaport,20352,814226,3,Medium,Canned Goods,19
+West Daniel,South Kathychester,17651,874415,1,Medium,Canned Goods,61
+New Matthew,North Gabrielle,92171,552747,1,Medium,Meat/Poultry,89
+Lake Joshuamouth,Troybury,31763,644303,5,Medium,Dairy,395
+North Sarah,Port Taylor,17102,798295,1,Medium,Fresh Produce,45
+New Aaronborough,West Kyleburgh,84604,637117,2,Medium,Fresh Produce,68
+Paulmouth,Blairhaven,16735,515800,2,Medium,Fresh Produce,201
+Hallborough,Michaelside,80366,607789,2,Medium,Fresh Produce,302
+Sandersmouth,West Kaitlin,88691,582454,4,Medium,Canned Goods,119
+North Michaelville,Powellfurt,06970,527072,1,Medium,Canned Goods,14
+North Marytown,Port Edwinfort,85447,946026,4,Medium,Canned Goods,333
+Shelleyhaven,New Kyle,62386,576569,6,Medium,Meat/Poultry,111
+North Julie,Shannonville,15074,999601,5,Medium,Meat/Poultry,500
+Simmonston,Rebeccahaven,12191,655222,1,Medium,Dairy,101
+Dominguezland,Gillborough,17947,898003,6,Medium,Meat/Poultry,326
+Hallstad,West Walterhaven,78370,577041,6,Medium,Dry Goods,500
+Williamview,Greenhaven,18753,671782,6,Medium,Fresh Produce,59
+Port Kathleenland,Annettebury,62270,869596,6,Medium,Dairy,115
+Lake Patricia,North John,16300,745266,3,Medium,Dry Goods,29
+Lake Patrick,Nathanielchester,01585,927020,6,Medium,Meat/Poultry,500
+Figueroaburgh,Port Tanya,83382,868302,6,Medium,Meat/Poultry,500
+Nunezburgh,New Bobstad,23093,772552,2,Medium,Meat/Poultry,306
+Ericmouth,Port Kayla,87177,899972,4,Medium,Dry Goods,261
+Port Sherry,Sherryton,31847,604274,4,Medium,Dry Goods,59
+Gomezstad,Osbornfort,13396,740777,3,Medium,Meat/Poultry,224
+Anthonytown,West Amanda,72770,781003,4,Medium,Canned Goods,70
+Patriciaberg,West Michael,73690,630692,6,Medium,Fresh Produce,500
+North Danastad,Samanthaton,46436,901991,1,Medium,Dry Goods,42
+Port Ashleyborough,Port Matthew,34169,626746,5,Medium,Meat/Poultry,306
+New Melissa,Stephanieport,04970,620190,2,Medium,Dry Goods,230
+Jamesmouth,Jordanside,67064,942060,4,Medium,Dry Goods,500
+Nicolestad,Alishaside,47090,558907,1,Medium,Canned Goods,138
+South Marisa,Danaville,93300,891048,4,Medium,Canned Goods,363
+Lake Stacymouth,North Dennis,20542,744419,6,Medium,Meat/Poultry,298
+East Susanville,North Brian,55295,805577,4,Medium,Canned Goods,432
+Bradshawchester,New Alec,25711,533267,4,Medium,Dry Goods,211
+New Gloriashire,East Carlamouth,01040,639810,6,Medium,Dairy,410
+Millerburgh,North Cherylland,14204,826004,3,Medium,Canned Goods,413
+North Shirley,Rachelborough,96935,721782,1,Medium,Canned Goods,144
+Hendricksstad,Rivasland,68012,770710,6,Medium,Dry Goods,450
+Gabrielside,Justinshire,67077,644596,3,Medium,Dry Goods,300
+Wallaceton,West Kennethfurt,67991,813842,6,Medium,Dairy,500
+South David,Port Russell,62721,828813,2,Medium,Dry Goods,23
+South Andrew,Schneiderchester,17178,971487,2,Medium,Fresh Produce,222
+Tomville,North Richard,41234,590744,4,Medium,Dry Goods,500
+East Aaronhaven,Sarahberg,42282,806438,5,Medium,Meat/Poultry,338
+Lake Melissa,Morganfurt,36307,916808,2,Medium,Canned Goods,117
+North Kimberlyton,East Tonyfurt,46445,607228,2,Medium,Fresh Produce,99
+North Jennifer,South Christopher,83171,828703,5,Medium,Fresh Produce,484
+Blackland,Lake Natashaville,23507,604853,2,Medium,Fresh Produce,253
+Whiteton,Bassburgh,07107,879553,3,Medium,Meat/Poultry,253
+New Raymondhaven,Port Barbara,86457,826845,3,Medium,Canned Goods,64
+Paulland,South James,46892,764641,3,Medium,Canned Goods,51
+Davidside,Singhshire,32133,673604,2,Medium,Dry Goods,117
+Combschester,Brianstad,16406,720690,4,Medium,Dry Goods,483
+Lake Juliaberg,South Brittanyberg,73168,874356,2,Medium,Dry Goods,216
+New Melissachester,Port Donna,79185,699584,1,Medium,Dairy,57
+South Devon,Lake Patriciaton,91555,951510,1,Medium,Dry Goods,139
+Thomasfurt,West Josephfort,05648,735579,5,Medium,Meat/Poultry,500
+Gomezland,Cortezhaven,15972,504242,6,Medium,Dairy,279
+Port Bryceside,Lake Christopher,07822,660976,1,Medium,Canned Goods,40
+Rodriguezport,Jessicafurt,48951,663418,4,Medium,Dairy,115
+East Jenniferborough,Codyton,08045,957995,5,Medium,Dry Goods,481
+West Stevenhaven,Griffinmouth,53824,690274,4,Medium,Fresh Produce,495
+South Jacobhaven,East Phyllis,20700,751534,5,Medium,Canned Goods,500
+Jenkinsview,Port Gregorystad,97540,604189,5,Medium,Dry Goods,237
+Mullinsstad,South Kevin,53227,955982,1,Medium,Canned Goods,10
+Anthonyfurt,Amandaview,77805,543260,1,Medium,Fresh Produce,123
+Kristaport,West Katherine,75621,618426,2,Medium,Fresh Produce,13
+East Joseph,Port Kaitlynbury,53358,568550,6,Medium,Canned Goods,115
+New Brandon,Nelsonbury,32032,547181,6,Medium,Dry Goods,500
+Robertmouth,East Seanport,30211,556551,4,Medium,Dry Goods,408
+South Michelleside,Gordonview,98568,596751,1,Medium,Dry Goods,13
+South Yvonne,South Erin,49362,735361,5,Medium,Meat/Poultry,57
+South Lisatown,West Todd,13995,612523,2,Medium,Canned Goods,193
+New Zachary,Kellytown,89931,830185,1,Medium,Dairy,123
+Chambersbury,Byrdside,68710,972144,2,Medium,Fresh Produce,11
+Angelashire,Markberg,02918,710509,3,Medium,Dairy,402
+Thompsonside,West Aaron,40181,992618,4,Medium,Meat/Poultry,391
+South Elizabethmouth,New Justin,99437,900903,6,Medium,Dry Goods,171
+West Christineberg,Port Dominiquestad,82959,723795,4,Medium,Canned Goods,99
+Mikeburgh,Port Heatherborough,68204,804982,1,Medium,Dry Goods,88
+Michaelport,Johnberg,31755,706565,3,Medium,Dry Goods,457
+East Willie,Melissaport,76800,959527,1,Medium,Dry Goods,10
+Michelleland,Hansenborough,34451,644823,5,Medium,Fresh Produce,500
+Lake Joannastad,Lake Kelsey,05475,618278,1,Medium,Canned Goods,74
+Carlshire,Port Elizabeth,72801,550116,4,Medium,Dry Goods,500
+North Sara,Anthonyberg,31425,864948,1,Medium,Dairy,95
+Michelleborough,East Don,21319,695063,4,Medium,Fresh Produce,500
+Jacobville,Johnsonton,98489,702343,1,Medium,Dry Goods,68
+Mooreville,Fordview,13561,577757,5,Medium,Meat/Poultry,500
+Santiagomouth,Rodriguezside,70504,796772,3,Medium,Dairy,386
+Holmesland,Shawtown,45261,546795,6,Medium,Dairy,500
+Brandonhaven,Howardchester,83050,505692,1,Medium,Dry Goods,18
+New Douglastown,New Vincentshire,76439,730232,6,Medium,Dairy,500
+West Eric,North Jesse,89020,973677,6,Medium,Meat/Poultry,486
+Port Frankhaven,Ericland,92490,951411,2,Medium,Dry Goods,116
+Lake Kristinstad,Jasonville,23154,922665,3,Medium,Canned Goods,17
+Port Amber,North Stephanietown,95114,767756,2,Medium,Canned Goods,35
+North Tyler,West Anthony,18419,646859,6,Medium,Canned Goods,500
+Michaelmouth,New Curtis,38083,694635,4,Medium,Dairy,255
+Warebury,North Claudia,18798,825135,1,Medium,Fresh Produce,101
+New Michael,Shermanland,15939,882215,5,Medium,Dry Goods,237
+South Williamton,Brianfort,49494,931611,3,Medium,Dry Goods,218
+Alyssaton,West Jesse,13976,573301,5,Medium,Meat/Poultry,500
+Wigginsberg,Port Aaronmouth,36932,993979,1,Medium,Meat/Poultry,66
+Wilkinschester,North Stephanieshire,62032,759925,1,Medium,Dry Goods,153
+Jacobland,North Brittanyville,59731,894243,2,Medium,Dry Goods,86
+Lake Thomas,Port Brian,86527,595467,5,Medium,Meat/Poultry,500
+Lake Penny,Geraldchester,80847,660482,2,Medium,Meat/Poultry,84
+Dawsontown,West Christinaview,39009,656750,2,Medium,Dry Goods,196
+Larsonton,West Melissa,10461,757397,5,Medium,Dairy,500
+Johnsonfurt,Port Lisa,25083,922845,5,Medium,Canned Goods,500
+Jonathanport,Audreyburgh,13343,956497,5,Medium,Fresh Produce,41
+Andrewsbury,Markhaven,16327,707750,5,Medium,Dairy,500
+South Roy,Wolfborough,98289,993361,3,Medium,Dry Goods,427
+South Juliaside,Port Lindaville,90233,717451,1,Medium,Dairy,119
+North Heatherfort,Peggyborough,88378,668637,6,Medium,Dry Goods,185
+Perryburgh,Jaredshire,60368,545216,4,Medium,Dry Goods,433
+Jenniferfurt,Danielmouth,12140,797123,6,Medium,Dairy,342
+North Sherryton,South Courtney,25335,661911,4,Medium,Canned Goods,500
+Tommyton,Deborahbury,23688,930397,1,Medium,Dairy,89
+West Danielland,Joseview,44004,832025,3,Medium,Meat/Poultry,16
+Port Alexisview,Holmesshire,58458,568160,2,Medium,Dairy,213
+West Sophia,Charleston,86998,530451,2,Medium,Dairy,178
+Joannahaven,Kaneview,72080,997172,3,Medium,Dairy,141
+Stokesview,East Lorraine,17243,772417,2,Medium,Dry Goods,105
+Cynthiaborough,Nobleshire,36913,821921,5,Medium,Canned Goods,500
+West Christophertown,West Meganmouth,26151,816817,2,Medium,Fresh Produce,219
+Destinyfort,West Tammychester,12740,689554,5,Medium,Fresh Produce,500
+North Abigailside,North Sarafort,50389,505471,4,Medium,Fresh Produce,443
+Port Theresashire,Scottmouth,76416,776422,4,Medium,Fresh Produce,345
+New Hannahtown,Bethfurt,52395,549266,1,Medium,Fresh Produce,58
+Elizabethport,Lake Donnastad,39009,508373,5,Medium,Fresh Produce,262
+North Shane,Quinnfurt,61597,755732,6,Medium,Dry Goods,500
+Boydborough,Rebeccaville,75714,901587,6,Medium,Dairy,500
+Lake Marisaberg,Allenbury,34714,707167,6,Medium,Dairy,103
+Paulmouth,East Arielmouth,08268,512281,2,Medium,Fresh Produce,137
+Julieburgh,Lake Chase,26305,699488,5,Medium,Canned Goods,500
+North Jacobstad,Port Jeffreyborough,22700,640439,5,Medium,Canned Goods,17
+West Robinfort,North Teresatown,81152,569325,6,Medium,Dry Goods,468
+North Sandrastad,Richardfurt,56488,620897,2,Medium,Dairy,56
+Mortontown,Karenshire,37342,971470,6,Medium,Dry Goods,306
+North Elijahmouth,Christophermouth,77180,977847,5,Medium,Dry Goods,228
+West Robertmouth,East Michaelberg,39638,946251,1,Medium,Meat/Poultry,90
+Albertburgh,Port Matthew,79438,588785,2,Medium,Dairy,202
+Powersburgh,North Christinaport,62510,652913,1,Medium,Canned Goods,105
+Munozburgh,Simmonsberg,64844,956308,3,Medium,Fresh Produce,340
+Martinport,South Nicole,42870,744315,1,Medium,Meat/Poultry,142
+Tylerview,Bauerport,59149,986246,4,Medium,Meat/Poultry,466
+East Angela,Lake Angela,61620,814380,3,Medium,Dairy,389
+Lozanofurt,New Timothyville,81698,709416,3,Medium,Dry Goods,426
+Johnbury,Adamborough,57600,883411,5,Medium,Meat/Poultry,128
+Jameschester,Marytown,36041,564900,5,Medium,Fresh Produce,477
+South Bethanyside,Claybury,86976,856952,2,Medium,Canned Goods,204
+New Martha,Christopherland,68944,913610,2,Medium,Canned Goods,112
+East Trevor,Cruzview,95737,978730,1,Medium,Fresh Produce,105
+Whitemouth,Trevorland,92132,680710,2,Medium,Canned Goods,112
+East Catherine,Carpenterton,19911,899846,5,Medium,Meat/Poultry,273
+East Ryan,South Codyburgh,92201,797225,4,Medium,Dry Goods,304
+Jennifermouth,Patriciatown,37386,571167,3,Medium,Canned Goods,434
+Jonview,Lake Joseph,91535,611060,2,Medium,Meat/Poultry,237
+Collinsmouth,Martinside,71626,920136,6,Medium,Dairy,500
+Ryanfurt,New Kyle,03278,934342,2,Medium,Dry Goods,251
+Brookstown,Jesseberg,10732,652436,4,Medium,Fresh Produce,286
+Scottfort,Loweryborough,49502,662847,6,Medium,Canned Goods,500
+New Daniellemouth,South Steven,49765,709647,1,Medium,Canned Goods,70
+Port Adamtown,Hughesfort,63169,568510,6,Medium,Canned Goods,498
+Michaelland,East Annaborough,76665,763460,4,Medium,Canned Goods,358
+Lake Marytown,Jaredbury,91543,581651,3,Medium,Dairy,371
+Kimberlyfurt,West Annette,74293,918850,6,Medium,Dairy,500
+Sharonland,West Heather,65396,545699,4,Medium,Canned Goods,181
+New Jeremyshire,South Charlesland,56067,936827,2,Medium,Dairy,38
+Joeberg,East Larrymouth,44700,511936,2,Medium,Dairy,96
+Porterborough,Port James,30778,517741,5,Medium,Canned Goods,254
+North Erik,Port James,89917,605802,6,Medium,Dry Goods,91
+Deleonmouth,Brownville,05602,558234,6,Medium,Fresh Produce,500
+South Barbara,Mezaville,18093,940040,5,Medium,Dry Goods,430
+New Lisaton,East Henry,26594,794401,2,Medium,Canned Goods,182
+Zacharymouth,Coxport,53832,830909,2,Medium,Dairy,271
+Shelbytown,Port Ericberg,09499,598989,3,Medium,Canned Goods,167
+Robertland,East Chris,45191,859792,5,Medium,Canned Goods,353
+South Sarahland,Smallland,85485,588157,2,Medium,Meat/Poultry,240
+Port Robertland,East Christopherborough,53676,725047,4,Medium,Canned Goods,414
+Josestad,Port Laurahaven,57667,544815,6,Medium,Dry Goods,83
+Hernandezhaven,South Kerri,43261,765596,2,Medium,Meat/Poultry,149
+East Tracy,Torresstad,64101,600164,6,Medium,Canned Goods,249
+Raymondhaven,West Brandonport,33527,790733,3,Medium,Canned Goods,436
+New Marieview,Terriview,19391,622757,3,Medium,Canned Goods,308
+Jonathanside,Ryanfurt,97630,850080,5,Medium,Fresh Produce,232
+Gonzalezfort,Lake Cassie,01742,865168,4,Medium,Dry Goods,354
+Millerville,Port Anthonyburgh,66413,828225,3,Medium,Canned Goods,443
+East Jerry,Alvarezstad,75934,592100,5,Medium,Dairy,500
+East Michael,South Juliemouth,06367,504630,5,Medium,Fresh Produce,500
+Lake Sean,Pricebury,48539,944625,4,Medium,Dry Goods,500
+Lake Patriciamouth,Brandonbury,80657,663730,4,Medium,Fresh Produce,419
+Douglasborough,Michaelshire,48172,809572,2,Medium,Canned Goods,55
+East Jasonfurt,South Nicholeville,79784,764131,4,Medium,Canned Goods,418
+South Aaronbury,Matthewfort,31836,981637,4,Medium,Dry Goods,500
+South Marvinport,Port James,45427,899162,2,Medium,Meat/Poultry,168
+New Johnfurt,North Jennifer,31069,680529,4,Medium,Canned Goods,57
+East Alexander,Sarahstad,82837,626586,1,Medium,Dry Goods,78
+Lake David,Jasontown,91003,516180,3,Medium,Dry Goods,154
+Woodborough,Port Jacquelineberg,74930,543576,4,Medium,Canned Goods,379
+Lake Erikville,Garzachester,76000,629701,1,Medium,Dairy,83
+Charlesport,East Carla,22444,709933,6,Medium,Meat/Poultry,170
+New Melissatown,North Evanside,61603,625347,1,Medium,Canned Goods,151
+North Michaelchester,Brettberg,56357,597615,3,Medium,Dry Goods,37
+New Mindyberg,Lake Brittany,83625,635380,3,Medium,Fresh Produce,223
+West Edwardville,Johnathanberg,33974,924178,5,Medium,Fresh Produce,225
+Mcfarlandland,South Thomasburgh,92013,877883,5,Medium,Fresh Produce,500
+Port Beth,New Jessicaside,09388,778527,2,Medium,Fresh Produce,140
+East Brandon,Davidsonton,22432,760557,3,Medium,Fresh Produce,469
+Port Kelly,South Leslie,19202,816384,5,Medium,Canned Goods,227
+New Todd,West Andrewstad,61111,826896,5,Medium,Canned Goods,315
+Hunterfort,East Alex,92826,615686,4,Medium,Dry Goods,494
+North Yvonne,North Emily,26519,858124,5,Medium,Meat/Poultry,66
+North Brycetown,Erinchester,16326,640916,5,Medium,Canned Goods,500
+Port Derekfurt,Brownbury,86035,543925,3,Medium,Dry Goods,272
+Danielleton,Juliechester,82813,814153,6,Medium,Canned Goods,124
+Port Sharonfurt,South Jacquelineberg,22364,695721,5,Medium,Dry Goods,157
+Port Phillip,Port Lisatown,33428,727353,2,Medium,Canned Goods,180
+East Russell,New Michael,82476,511827,5,Medium,Meat/Poultry,500
+South Douglasstad,Port Michelle,12929,818842,4,Medium,Meat/Poultry,391
+East Melissa,Robbinsbury,99727,855294,1,Medium,Meat/Poultry,146
+Latoyaville,Mollyland,15048,938380,5,Medium,Dairy,80
+Barretttown,Johnburgh,64510,536301,2,Medium,Dairy,230
+West Nancy,Meganland,72801,791657,5,Medium,Fresh Produce,500
+Nunezfurt,Laurieshire,52395,852002,2,Medium,Canned Goods,124
+East Ericville,Lake Jamesside,51712,678915,6,Medium,Dry Goods,284
+Williammouth,South Clinton,97178,705753,5,Medium,Dry Goods,110
+Port Lindafort,North Melissa,88789,849025,1,Medium,Meat/Poultry,69
+Adammouth,West Elizabeth,35158,650332,2,Medium,Canned Goods,227
+Stacyport,Christopherton,38418,687978,6,Medium,Meat/Poultry,275
+Fordfort,North Natalietown,73869,667052,2,Medium,Canned Goods,145
+New Mary,Ruthtown,83757,481312,4,Low,Canned Goods,500
+New Rebecca,Port Jenniferland,87256,301191,5,Low,Dairy,500
+East Nichole,Owensshire,95324,326215,2,Low,Dairy,25
+Lake Grace,North David,67338,235544,2,Low,Fresh Produce,266
+Suetown,Lauraland,56579,365705,3,Low,Canned Goods,94
+Joshuahaven,West Nicolemouth,90511,425109,2,Low,Meat/Poultry,267
+North Kristina,Chelseafurt,87330,438272,2,Low,Canned Goods,322
+East Tina,Port Cynthia,31145,242662,3,Low,Dairy,64
+Martinmouth,Michelleborough,67489,154478,6,Low,Dry Goods,500
+Andersonport,Port Anthony,26417,300137,5,Low,Meat/Poultry,245
+Lake Jeannetown,New Hannah,55693,296915,4,Low,Fresh Produce,437
+New Aaron,South Joseph,96164,203056,4,Low,Fresh Produce,364
+North Matthewland,Jackport,36544,413542,5,Low,Dry Goods,211
+West Jenna,West Ericton,93634,342960,1,Low,Dry Goods,160
+Williamfort,Tamimouth,93445,132308,4,Low,Meat/Poultry,500
+Lake Jessica,Ambermouth,32819,472470,1,Low,Meat/Poultry,21
+Michaelshire,Watsonton,62134,249369,3,Low,Dry Goods,183
+Smithmouth,Port Rachel,29328,196124,2,Low,Canned Goods,196
+Stevenville,New Henryborough,48083,246997,1,Low,Dry Goods,13
+Smallfurt,East Janetburgh,24098,405711,4,Low,Dairy,500
+South Joystad,Sonyafort,64715,113365,4,Low,Meat/Poultry,315
+Port Holly,North Jessicaberg,81383,215430,2,Low,Fresh Produce,117
+New Stacy,Kleinhaven,69925,450619,6,Low,Meat/Poultry,500
+Ramirezshire,New Robertfort,56853,260445,3,Low,Meat/Poultry,243
+Kellieland,Brianbury,64850,379624,3,Low,Fresh Produce,382
+Oliverfurt,East Robertton,72488,245201,6,Low,Canned Goods,112
+Port Brandy,New Peggyside,96657,317135,2,Low,Canned Goods,157
+Lake Kelsey,Thomasport,01921,168854,2,Low,Fresh Produce,349
+Port Michelle,Fullerberg,30335,112154,6,Low,Fresh Produce,500
+West Kathy,Coxberg,63356,271948,2,Low,Dry Goods,101
+Christopherville,Rebeccamouth,77490,172417,4,Low,Canned Goods,419
+New Ryanfurt,Port Diane,04365,166065,1,Low,Meat/Poultry,63
+Stevensville,South Elizabethborough,57796,187056,4,Low,Dry Goods,200
+Morrischester,Coleborough,67555,490742,5,Low,Fresh Produce,122
+Port Adamton,Caitlynfurt,23982,446513,5,Low,Dairy,94
+East Melissa,Lake Sharonton,22895,279862,5,Low,Dairy,500
+Woodhaven,Lake Jennifermouth,39437,218253,1,Low,Canned Goods,40
+Adkinsborough,Lake Robertfurt,33250,405483,4,Low,Dry Goods,51
+Christopherview,Knoxton,30395,297672,5,Low,Fresh Produce,58
+Matthewburgh,Port Leslie,08433,143863,4,Low,Dry Goods,500
+Michaelshire,New Frank,03736,238389,1,Low,Fresh Produce,140
+Newmanfort,Benjaminstad,37654,151885,3,Low,Dry Goods,378
+Parkerberg,Port Heatherstad,84321,271040,3,Low,Fresh Produce,500
+Christopherland,North Robertburgh,27260,237083,1,Low,Dry Goods,33
+Port Michael,Mercadofort,83752,408092,5,Low,Dairy,500
+Port Jasonport,Shawnfurt,32484,245535,2,Low,Meat/Poultry,264
+West Morgan,Ericside,94497,479246,2,Low,Dairy,251
+East Jeanfurt,Elizabethborough,69735,170807,5,Low,Fresh Produce,493
+New Donnaborough,Blackburnfurt,03344,337830,3,Low,Dry Goods,119
+Jordanhaven,Port Shawn,67365,178172,3,Low,Canned Goods,295
+West Melissa,Lake April,52926,157412,4,Low,Meat/Poultry,457
+Williamston,Jameschester,95157,441474,6,Low,Dairy,55
+Markside,North Timothy,75905,272081,4,Low,Dry Goods,140
+Shermanmouth,Jamesland,61474,463772,6,Low,Dry Goods,500
+Lake David,West Jeremiah,87832,254743,2,Low,Fresh Produce,323
+Port Benjamin,Christopherland,31866,362822,5,Low,Meat/Poultry,122
+Taraside,West Kristinamouth,12113,246313,1,Low,Dry Goods,179
+Johnhaven,South Jameshaven,92065,365184,1,Low,Meat/Poultry,176
+East Melanie,Wilsontown,99784,323994,5,Low,Dry Goods,500
+Salazarside,South Martha,23731,344899,3,Low,Canned Goods,325
+New Patricia,New Sarahmouth,53387,124959,6,Low,Canned Goods,500
+Leslieton,North Ryan,84807,445737,3,Low,Fresh Produce,60
+South Misty,East Kelsey,84355,157588,2,Low,Dairy,299
+Shaunview,Jacksonview,75250,148761,1,Low,Fresh Produce,72
+East Vickitown,New Evelyn,59278,357734,3,Low,Dry Goods,381
+Jessicaland,Sandrachester,89061,482207,5,Low,Meat/Poultry,500
+Matthewside,Nicholaschester,81023,398416,5,Low,Dairy,290
+Brianton,Mezastad,54590,104092,3,Low,Canned Goods,500
+Deniseburgh,South Michael,26767,196401,4,Low,Canned Goods,327
+Fieldsfort,Villarrealmouth,38189,192005,4,Low,Meat/Poultry,380
+Lake Aaron,Brockchester,70396,250217,6,Low,Dry Goods,500
+Shaneville,Annahaven,75690,398518,5,Low,Canned Goods,214
+Gailburgh,South Ruben,19245,329776,4,Low,Canned Goods,500
+Brandonview,East Tammy,07392,324425,5,Low,Fresh Produce,500
+East Mark,New Deborahland,25275,481723,3,Low,Fresh Produce,66
+Marcmouth,Kristentown,23656,148620,6,Low,Dairy,163
+North Kelly,Alfredview,68935,132334,1,Low,Meat/Poultry,156
+Port Lisamouth,Hayeschester,23235,180649,6,Low,Dairy,500
+Hoffmanborough,Friedmanbury,52993,471053,3,Low,Dry Goods,75
+Port Sheri,Austinville,14779,367407,6,Low,Dry Goods,395
+Lake Thomasland,New Amyberg,40597,360668,4,Low,Fresh Produce,365
+Williamsburgh,Jacobview,12674,147206,4,Low,Dry Goods,170
+Chapmanside,East Jennifer,51282,366231,3,Low,Meat/Poultry,400
+Travisville,Charlesmouth,36970,334045,5,Low,Dry Goods,326
+Melanieville,North Chelsea,52266,406958,2,Low,Dairy,333
+Port Sarah,Edwardville,06012,423872,6,Low,Dry Goods,390
+West Ashley,North Williamland,76331,358112,5,Low,Dairy,380
+Amyfort,New Nathan,36486,134000,3,Low,Fresh Produce,266
+North Hollymouth,West Michelle,30868,368965,3,Low,Canned Goods,14
+Nicholsland,New Taylorview,29867,484785,4,Low,Canned Goods,68
+West Melissaview,Lake Andreastad,67301,141740,6,Low,Meat/Poultry,388
+East Jerryburgh,Port Elizabethland,50746,318422,5,Low,Dry Goods,500
+Thompsonfort,Alexaborough,58020,360737,4,Low,Dry Goods,500
+Sylviamouth,Phillipsmouth,68256,437429,2,Low,Dry Goods,152
+Hoganview,Lorichester,39123,418581,3,Low,Canned Goods,28
+New Kyle,Patriciaport,05145,224265,5,Low,Dry Goods,62
+Danielland,Novakfort,07821,361588,3,Low,Dairy,397
+South Brady,Smithfurt,99085,298908,3,Low,Meat/Poultry,189
+Steelehaven,Normaland,73793,237735,5,Low,Meat/Poultry,500
+North Bethland,North Lance,98403,193811,6,Low,Dry Goods,244
+South Edward,North Nathanport,95467,440992,5,Low,Dairy,500
+Johnhaven,West Mary,24122,170838,4,Low,Canned Goods,82
+Rogerberg,Lake Melissashire,41518,358862,1,Low,Dairy,74
+East Jonathanside,Frenchshire,56474,499344,3,Low,Canned Goods,468
+Proctorberg,Lake Saraview,14015,178825,6,Low,Dry Goods,500
+Lake Christy,North Jose,22726,473196,3,Low,Dairy,302
+New Jessemouth,North Benjamin,63021,165475,6,Low,Meat/Poultry,500
+Ericburgh,South Meganfurt,60158,360249,6,Low,Dry Goods,500
+South Mary,Port Thomasfurt,88755,141457,6,Low,Dry Goods,500
+Lake Bonnieville,Clineton,24732,323075,2,Low,Meat/Poultry,152
+Valerieport,New Oliviaport,80972,121036,1,Low,Dry Goods,167
+Port Eric,Leonardview,27463,215165,2,Low,Dairy,232
+East Michael,New Robert,97099,417802,1,Low,Dry Goods,52
+New Jason,Wheelermouth,52236,493327,1,Low,Dry Goods,132
+South Kristin,East Tracy,28263,248221,3,Low,Dry Goods,79
+Tapiabury,Arthurfort,85506,215030,4,Low,Fresh Produce,500
+Christianview,Lake Sherryshire,65933,494613,1,Low,Meat/Poultry,124
+North Edward,Lindseyville,53639,405389,4,Low,Canned Goods,345
+Gregoryview,Leechester,57432,482163,6,Low,Dry Goods,500
+Powellport,Mccartymouth,34285,265088,6,Low,Fresh Produce,232
+Lake Lisaton,East Zacharyfort,03632,428407,4,Low,Dry Goods,256
+Henryside,Heatherview,82720,415576,3,Low,Meat/Poultry,492
+West Rebecca,Ambertown,81235,476791,4,Low,Meat/Poultry,500
+Millerfort,Port Patriciaville,23388,168167,4,Low,Fresh Produce,176
+Williamfort,Port Dylan,73222,124445,3,Low,Dry Goods,115
+West Richardtown,Smithburgh,40225,362017,5,Low,Dry Goods,500
+Frostburgh,Flowersland,65404,314806,5,Low,Canned Goods,415
+New Brianstad,Heatherbury,62788,434388,3,Low,Dairy,155
+Joycefort,Stevenberg,56655,442616,5,Low,Dry Goods,322
+South Susan,North Christopherborough,77191,166607,1,Low,Canned Goods,10
+Port Jimmyburgh,East Rachelton,53012,409588,3,Low,Dry Goods,298
+Williamsbury,Adamshire,61737,492908,1,Low,Fresh Produce,78
+North Melissaborough,New Melissamouth,17366,151688,1,Low,Fresh Produce,144
+Port Shaneview,East Thomas,86513,167377,1,Low,Fresh Produce,105
+Lake Stephaniemouth,Bestton,22957,240524,1,Low,Canned Goods,10
+Port Katherinefort,Katherinehaven,92791,385954,3,Low,Fresh Produce,192
+South Joann,East Jennifer,02054,341959,3,Low,Dry Goods,304
+East Steven,Port Jessicaburgh,43455,358795,5,Low,Fresh Produce,219
+Dawnmouth,North Nathan,29217,440954,1,Low,Meat/Poultry,43
+Port Ashleyburgh,West Bruce,43698,235133,3,Low,Dry Goods,342
+New Michael,Lake Shannonville,97949,386883,6,Low,Fresh Produce,490
+Gordonside,Carolview,23585,297868,4,Low,Canned Goods,193
+East Jillian,South Dustinhaven,80685,217254,2,Low,Dry Goods,76
+West Kelly,Mackenziemouth,42824,465562,1,Low,Canned Goods,89
+Luiston,Port Melissa,55538,483648,1,Low,Dry Goods,150
+Melissatown,Castroshire,62472,350870,1,Low,Fresh Produce,115
+Gainesville,Brownland,64640,101414,3,Low,Dairy,452
+Chavezview,Samanthafort,12521,484537,2,Low,Canned Goods,167
+South Candicefort,Donnachester,84948,382291,3,Low,Meat/Poultry,219
+Colleenton,South Matthew,72116,379874,3,Low,Dry Goods,197
+Buckport,South Cassandra,68290,344291,3,Low,Fresh Produce,266
+South Lindsaybury,New Carolyn,96436,252679,2,Low,Dry Goods,216
+North Justin,Whiteview,42904,450577,1,Low,Dry Goods,14
+North Johnberg,Kellymouth,89521,263782,4,Low,Dry Goods,374
+Fosterton,New Leonard,53417,467726,6,Low,Dry Goods,500
+North Carlos,Lake Ambermouth,08610,391657,3,Low,Dry Goods,500
+Johnsonhaven,West Kayla,00814,195817,2,Low,Meat/Poultry,231
+Beverlyville,Brownview,66619,390670,3,Low,Fresh Produce,487
+North Amanda,Rhondaburgh,34622,217761,2,Low,Fresh Produce,282
+Port Shawn,Kimberlychester,53498,359131,3,Low,Canned Goods,313
+North Sarahberg,East Thomasbury,38318,107526,1,Low,Fresh Produce,17
+New Paul,South Jonathanmouth,52037,124063,3,Low,Fresh Produce,151
+Brandonland,East Mary,53949,131661,6,Low,Canned Goods,500
+West Scott,Millerfort,40802,317935,1,Low,Meat/Poultry,155
+Lake Kevinmouth,New Randymouth,67778,450838,6,Low,Canned Goods,453
+Lake Elizabeth,Keithfort,26508,354546,3,Low,Meat/Poultry,459
+Thomasmouth,East Lucas,72278,410521,1,Low,Dairy,74
+Jonathanhaven,Erinland,97630,305347,1,Low,Dry Goods,109
+West Tracyberg,East Nicole,88335,381515,4,Low,Fresh Produce,500
+Jessicashire,North Andrew,51727,278623,6,Low,Dry Goods,500
+South Donald,North John,84054,335428,5,Low,Meat/Poultry,500
+Port Christina,South Markstad,20956,135759,4,Low,Dairy,500
+New Elizabeth,Lake Nicholashaven,71267,188265,4,Low,Canned Goods,464
+South Amber,Nancychester,01407,197078,4,Low,Dry Goods,421
+New Jorge,North Kennethtown,49710,487260,1,Low,Dry Goods,39
+Andersonshire,New Bryceburgh,11608,147137,1,Low,Canned Goods,99
+Michellemouth,Loganport,23971,234123,6,Low,Dairy,500
+New Elizabethside,Gonzalezberg,46678,357532,6,Low,Canned Goods,421
+East Robertburgh,Fordbury,75521,329684,1,Low,Fresh Produce,17
+Deleonberg,West Patrick,31379,197189,6,Low,Fresh Produce,500
+Nicoleburgh,Paulaton,50979,460633,3,Low,Dairy,142
+West Marcus,Jenniferchester,90037,170683,1,Low,Dry Goods,105
+Washingtonberg,East Nicoleburgh,91480,374671,1,Low,Canned Goods,40
+Leview,Bryanborough,53245,469848,6,Low,Canned Goods,500
+Rodriguezburgh,Robertborough,28775,314258,6,Low,Canned Goods,500
+Elliotthaven,Lake Sarah,14897,366186,6,Low,Dry Goods,371
+Port Juanview,Andrewmouth,70298,234420,6,Low,Meat/Poultry,127
+Williamsberg,Robertsfort,24739,186017,1,Low,Fresh Produce,30
+Hernandezchester,Kimberlyville,53436,270026,5,Low,Dry Goods,103
+East Christina,Boylechester,78615,335044,4,Low,Meat/Poultry,328
+Amytown,North Ginastad,40050,345507,1,Low,Fresh Produce,151
+Brandontown,Lake Jonathan,32875,109501,5,Low,Canned Goods,196
+East Misty,New Vanessa,33488,255143,1,Low,Canned Goods,111
+Andrewside,Port Joseph,53368,411013,6,Low,Fresh Produce,500
+Lake Austin,North Carlyfort,13154,262219,2,Low,Dry Goods,133
+Kaylashire,East Vickieside,62807,474127,3,Low,Dry Goods,240
+Jackieborough,Wrightfort,30726,260017,4,Low,Canned Goods,99
+Markburgh,Scotthaven,42547,353842,4,Low,Fresh Produce,147
+South Katherine,Whiteport,02708,297249,4,Low,Canned Goods,392
+Garrisonshire,New Christopherfurt,93849,384026,4,Low,Meat/Poultry,500
+Heidifort,Evansport,10258,214273,2,Low,Canned Goods,10
+Port Melindabury,West Stephanieport,33534,313958,5,Low,Fresh Produce,307
+Hardingview,Andrealand,58186,162064,4,Low,Canned Goods,500
+Christopherbury,Lake Robertport,40583,230493,4,Low,Fresh Produce,500
+New John,Port Victoriabury,51074,401804,1,Low,Fresh Produce,51
+Leefurt,Huffmanfurt,93458,306720,1,Low,Fresh Produce,47
+Thomasland,Isaiahtown,66048,214203,3,Low,Dry Goods,156
+Campbellside,New Timothyview,78113,456085,3,Low,Canned Goods,36
+Annaburgh,Smithview,70809,456296,1,Low,Canned Goods,10
+Toniton,Newtonfurt,49659,204195,4,Low,Fresh Produce,367
+North Christopherton,Kristinland,39446,114893,1,Low,Dairy,138
+West Chelsea,West Robert,81743,274324,2,Low,Canned Goods,296
+Wardfort,New Jennifer,29428,417084,6,Low,Canned Goods,324
+South Jennifer,Jenningsburgh,70478,141957,1,Low,Dry Goods,10
+Shelbyfurt,Davisstad,53514,154971,6,Low,Dairy,500
+East Joseph,Wattsville,98932,165947,3,Low,Dry Goods,208
+New Johnview,New Jenniferfort,88070,313368,5,Low,Dry Goods,356
+South Cindyfurt,Martinezfurt,31324,386557,6,Low,Dry Goods,147
+Suzanneborough,Hopkinshaven,89113,231657,1,Low,Fresh Produce,102
+Robertberg,Phelpsville,73728,219939,6,Low,Meat/Poultry,500
+Jasonmouth,New Herbert,18652,382425,5,Low,Fresh Produce,319
+New Kathleen,Sanfordmouth,38256,254104,5,Low,Canned Goods,61
+Michaelhaven,East Brianfort,17942,114655,6,Low,Fresh Produce,500
+West Wesleyville,Hooverfort,86035,157992,2,Low,Dry Goods,286
+Lisahaven,Brandyfurt,67634,271887,2,Low,Fresh Produce,276
+Lorettaborough,Berrymouth,96124,452437,2,Low,Dry Goods,10
+Lake Taylor,South Carlmouth,74659,398048,6,Low,Canned Goods,500
+East Brett,Port Adam,15527,313505,5,Low,Canned Goods,351
+New Whitney,Davidburgh,33954,346105,4,Low,Dry Goods,500
+Rebeccamouth,North Kevin,74193,384385,5,Low,Fresh Produce,500
+Kelleyfurt,Danatown,29109,487273,1,Low,Meat/Poultry,169
+Kellychester,Stevenborough,18527,148066,1,Low,Dry Goods,137
+West James,Lake Mackenzieport,69714,155487,5,Low,Dry Goods,500
+Shannonshire,South Krista,83280,313834,3,Low,Dry Goods,302
+Port Ashley,Port Wayneton,30876,447399,4,Low,Meat/Poultry,500
+Rachelchester,Maldonadoland,78573,271479,1,Low,Dry Goods,67
+Port Brittany,North Jasonton,42972,414105,3,Low,Dairy,370
+Christopherland,South Stephenborough,69344,172615,1,Low,Canned Goods,143
+Maryborough,Gomezfurt,80679,389300,1,Low,Canned Goods,85
+Tammyport,Vazquezburgh,39121,274656,1,Low,Meat/Poultry,111
+Port Lindsay,East Patriciaton,92418,299466,3,Low,Meat/Poultry,372
+Susanhaven,West Daisyberg,56998,158266,5,Low,Dry Goods,500
+East Scott,Carterfurt,75345,370310,6,Low,Fresh Produce,162
+New Sherylport,New Nicholasbury,55219,248439,2,Low,Dairy,355
+Johnstonton,New Jaybury,35780,385185,1,Low,Canned Goods,128
+Port Gabrielview,Port Nicole,68192,310133,1,Low,Canned Goods,74
+South Daniellehaven,Johnborough,17193,128705,5,Low,Canned Goods,500
+East Kennethtown,New Beverly,37643,494624,3,Low,Dry Goods,500
+West Patriciabury,Smithland,63736,232694,4,Low,Dry Goods,422
+New Shawntown,Hardymouth,48078,314030,1,Low,Dairy,146
+Allenton,Lake Julie,73245,249950,2,Low,Fresh Produce,229
+West Dan,Edwardberg,30565,385523,3,Low,Dry Goods,476
+West Brandyshire,Carlybury,42947,499407,6,Low,Dry Goods,264
+East Johnburgh,Lake John,81965,129243,5,Low,Fresh Produce,500
+Milesside,South James,69898,308183,1,Low,Fresh Produce,15
+Lake Miketon,North Kathy,41712,138490,3,Low,Canned Goods,131
+Millerfurt,Brianshire,98143,334682,3,Low,Canned Goods,186
+Port Daniel,Crystalburgh,39193,205905,1,Low,Meat/Poultry,178
+Staffordborough,Port Phillipport,33286,216208,1,Low,Dairy,14
+Lake Chase,Camposbury,35072,445810,2,Low,Canned Goods,32
+Port Melissastad,New Debbiemouth,45342,241239,6,Low,Canned Goods,500
+Gileshaven,West Brian,20363,437967,1,Low,Dairy,44
+Cynthiabury,Jimenezshire,27493,414116,5,Low,Dry Goods,500
+East Jeremiah,Adamston,75787,317799,5,Low,Dry Goods,116
+Derekland,Amandafurt,40600,378644,5,Low,Dry Goods,113
+Port Joshuabury,Evansborough,00900,415613,2,Low,Canned Goods,289
+Wendyfort,Port Jessicaburgh,24710,114198,2,Low,Dairy,99
+Smithville,East Christopherport,39803,244225,2,Low,Dry Goods,178
+New Gerald,Bradyside,32062,116030,3,Low,Fresh Produce,76
+Lake Gregory,Port Jessicastad,13583,425135,4,Low,Canned Goods,107
+Jessicaburgh,North Mark,99443,262161,3,Low,Fresh Produce,202
+Derekchester,East Alexander,35536,298102,6,Low,Canned Goods,30
+Alvarezmouth,Patrickport,76381,355179,2,Low,Meat/Poultry,178
+Lake Lindsayside,New William,16308,115515,1,Low,Dairy,159
+Amandafort,Jaredport,12699,463194,1,Low,Dry Goods,20
+Calderonburgh,Freemanfort,10727,201070,1,Low,Meat/Poultry,29
+Port Robert,Jennatown,97758,326070,2,Low,Canned Goods,212
+Port Bridget,Lake Christineport,70887,422823,2,Low,Dairy,309
+Bryanside,Port Laura,27646,486938,5,Low,Meat/Poultry,144
+Tiffanyland,Mendozahaven,11901,492784,1,Low,Dry Goods,24
+North Wesleyview,Fraziermouth,67711,308418,6,Low,Dairy,500
+Port Robert,New Ana,21590,126065,2,Low,Meat/Poultry,323
+Port John,Lake Tonyaview,93677,184779,1,Low,Canned Goods,10
+Port Christinaborough,Lopezton,74767,226442,3,Low,Canned Goods,390
+Johnsonmouth,Williamsfurt,64045,393494,2,Low,Dry Goods,271
+Scottshire,West Roberthaven,86129,247970,1,Low,Dry Goods,106
+Robinport,Simsside,76379,219212,1,Low,Canned Goods,69
+West Michellemouth,North Stanley,13879,270016,1,Low,Dairy,108
+Sarahshire,Summersmouth,96769,377377,6,Low,Meat/Poultry,428
+Port Teresa,West Jacobborough,22201,294745,6,Low,Canned Goods,313
+Lake Michael,Rogershire,55462,423523,3,Low,Meat/Poultry,397
+West Douglasland,West Amberside,93647,247989,3,Low,Dry Goods,389
+Leeborough,Lake Davidfort,60042,245365,2,Low,Dry Goods,183
+New Dillon,Lonnieberg,39639,136821,5,Low,Meat/Poultry,500
+Andreaside,West Holly,10109,132810,1,Low,Meat/Poultry,148
+South Breannaborough,New Nathan,35632,352024,5,Low,Dry Goods,146
+North Davidshire,East Justinfurt,06575,323844,3,Low,Meat/Poultry,125
+Port Marcus,Burtonborough,55088,273111,1,Low,Canned Goods,119
+New Matthewhaven,South Elizabeth,65462,323032,1,Low,Canned Goods,163
+North Maria,Gomezton,62719,396329,1,Low,Dry Goods,168
+Casestad,West Carlosshire,02047,337877,3,Medium,Fresh Produce,469
+Ryanton,Lake Matthewmouth,74696,1896964,6,Medium,Canned Goods,500
+Seanburgh,North Margaretborough,84923,1669916,4,Low,Meat/Poultry,500
+Amandatown,Lake Sarah,95296,476006,4,High,Dairy,334
+Cardenasport,East John,44405,2986541,6,Low,Fresh Produce,500
+North Chelseaburgh,Patrickton,79905,295389,3,Low,Canned Goods,402
+Flemingshire,Willistown,55226,3665016,1,Medium,Fresh Produce,235
+West Jose,Micheleberg,82809,2357907,1,Low,Meat/Poultry,36
+Smithtown,Johnsontown,92935,3251145,2,Medium,Canned Goods,313
+Lake David,East Joann,13980,4153674,6,Low,Meat/Poultry,300
+Smithland,New Jorge,96743,2934353,5,High,Dry Goods,98
+Patriciafurt,Lake Deborahville,41765,4368201,4,Medium,Canned Goods,419
+Lake Larry,Hansonshire,44839,3946160,5,Low,Fresh Produce,291
+Oliviaton,East Aliciaton,23226,3151031,3,Medium,Dry Goods,29
+West Cody,South Randyfurt,60104,3058971,1,Low,Dairy,144
+South Evan,New Elainemouth,21051,3339800,6,Low,Dairy,500
+Lindseyside,Allenchester,37154,1322805,4,Medium,Fresh Produce,500
+Scotthaven,Jenniferton,11271,2986882,1,High,Fresh Produce,146
+Lake Arthurhaven,Rachelfurt,88724,402222,2,Low,Fresh Produce,163
+West Scott,Debbieville,74100,3825217,1,Medium,Dry Goods,18
+Harmonberg,North Lisa,08090,4001519,3,Medium,Canned Goods,500
+Port Jasonville,Robertport,26679,3720098,5,High,Canned Goods,500
+Shawnborough,Scottview,37214,4068721,4,Low,Dairy,500
+Devinburgh,Morrisburgh,23104,2014406,6,Medium,Dry Goods,52
+Lake Samuelbury,North Waynemouth,16485,3162862,3,Low,Dairy,366
+Robertside,New Lonnie,46308,2321139,3,Low,Canned Goods,208
+Grantchester,North Chrishaven,33518,4173530,1,Medium,Meat/Poultry,182
+Pamelaberg,South Alyssa,09332,3870771,6,Medium,Dry Goods,500
+West Jamesborough,Hunterborough,39010,2623657,3,Medium,Dry Goods,441
+Hillton,Carrillofurt,01833,1919430,2,High,Canned Goods,17
+Lake Ryanside,Brucefort,41459,594061,3,Low,Dry Goods,425
+North Luistown,Randolphborough,02512,4957931,1,High,Canned Goods,147
+Ryanside,Lake Anthony,44693,1359078,1,Low,Dairy,141
+North David,Gonzalezmouth,80170,2968730,4,Medium,Fresh Produce,500
+South Jennifer,Vaughanshire,96626,2017783,6,High,Dairy,139
+South Paulside,Lake Jasonhaven,63310,3737005,2,Medium,Fresh Produce,117
+West Barbaraside,Medinaburgh,34103,928671,6,Medium,Fresh Produce,500
+West Nicole,Lake Amberport,49659,2856927,2,Medium,Dry Goods,432
+New Ann,North Robertmouth,08473,571775,3,Low,Fresh Produce,500
+Sullivanstad,Destinyfurt,47013,1140412,4,Low,Canned Goods,500
+New Davidchester,Johnbury,34828,1123346,2,Medium,Dry Goods,301
+Cookburgh,Ericksonview,86348,4895656,1,Medium,Canned Goods,75
+Lake Jasmine,West Joshua,85579,2281544,5,Low,Dry Goods,500
+Port Daniel,Stonefurt,20133,872062,1,Medium,Fresh Produce,196
+Timothymouth,Jasonton,57828,4380513,3,Low,Meat/Poultry,222
+Wesleyton,New Sara,22156,3504549,1,Low,Canned Goods,85
+Richardtown,East Dawnborough,24322,3148231,1,High,Dry Goods,156
+Josephfort,Karenville,37379,1777432,6,Medium,Dry Goods,355
+South Amandaview,North Madisonport,53277,1017752,1,Low,Dairy,265
+South Amanda,Lewisport,37915,278278,1,Low,Dry Goods,41
+Munozport,North Donna,77010,2147499,3,High,Dry Goods,172
+North Nicholastown,East Markfurt,67269,2459252,3,Medium,Fresh Produce,449
+Port Eddie,Lake Ryanborough,44226,1137795,2,Low,Canned Goods,469
+East Ashleyton,Heidiview,82261,184610,1,Medium,Dairy,176
+Eileenborough,New Brianshire,50259,2844514,3,Medium,Dairy,321
+South Virginia,Jonesmouth,79432,4557947,1,Low,Dairy,117
+South Ryanland,Jasonshire,76727,3684736,6,High,Canned Goods,362
+Port Jeremyhaven,Breannachester,30803,1086666,5,High,Canned Goods,500
+West Jennifer,Port Kathleenmouth,03254,4453819,5,Low,Fresh Produce,500
+Lake Tiffany,East Nicoleville,75810,1446175,3,High,Dry Goods,235
+Tabithafurt,Brianshire,60599,4791090,2,Medium,Meat/Poultry,389
+South Christina,Jessicamouth,59218,2282400,1,Low,Canned Goods,32
+New Jamesland,Meganberg,09313,4383831,5,High,Canned Goods,500
+Alishamouth,South Jessica,25757,3393843,6,Low,Dry Goods,471
+Scotthaven,South Hollymouth,64306,4687590,2,Low,Dry Goods,31
+Carpenterberg,Rodriguezland,43510,3688667,4,Low,Canned Goods,500
+Patriciashire,Smithland,60345,3293750,5,Medium,Canned Goods,103
+Lisaland,Port Jeffrey,34333,2405582,3,Medium,Meat/Poultry,346
+Rubiofurt,North Patricia,71068,977779,4,Medium,Canned Goods,26
+East Frederick,East Megan,22179,791971,2,Low,Dry Goods,500
+Yangville,New Marc,17331,3911238,1,Medium,Fresh Produce,145
+East Rebekahhaven,New Nicoletown,84978,3676162,5,Low,Meat/Poultry,433
+South Danielton,Michaelshire,44043,4502602,2,Low,Dry Goods,437
+Cervantesshire,Chadview,06615,2695938,3,Low,Dairy,500
+Abigailborough,North Jacobfort,89189,315504,4,Medium,Canned Goods,416
+Elizabethbury,Rodriguezburgh,97517,1928860,4,Medium,Fresh Produce,500
+Michaelchester,Proctorview,17377,285232,5,Medium,Meat/Poultry,155
+East Kimberly,Martinberg,31411,773946,1,Medium,Canned Goods,10
+Richardsonfort,Jensenview,94332,334669,5,Low,Dairy,416
+West Kristi,Garyland,89416,2397284,5,Medium,Meat/Poultry,419
+Johnsonville,East Stephaniefort,40202,2134814,4,Low,Meat/Poultry,500
+North Chadburgh,Emmastad,20105,2129247,5,Medium,Dry Goods,72
+Lake Ian,Lake Richardmouth,41476,2922311,6,High,Dry Goods,180
+Johnsonburgh,Roymouth,62146,3735657,2,Low,Meat/Poultry,45
+Sotochester,Madisonland,40011,3507749,1,Low,Canned Goods,41
+North Scottchester,Kruegershire,07431,3914021,3,Low,Canned Goods,199
+Michelleshire,West Amanda,29483,303872,4,Medium,Dairy,54
+Leonchester,Cherrytown,25937,1897765,1,High,Dairy,137
+New Alfred,Allentown,06711,4012164,6,Low,Fresh Produce,500
+Greenberg,Derekhaven,20873,2874522,4,Medium,Fresh Produce,398
+Wellsmouth,Whitneyburgh,26559,2577549,1,Medium,Dry Goods,106
+North Kristopherborough,Lake Manuel,42818,4736277,5,Low,Dry Goods,500
+South Eric,East Scott,30689,4884089,3,Low,Dairy,500
+West Jacob,Paigeville,71429,342730,3,Medium,Dairy,99
+East Patrickfort,Conniemouth,43639,1651380,3,Low,Dairy,299
+West David,Lopezmouth,34660,147241,2,Low,Dry Goods,500
+Davisstad,West Kimberlyville,76721,1726023,6,Low,Dry Goods,391
+Kellyburgh,Michaelfort,91787,2104918,6,Medium,Fresh Produce,445
+East Gary,Waltersburgh,93637,2749514,2,Medium,Canned Goods,314
+New William,South Roy,40867,1295356,1,Medium,Canned Goods,119
+Gallegosport,Jessicaland,99319,3309465,5,Low,Dry Goods,380
+New Georgeside,New Patriciamouth,43423,483302,6,Medium,Canned Goods,500
+Spencerfort,Owenport,13107,2682031,2,Low,Dairy,237
+Lake Angelabury,North Tiffany,43984,2784196,4,Medium,Dairy,498
+Simmonsview,Lake Kayla,35017,4816180,6,Low,Meat/Poultry,500
+Lake Taylor,Elizabethfort,04260,1525245,4,Medium,Canned Goods,500
+West Carolshire,Samanthaport,24518,720027,6,Low,Canned Goods,33
+West Katherineside,North Nicole,25149,1866461,4,Medium,Dairy,336
+East Timothybury,Lake Ericton,79053,1749006,2,Medium,Dairy,152
+Wrightville,Gonzalesland,63413,4965443,3,High,Fresh Produce,500
+Amandamouth,Lake Cassandrahaven,72944,3425914,4,Medium,Dry Goods,500
+Reyesport,South John,11065,1075824,6,Low,Dry Goods,500
+North Christopherberg,Mathewsberg,92845,2227548,3,High,Fresh Produce,138
+Martinezton,Justinport,41384,1496096,2,Medium,Meat/Poultry,265
+Rodriguezhaven,New Annette,56010,1637866,6,Medium,Dairy,500
+West Nicholas,Alvarezmouth,46417,3931575,2,Low,Dry Goods,490
+Doylefort,West Kevin,80289,4049557,5,Medium,Meat/Poultry,332
+Sanchezmouth,West Kyle,05405,1292194,2,High,Canned Goods,322
+Laurenmouth,West James,64076,154756,6,High,Meat/Poultry,500
+West Jason,Allenfort,32782,2518698,2,High,Dairy,183
+North Nancy,Tammyfort,57523,4418485,4,Medium,Fresh Produce,191
+East Deannamouth,South Tiffanyland,00978,2760938,5,High,Canned Goods,500
+Nicolefurt,Allisonstad,84134,355781,6,High,Canned Goods,373
+Perezstad,Jonesborough,84042,1908003,6,Medium,Dry Goods,466
+East Angelamouth,Port Cynthia,35798,1523875,5,Medium,Dry Goods,107
+Dillonport,North Josephtown,48824,1538044,6,Medium,Dry Goods,500
+Rickyburgh,Timothybury,37256,4851248,2,High,Canned Goods,190
+South Cody,Wellschester,87781,4131454,6,Medium,Dry Goods,500
+Bruceshire,Port Josephbury,25632,990090,5,Low,Dry Goods,500
+Torresstad,Carlville,05734,4400649,5,Low,Dry Goods,500
+Bryantburgh,Heidihaven,43424,1637525,2,Low,Canned Goods,462
+Lake Heather,South Laura,25883,1658796,6,Low,Meat/Poultry,500
+Johnberg,Griffithmouth,71247,3520717,2,High,Dry Goods,228
+Adamsfurt,West Heatherport,60570,827195,5,High,Fresh Produce,500
+Dunnhaven,South Krista,15411,4163191,3,Low,Meat/Poultry,500
+Tanyastad,Hannahbury,61461,471291,1,Medium,Meat/Poultry,48
+Johnville,South Joseph,27192,2425591,5,Medium,Fresh Produce,356
+South Maryville,Allisonview,52841,2670992,5,Medium,Canned Goods,269
+Wilsonbury,South Christopherborough,80264,4944491,4,Low,Canned Goods,427
+East Sharonfurt,South Dennisville,17818,2642731,4,High,Canned Goods,398
+Lunafort,West Cheryl,29951,495619,5,Medium,Dry Goods,500
+Amandashire,South Cynthiaville,17113,3389976,1,Low,Meat/Poultry,154
+Lake Stephenhaven,West Brittanymouth,89662,4466642,4,Medium,Fresh Produce,379
+Marcusburgh,Lucasview,83676,1093875,2,Low,Canned Goods,378
+Lake Antonioton,East Shelleybury,10226,206886,6,High,Dairy,307
+Johnsonburgh,North Amber,35610,1156059,3,Low,Dry Goods,309
+New Michael,Port Corey,73674,2134652,5,Medium,Dry Goods,500
+Debraborough,Robertsonberg,65663,1866491,5,Low,Canned Goods,373
+Barbarabury,Samuelville,62437,603266,3,High,Dry Goods,152
+Sandrafort,Riveraport,60050,2589790,2,Low,Dairy,303
+Zacharymouth,Corymouth,91159,2311139,6,Medium,Canned Goods,500
+New Travisburgh,Johnsonside,89061,1128572,4,High,Fresh Produce,37
+West Jamieside,Lake Garyton,24354,1276257,3,Medium,Fresh Produce,401
+West Ronaldfurt,Port Heatherchester,48956,105233,6,Medium,Canned Goods,500
+Matthewchester,Brianburgh,61001,1190799,5,Medium,Fresh Produce,500
+Hectorbury,East Scott,50832,1987491,2,Medium,Dairy,329
+North Cory,Kempfurt,82824,946762,1,Low,Canned Goods,253
+Johnville,Gregside,48272,4020747,6,Medium,Dry Goods,220
+Robertville,East Colleen,71823,2619308,5,Medium,Canned Goods,500
+East Stephen,Collinschester,67977,2864281,1,Medium,Fresh Produce,52
+West Mariaside,West Stephenton,52034,3200604,6,Low,Meat/Poultry,500
+Weaverton,Port Tiffany,98785,527455,2,Medium,Dry Goods,217
+Cruzton,Tylerfurt,89954,2696202,4,Low,Fresh Produce,429
+Austinfort,New Paul,65755,2967596,6,Medium,Dairy,500
+Adrianburgh,Robertside,35149,228392,3,Low,Dry Goods,500
+West Jenniferland,Hillburgh,01354,1895003,3,Medium,Canned Goods,500
+North Samantha,Port Logan,35091,2190730,4,High,Dry Goods,455
+Wilsonville,Alexisberg,68532,4521182,5,Low,Canned Goods,500
+Lake Christopherfort,Zimmermanfurt,90378,2960456,6,Low,Dry Goods,500
+West Bryan,New Christina,93973,3312784,5,Low,Dairy,500
+Gravesview,East Ashley,13403,294214,6,Medium,Dry Goods,452
+East Juliamouth,South Julie,49791,4280950,4,High,Dry Goods,480
+Bradborough,Jenniferville,97360,365273,3,Medium,Fresh Produce,456
+Newtonstad,Marshburgh,24979,3813188,1,Medium,Canned Goods,133
+West Jacquelinebury,Seanmouth,78924,3318376,1,Low,Canned Goods,59
+West John,West Melissaside,73958,1161531,6,Medium,Meat/Poultry,297
+Michaelside,West Katrina,21514,859600,3,Low,Dairy,157
+Kaylaport,South Amanda,76567,2526290,1,High,Dry Goods,65
+East Amandatown,Taylorside,32253,4725990,2,High,Dry Goods,50
+Robertchester,Lake Tiffanyville,94134,424818,6,Low,Canned Goods,500
+New Ashley,New Richard,44995,434299,4,Low,Fresh Produce,318
+Port Kaylaland,Evansfurt,25144,3067960,5,Low,Fresh Produce,500
+Michaelmouth,Philipchester,94452,2119575,3,High,Meat/Poultry,500
+Hoodfort,Port Paula,37419,4081221,3,Low,Meat/Poultry,500
+Andreville,New Laurahaven,75988,4190624,3,Medium,Dairy,363
+Garciafurt,Joannefort,40503,1538371,2,Medium,Fresh Produce,128
+Gailbury,Kaylaville,15940,2901586,3,Medium,Fresh Produce,236
+Nelsonmouth,Port Bradleyton,77859,303019,6,Medium,Canned Goods,500
+Isaacport,Larsonfurt,73312,3374841,2,Medium,Dry Goods,333
+Freemanland,South Tylerfort,59904,3780090,1,Low,Dry Goods,256
+West Kimberlyton,Hannahchester,09848,2905390,5,Low,Dry Goods,500
+Lake Julie,Josestad,32671,1269937,6,Medium,Dry Goods,500
+New Paigeside,West Joshuaberg,94428,541994,5,Medium,Meat/Poultry,500
+Mistystad,South Joshua,08953,1970964,3,Low,Fresh Produce,458
+Port Nathanieltown,Brandonburgh,47415,4728999,3,Low,Fresh Produce,500
+Samanthafurt,Kimberlyton,08741,1944240,3,Medium,Meat/Poultry,253
+South Davidhaven,West Deniseshire,85830,312604,1,Low,Canned Goods,127
+Sanchezborough,Donaldville,95053,1071728,4,Low,Canned Goods,297
+Port Nicholas,New Katelyn,03106,2117263,4,Low,Canned Goods,160
+Dennishaven,Santanaport,54457,878408,5,High,Fresh Produce,500
