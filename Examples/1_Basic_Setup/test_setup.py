@@ -22,7 +22,7 @@ Validation Steps:
 
 Usage:
 -----
-Run this script after completing the basic setup:
+Run this script after completing the basic installation script in install.sh:
     python test_setup.py
 """
 
