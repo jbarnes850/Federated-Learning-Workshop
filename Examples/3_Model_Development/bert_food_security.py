@@ -92,21 +92,11 @@ class FoodSecurityBertTiny(nn.Module):
             logger.error(f"❌ Forward pass failed: {e}")
             raise
     
-    def deploy(self, model_path):
-        """
-        Deploy the model to AIVM network.
-        
-        Args:
-            model_path: Path to save/load the model
-            
-        Returns:
-            bool: Success status of deployment
-        """
+    def deploy_model(self, model_path):
+        """Deploy model to AIVM network."""
         try:
-            client = aic.Client()
-            upload_model(model_path, "FoodSecurityBERT")
-            logger.info("✓ Model deployed successfully")
-            self.progress["deployment"] = True
+            # Upload custom BertTiny model
+            aic.upload_bert_tiny_model(model_path, "FoodSecurityBERT")
             return True
         except Exception as e:
             logger.error(f"❌ Model deployment failed: {e}")

@@ -19,10 +19,10 @@ print("Sample data:", data.head())
 ### **Encrypt Data**
 
 ```python
-from nillion_aivm import BertTinyCryptensor
+import aivm_client as aic
 
 # Encrypt sensitive data
-encrypted_data = BertTinyCryptensor(data.to_json())
+encrypted_data = aic.BertTinyCryptensor(data.to_json())
 print("Data encrypted successfully")
 ```
 

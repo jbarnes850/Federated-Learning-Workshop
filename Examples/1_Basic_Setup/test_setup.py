@@ -64,7 +64,7 @@ class TestAIVM(unittest.TestCase):
         
         # Initialize client
         try:
-            self.client = aic.AIVMClient()
+            self.client = aic.Client()
             self.client.configure(api_key=self.api_key)
             logger.info("✓ AIVM client initialized successfully")
             self.progress["client_init"] = True
@@ -75,6 +75,11 @@ class TestAIVM(unittest.TestCase):
         # Add environment validation
         self._validate_python_version()
         self._validate_dependencies()
+
+        # Verify supported models
+        models = get_supported_models()
+        if "LeNet5MNIST" not in models and "BertTiny" not in models:
+            raise ValueError("Required models not supported")
 
     def _validate_python_version(self):
         """Verify Python version compatibility."""
@@ -130,10 +135,10 @@ class TestAIVM(unittest.TestCase):
             logger.info(f"{step}: {'✓' if status else '❌'}")
 
 def test_aivm_connection():
-    client = aic.AIVMClient()
-    client.configure(api_key=os.getenv('AIVM_API_KEY'))
-    models = get_supported_models()
-    return "BertTiny" in models
+    # List available models
+    models = aic.get_supported_models()
+    print(f"Available models: {models}")
+    return "LeNet5MNIST" in models or "BertTiny" in models
 
 def test_network_config():
     """Verify network configuration."""

@@ -29,7 +29,7 @@ from faker import Faker
 import torch
 from food_bank_data import generate_synthetic_data
 import aivm_client as aic
-from aivm_client.models import BertTiny
+from aivm_client.cryptensor import Cryptensor
 
 # Configure logging
 logging.basicConfig(
@@ -130,14 +130,10 @@ class PrivacyDemo:
     async def encrypt_demo(self, data: pd.DataFrame) -> Optional[Cryptensor]:
         """Demonstrate data encryption with AIVM."""
         try:
-            # Convert data to AIVM-compatible format
-            text_data = data.to_json()
-            encrypted_data = Cryptensor.encrypt(text_data, model_type=BertTiny)
-            
-            # Verify encryption
-            if not encrypted_data:
-                raise ValueError("Encryption failed")
-                
+            # Tokenize and encrypt using correct method
+            tokenized_data = aic.tokenize(data)
+            encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
+            logger.info("✓ Data encrypted successfully")
             return encrypted_data
             
         except Exception as e:
@@ -147,16 +143,12 @@ class PrivacyDemo:
     async def prediction_demo(self, encrypted_data: Cryptensor) -> Optional[Dict[str, Any]]:
         """Demonstrate secure prediction using AIVM."""
         try:
-            predictions = await self.client.get_prediction(
+            # Use correct prediction method
+            prediction = aic.get_prediction(
                 encrypted_data,
                 "FoodSecurityBERT"
             )
-            
-            # Validate predictions
-            if not predictions:
-                raise ValueError("No predictions received")
-                
-            return predictions
+            return prediction
             
         except Exception as e:
             logger.error(f"❌ Prediction demo failed: {e}")

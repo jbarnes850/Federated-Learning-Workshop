@@ -1,22 +1,22 @@
 # Core AIVM requirements
-nillion-aivm>=0.1.0           
+nillion-aivm>=0.1.0            # Main AIVM package
+nillion-aivm[examples]>=0.1.0  # Required for examples
 
-# Model Dependencies
-torch>=2.0.0                 
-transformers>=4.30.0         
+# Deep Learning
+torch>=2.0.0                  # PyTorch for model operations
+transformers>=4.30.0         # For BERT models
 
 # Data Processing
-pandas>=2.0.0               
-numpy>=1.24.0              
+pandas>=2.0.0                # Data manipulation
+numpy>=1.24.0               # Numerical operations
+
+# Development & Testing
+pytest>=7.0.0              # Testing framework
+faker>=8.0.0              # Synthetic data generation
+python-dotenv>=0.19.0    # Environment management
 
 # Security & Environment
 cryptography>=41.0.0       
-python-dotenv>=0.19.0      
-
-# Testing & Development
-pytest>=7.0.0              
-black>=23.0.0            
-faker>=8.0.0             
 
 # Progress Tracking
 tqdm>=4.65.0           

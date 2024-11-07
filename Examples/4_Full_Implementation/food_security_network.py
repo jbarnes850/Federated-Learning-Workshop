@@ -34,6 +34,7 @@ from cryptography.fernet import Fernet
 import aivm_client as aic
 from aivm_client.cryptensor import Cryptensor
 from aivm_client.models import BertTiny
+from typing import Dict, Any
 
 # Configure logging
 logging.basicConfig(
@@ -56,7 +57,7 @@ class FoodSecurityNetwork:
         
         try:
             # AIVM setup
-            self.client = aic.AIVMClient()
+            self.client = aic.Client()
             self.api_key = os.getenv('AIVM_API_KEY')
             if not self.api_key:
                 raise ValueError("AIVM_API_KEY environment variable not set")
@@ -86,8 +87,12 @@ class FoodSecurityNetwork:
             dict: Prediction results
         """
         try:
-            encrypted_data = Cryptensor.encrypt(local_data, model_type=BertTiny)
-            prediction = await self.client.get_prediction(
+            # Tokenize and encrypt data
+            tokenized_data = aic.tokenize(local_data)
+            encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
+            
+            # Get prediction
+            prediction = aic.get_prediction(
                 encrypted_data,
                 "FoodSecurityBERT"
             )
