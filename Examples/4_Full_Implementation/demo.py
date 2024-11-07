@@ -276,47 +276,53 @@ class FullDemo:
             logger.info("DEMO SUMMARY STATISTICS")
             logger.info(f"{'='*50}{Style.RESET_ALL}")
             
-            # Data Statistics
+            # Data Overview with Demographics
             logger.info(f"\n{Fore.BLUE}Data Overview:{Style.RESET_ALL}")
             logger.info(f"  • Total Records: {len(data):,}")
             logger.info(f"  • Unique Locations: {data['City'].nunique():,}")
-            logger.info(f"  • Food Types: {', '.join(data['FoodType'].unique())}")
-            
-            # Demand Patterns
+            logger.info(f"  • Food Types: {', '.join(sorted(data['FoodType'].unique()))}")
+
+            # Add Income Level Distribution
+            income_dist = data['IncomeLevel'].value_counts()
+            logger.info(f"\n{Fore.BLUE}Income Distribution:{Style.RESET_ALL}")
+            for level, count in income_dist.items():
+                percentage = (count / len(data)) * 100
+                logger.info(f"  • {level:<6} Income: {count:,} households ({percentage:.1f}%)")
+
+            # Add Household Size Analysis
+            avg_household = data['HouseholdSize'].mean()
+            household_dist = data['HouseholdSize'].value_counts().sort_index()
+            logger.info(f"\n{Fore.BLUE}Household Demographics:{Style.RESET_ALL}")
+            logger.info(f"  • Average Household Size: {avg_household:.1f} members")
+            for size, count in household_dist.items():
+                percentage = (count / len(data)) * 100
+                logger.info(f"  • {size} Person Households: {count:,} ({percentage:.1f}%)")
+
+            # Demand Patterns (Simplified)
             logger.info(f"\n{Fore.BLUE}Demand Patterns:{Style.RESET_ALL}")
-            logger.info(f"  • Average Demand: {data['DemandAmount'].mean():.0f}")
 
-            # Calculate high demand using 75th percentile
-            demand_threshold = data['DemandAmount'].quantile(0.75)
-            high_demand_data = data[data['DemandAmount'] > demand_threshold]
-            high_demand_count = len(high_demand_data)
-            high_demand_percentage = (high_demand_count / len(data)) * 100
+            # Calculate demand statistics
+            avg_demand = data['DemandAmount'].mean()
+            median_demand = data['DemandAmount'].median()
+            std_demand = data['DemandAmount'].std()
 
-            logger.info(
-                f"  • High Demand Areas: {high_demand_count:,} "
-                f"(>{demand_threshold:.0f} units, {high_demand_percentage:.1f}%)"
-            )
+            logger.info(f"  • Average Demand: {avg_demand:.0f} units")
+            logger.info(f"  • Median Demand: {median_demand:.0f} units")
+            logger.info(f"  • Demand Variation: ±{std_demand:.0f} units")
 
-            # Calculate emergency cases (only where EmergencyStatus is not 'None')
-            emergency_data = data[data['EmergencyStatus'] != 'None']
-            emergency_count = len(emergency_data)
-            emergency_percentage = (emergency_count / len(data)) * 100
-
-            logger.info(
-                f"  • Emergency Cases: {emergency_count:,} "
-                f"({emergency_percentage:.1f}% of total)"
-            )
-
-            # Add detailed demand analysis by category
-            logger.info("\n  Demand by Category:")
-            for food_type in data['FoodType'].unique():
+            # Detailed demand analysis by category
+            logger.info("\n  Demand by Food Type:")
+            for food_type in sorted(data['FoodType'].unique()):
                 type_data = data[data['FoodType'] == food_type]
-                avg_demand = type_data['DemandAmount'].mean()
-                high_demand = len(type_data[type_data['DemandAmount'] > demand_threshold])
-                percentage = (high_demand / len(type_data)) * 100
+                type_avg = type_data['DemandAmount'].mean()
+                type_median = type_data['DemandAmount'].median()
+                type_pct = (len(type_data) / len(data)) * 100
+                
                 logger.info(
-                    f"    - {food_type}: {avg_demand:.0f} units (average), "
-                    f"{high_demand} high demand cases ({percentage:.1f}%)"
+                    f"    - {food_type:<15} "
+                    f"Average: {type_avg:.0f} units, "
+                    f"Median: {type_median:.0f} units "
+                    f"({type_pct:.1f}% of total requests)"
                 )
 
             # Privacy Metrics
