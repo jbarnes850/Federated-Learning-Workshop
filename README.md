@@ -4,7 +4,7 @@
 [![Educational](https://img.shields.io/badge/purpose-education-green.svg)](https://github.com/jbarnes850/Federated-Learning-Workshop)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
 
-A Quick Start Guide to Building Privacy-Preserving AI Networks for Social Impact using Nillion's AIVM framework.
+A Quick Start Guide to Building Privacy-Preserving AI Networks for Social Impact using Nillion's AIVM framework. See the architecture and system design [here](./Presentation/Decentralized%20Federated%20Learning%20Architecture.pdf).
 
 ## Workshop Setup
 
