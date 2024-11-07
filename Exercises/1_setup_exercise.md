@@ -15,8 +15,9 @@ Set up your development environment and verify AIVM functionality.
 
 ```bash
 # Clone repository
-git clone https://github.com/your-org/food-security-workshop
-cd food-security-workshop
+git clone https://github.com/jbarnes850/Federated-Learning-Workshop
+
+cd Federated-Learning-Workshop
 
 # Run installation script
 chmod +x Examples/1_Basic_Setup/install.sh
