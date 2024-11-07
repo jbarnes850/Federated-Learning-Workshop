@@ -2,44 +2,63 @@
 
 ## Objective
 
-Set up your development environment and verify Nillion's AIVM functionality.
+Set up your development environment and verify AIVM functionality.
+
+## Prerequisites
+
+- Python 3.8 or higher
+- Git installed
 
 ## Steps
 
-### **Environment Setup**
+### **1. Environment Setup**
 
 ```bash
 # Clone repository
 git clone https://github.com/your-org/food-security-workshop
 cd food-security-workshop
 
-# Create environment
-python3 -m venv .venv
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
+# Run installation script
+chmod +x Examples/1_Basic_Setup/install.sh
+./Examples/1_Basic_Setup/install.sh
 ```
 
-### **Verify Installation**
+### **2. Start AIVM Devnet**
+
+Open a new terminal and run:
 
 ```bash
-python examples/1_basic_setup/test_setup.py
+# Start devnet (keep this terminal open)
+aivm-devnet
 ```
 
-### **Check AIVM Connection**
+### **3. Verify Installation**
 
-```python
-import aivm_client as aic
+In your original terminal:
 
-# Verify AIVM client
-client = aic.AIVMClient()
-models = client.get_supported_models()
-print("Available models:", models)
+```bash
+# Run setup validation
+python Examples/1_Basic_Setup/test_setup.py
+```
+
+### **4. Check Devnet Status**
+
+```bash
+# Verify devnet is running
+./Examples/utils/manage_devnet.sh status
 ```
 
 ## Success Criteria
 
 - ✓ Environment activated
 - ✓ Dependencies installed
+- ✓ Devnet running
 - ✓ AIVM client connected
+
+## Troubleshooting
+
+If you encounter issues:
+
+1. Ensure devnet is running in a separate terminal
+2. Check environment variables in .env
+3. Verify Python version compatibility

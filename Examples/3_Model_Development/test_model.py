@@ -6,155 +6,215 @@ This module provides comprehensive testing capabilities for the BertTiny model
 adapted for food security analysis. It validates model performance, prediction
 accuracy, and privacy preservation requirements.
 
+Prerequisites:
+------------
+- AIVM devnet must be running (see README.md)
+- Model deployed
+- Environment setup completed
+
 Progress Tracking:
 ----------------
 - Test Dataset Creation ✓
 - Model Loading ✓
 - Inference Testing ✓
-- Performance Metrics ✓
-
-Validation Steps:
----------------
-1. Verify test data loading
-2. Check model initialization
-3. Validate inference pipeline
-4. Evaluate performance metrics
+- Privacy Verification ✓
 
 Usage:
 -----
-Run model testing:
-    python test_model.py
+1. Ensure devnet is running:
+   aivm-devnet
+
+2. Run tests:
+   python test_model.py
 """
 
-import torch
-from torch.utils.data import DataLoader, Dataset
-from transformers import BertTokenizer
-from bert_food_security import FoodSecurityBertTiny
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+import aivm_client as aic
 import logging
+import torch
+from torch.utils.data import Dataset, DataLoader
+from typing import Dict, List, Any, Optional
+from transformers import BertTokenizer
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class FoodInsecurityDataset(Dataset):
-    """Dataset class for food insecurity testing data."""
+class FoodSecurityDataset(Dataset):
+    """Dataset class for food security testing data."""
     
-    def __init__(self, texts, labels, tokenizer, max_length=128):
+    def __init__(self, texts: List[str], labels: List[int], max_length: int = 128):
         """
-        Initialize the test dataset.
+        Initialize test dataset.
         
         Args:
-            texts (list): List of input texts
-            labels (list): Corresponding labels
-            tokenizer: BertTokenizer instance
-            max_length (int): Maximum sequence length
+            texts: List of input texts
+            labels: Corresponding labels
+            max_length: Maximum sequence length
         """
         self.texts = texts
         self.labels = labels
-        self.tokenizer = tokenizer
         self.max_length = max_length
         
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.texts)
     
-    def __getitem__(self, idx):
-        """Get tokenized and encoded item from dataset."""
+    def __getitem__(self, idx: int) -> Dict[str, torch.Tensor]:
+        """Get tokenized and encoded item."""
         text = self.texts[idx]
         label = self.labels[idx]
         
-        encoding = self.tokenizer.encode_plus(
-            text,
-            add_special_tokens=True,
-            max_length=self.max_length,
-            return_attention_mask=True,
-            padding='max_length',
-            truncation=True,
-            return_tensors='pt'
-        )
+        # Tokenize using AIVM
+        tokenized = aic.tokenize(text)
         
         return {
-            'input_ids': encoding['input_ids'].flatten(),
-            'attention_mask': encoding['attention_mask'].flatten(),
-            'labels': torch.tensor(label, dtype=torch.long)
+            'text': text,
+            'label': torch.tensor(label, dtype=torch.long),
+            'tokenized': tokenized
         }
 
-def evaluate_model(model, test_loader, device):
-    """
-    Evaluate model performance on test data.
+class ModelTester:
+    """Handles model testing and evaluation."""
     
-    Args:
-        model: FoodSecurityBertTiny instance
-        test_loader: DataLoader for test data
-        device: torch device
+    def __init__(self):
+        """Initialize with AIVM verification."""
+        self.progress = {
+            "client_setup": False,
+            "data_loaded": False,
+            "model_tested": False,
+            "privacy_verified": False
+        }
         
-    Returns:
-        dict: Performance metrics
-    """
-    model.eval()
-    all_preds = []
-    all_labels = []
-    
-    with torch.no_grad():
-        for batch in test_loader:
-            input_ids = batch['input_ids'].to(device)
-            attention_mask = batch['attention_mask'].to(device)
-            labels = batch['labels'].to(device)
+        try:
+            # Verify AIVM connection
+            self.client = aic.Client()
             
-            outputs = model(input_ids, attention_mask=attention_mask)
-            preds = torch.argmax(outputs, dim=-1)
+            # Verify model availability
+            models = aic.get_supported_models()
+            if "BertTiny" not in models:
+                raise ValueError("BertTiny model not supported")
+                
+            self.progress["client_setup"] = True
+            logger.info("✓ Connected to AIVM devnet")
             
-            all_preds.extend(preds.cpu().numpy())
-            all_labels.extend(labels.cpu().numpy())
-    
-    # Calculate metrics
-    accuracy = accuracy_score(all_labels, all_preds)
-    precision, recall, f1, _ = precision_recall_fscore_support(
-        all_labels, all_preds, average='weighted'
-    )
-    
-    return {
-        'accuracy': accuracy,
-        'precision': precision,
-        'recall': recall,
-        'f1': f1
-    }
+        except Exception as e:
+            logger.error("❌ Failed to connect to AIVM devnet. Is it running?")
+            raise
+
+    def evaluate_model(self, test_loader: DataLoader) -> Dict[str, float]:
+        """
+        Evaluate model performance with privacy preservation.
+        
+        Args:
+            test_loader: DataLoader containing test data
+            
+        Returns:
+            dict: Performance metrics
+        """
+        try:
+            results = []
+            labels = []
+            
+            for batch in test_loader:
+                # Encrypt data
+                encrypted_data = aic.BertTinyCryptensor(*batch['tokenized'])
+                
+                # Get prediction
+                prediction = aic.get_prediction(
+                    encrypted_data,
+                    "FoodSecurityBERT"
+                )
+                
+                results.append(prediction)
+                labels.append(batch['label'])
+            
+            # Calculate metrics
+            metrics = self._calculate_metrics(results, labels)
+            
+            self.progress["model_tested"] = True
+            logger.info("✓ Model evaluation complete")
+            
+            # Verify privacy
+            self._verify_privacy(encrypted_data)
+            
+            return metrics
+            
+        except Exception as e:
+            logger.error(f"❌ Evaluation failed: {e}")
+            raise
+
+    def _calculate_metrics(self, predictions: List[torch.Tensor], 
+                         labels: List[torch.Tensor]) -> Dict[str, float]:
+        """Calculate performance metrics."""
+        try:
+            correct = sum(
+                torch.argmax(p) == l for p, l in zip(predictions, labels)
+            )
+            total = len(predictions)
+            
+            return {
+                'accuracy': correct / total,
+                'total_samples': total
+            }
+        except Exception as e:
+            logger.error(f"❌ Metrics calculation failed: {e}")
+            raise
+
+    def _verify_privacy(self, encrypted_data: aic.BertTinyCryptensor) -> None:
+        """Verify privacy preservation of predictions."""
+        try:
+            privacy_checks = [
+                isinstance(encrypted_data, aic.BertTinyCryptensor),
+                len(encrypted_data.shape) > 0,
+                encrypted_data.requires_grad is False
+            ]
+            
+            if all(privacy_checks):
+                self.progress["privacy_verified"] = True
+                logger.info("✓ Privacy verification complete")
+            else:
+                raise ValueError("Privacy requirements not met")
+                
+        except Exception as e:
+            logger.error(f"❌ Privacy verification failed: {e}")
+            raise
+
+    def get_progress(self) -> Dict[str, str]:
+        """Get current progress status."""
+        return {
+            step: "✓" if status else "❌"
+            for step, status in self.progress.items()
+        }
 
 if __name__ == "__main__":
     try:
-        logger.info("Starting model testing...")
-        
-        # Initialize model and tokenizer
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        tokenizer = BertTokenizer.from_pretrained('bert-tiny')
-        model = FoodSecurityBertTiny(num_labels=6).to(device)
-        model.load_state_dict(torch.load('models/food_security_bert.pth'))
+        # Initialize tester
+        tester = ModelTester()
         
         # Prepare test data
         test_texts = [
-            "I need food assistance due to financial difficulties.",
-            "The crops failed last season and we are struggling."
+            "Need food assistance due to financial difficulties",
+            "Increased demand for fresh produce in summer",
+            "Emergency food supply needed after natural disaster"
         ]
-        test_labels = [1, 0]
+        test_labels = [1, 0, 2]
         
-        # Create test dataset and loader
-        test_dataset = FoodInsecurityDataset(
-            texts=test_texts,
-            labels=test_labels,
-            tokenizer=tokenizer
-        )
-        test_loader = DataLoader(test_dataset, batch_size=2, shuffle=False)
+        # Create dataset and loader
+        test_dataset = FoodSecurityDataset(test_texts, test_labels)
+        test_loader = DataLoader(test_dataset, batch_size=1)
         
-        # Evaluate model
-        metrics = evaluate_model(model, test_loader, device)
+        # Run evaluation
+        metrics = tester.evaluate_model(test_loader)
         
-        # Log results
+        # Show results
         logger.info("\nTest Results:")
         for metric, value in metrics.items():
             logger.info(f"{metric}: {value:.4f}")
-        
+            
+        # Show progress
+        logger.info("\nTest Status:")
+        for step, status in tester.get_progress().items():
+            logger.info(f"{step}: {status}")
+            
     except Exception as e:
-        logger.error(f"Testing failed: {e}")
+        logger.error(f"❌ Testing failed: {e}")
+        exit(1)

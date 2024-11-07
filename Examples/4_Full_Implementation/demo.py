@@ -5,65 +5,67 @@ Full Implementation Demo
 This script demonstrates the complete food security network implementation,
 including data privacy, model inference, and secure collaboration.
 
+Prerequisites:
+------------
+- AIVM devnet must be running (see README.md)
+- Model deployed
+- Network configured
+
 Progress Tracking:
 ----------------
 - Setup ✓
+- Data Generation ✓
 - Privacy Demo ✓
 - Model Demo ✓
 - Network Demo ✓
 
 Usage:
 -----
-Run the demo:
-    python demo.py
+1. Ensure devnet is running:
+   aivm-devnet
+
+2. Run demo:
+   python demo.py
 """
 
+import aivm_client as aic
 import logging
 import os
 from typing import Dict, Any, Optional
-import aivm_client as aic
-from aivm_client.models import BertTiny, get_supported_models
-from aivm_client.cryptensor import Cryptensor
-from aivm_client.utils import get_prediction
 from food_security_network import FoodSecurityNetwork
 from food_bank_data import generate_synthetic_data
+from config import NetworkConfig
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class FullDemo:
     def __init__(self):
-        """Initialize demo components with AIVM validation."""
+        """Initialize demo components with validation."""
         self.progress = {
             "client_setup": False,
             "network_setup": False,
-            "privacy_tested": False,
-            "model_tested": False,
-            "network_tested": False
+            "data_ready": False,
+            "prediction_tested": False,
+            "sharing_tested": False
         }
         
         try:
             # Initialize AIVM client
             self.client = aic.Client()
-            self.api_key = os.getenv('AIVM_API_KEY')
-            if not self.api_key:
-                raise ValueError("AIVM_API_KEY environment variable not set")
-            self.client.configure(api_key=self.api_key)
             
-            # Verify AIVM support
-            supported_models = get_supported_models()
-            if "BertTiny" not in supported_models:
-                raise ValueError("BertTiny model not supported in current AIVM version")
+            # Verify model support
+            models = aic.get_supported_models()
+            if "BertTiny" not in models:
+                raise ValueError("BertTiny model not supported")
             
             self.progress["client_setup"] = True
-            logger.info("✓ AIVM client initialized successfully")
+            logger.info("✓ Connected to AIVM devnet")
             
             # Initialize network
             self.network = FoodSecurityNetwork()
+            self.config = NetworkConfig.load_config()
             self.progress["network_setup"] = True
             logger.info("✓ Network initialized successfully")
             
@@ -71,121 +73,94 @@ class FullDemo:
             logger.error(f"❌ Setup failed: {e}")
             raise
 
-    async def run_demo(self) -> bool:
-        """Execute complete system demonstration with validation."""
+    async def prepare_data(self) -> bool:
+        """Generate and prepare test data."""
         try:
-            # Generate and validate test data
-            data = generate_synthetic_data(num_entries=10)
-            self._validate_data(data)
-            logger.info("✓ Generated and validated test data")
-
-            # Test privacy preservation
-            await self.test_privacy(data)
-            self.progress["privacy_tested"] = True
-            logger.info("✓ Privacy preservation verified")
-
-            # Test model predictions
-            await self.test_model(data)
-            self.progress["model_tested"] = True
-            logger.info("✓ Model predictions verified")
-
-            # Test network collaboration
-            await self.test_network(data)
-            self.progress["network_tested"] = True
-            logger.info("✓ Network collaboration verified")
-
+            # Generate synthetic data
+            self.data = generate_synthetic_data(num_entries=10)
+            if self.data.empty:
+                raise ValueError("Generated data is empty")
+            
+            self.progress["data_ready"] = True
+            logger.info("✓ Test data prepared")
             return True
+            
+        except Exception as e:
+            logger.error(f"❌ Data preparation failed: {e}")
+            return False
 
+    async def test_predictions(self) -> bool:
+        """Test secure prediction capabilities."""
+        try:
+            # Prepare sample cases
+            test_cases = [
+                "Urgent food assistance needed for family of 5",
+                "Increased demand for fresh produce in summer",
+                "Emergency supplies required after natural disaster"
+            ]
+            
+            for case in test_cases:
+                # Tokenize and encrypt
+                tokenized_data = aic.tokenize(case)
+                encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
+                
+                # Get prediction
+                prediction = await self.network.predict_demand(case)
+                logger.info(f"Case: {case}\nPrediction: {prediction}\n")
+            
+            self.progress["prediction_tested"] = True
+            logger.info("✓ Prediction testing complete")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Prediction testing failed: {e}")
+            return False
+
+    async def test_sharing(self) -> bool:
+        """Test secure data sharing capabilities."""
+        try:
+            # Test different types of insights
+            insights = {
+                "demand_trend": "25% increase in monthly demand",
+                "resource_allocation": "Fresh produce shortage detected",
+                "emergency_alert": "Natural disaster preparation needed"
+            }
+            
+            for insight_type, message in insights.items():
+                shared_data = self.network.share_insights(message)
+                logger.info(f"Shared {insight_type}: {message}")
+            
+            self.progress["sharing_tested"] = True
+            logger.info("✓ Sharing capabilities verified")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Sharing test failed: {e}")
+            return False
+
+    async def run_demo(self) -> bool:
+        """Execute complete system demonstration."""
+        try:
+            # Prepare test data
+            if not await self.prepare_data():
+                return False
+            
+            # Test predictions
+            if not await self.test_predictions():
+                return False
+            
+            # Test sharing
+            if not await self.test_sharing():
+                return False
+            
+            return True
+            
         except Exception as e:
             logger.error(f"❌ Demo failed: {e}")
             return False
 
-    def _validate_data(self, data) -> None:
-        """Validate data structure and content."""
-        required_columns = [
-            'Region', 'City', 'ZipCode', 'Population', 
-            'HouseholdSize', 'IncomeLevel', 'FoodType', 'DemandAmount'
-        ]
-        if not all(col in data.columns for col in required_columns):
-            raise ValueError("Missing required columns in data")
-        if data.empty:
-            raise ValueError("Data is empty")
-
-    async def test_privacy(self, data) -> bool:
-        """Test and validate privacy preservation."""
-        try:
-            # Test encryption
-            encrypted_data = Cryptensor(data.to_json())
-            if not isinstance(encrypted_data, Cryptensor):
-                raise TypeError("Invalid encryption format")
-            
-            # Verify privacy guarantees
-            privacy_checks = [
-                isinstance(encrypted_data, Cryptensor),
-                len(encrypted_data.shape) > 0,
-                encrypted_data.requires_grad is False  # Ensure no gradient tracking
-            ]
-            
-            if not all(privacy_checks):
-                raise ValueError("Privacy requirements not met")
-                
-            logger.info("✓ Privacy checks passed")
-            return True
-            
-        except Exception as e:
-            logger.error(f"❌ Privacy test failed: {e}")
-            raise
-
-    async def test_model(self, data) -> Optional[Dict[str, Any]]:
-        """Test and validate model predictions."""
-        try:
-            # Prepare input
-            encrypted_data = Cryptensor(data.to_json())
-            
-            # Get prediction
-            predictions = await get_prediction(
-                encrypted_data,
-                "FoodSecurityBERT"
-            )
-            
-            # Validate predictions
-            if not isinstance(predictions, dict):
-                raise TypeError("Invalid prediction format")
-            if not predictions:
-                raise ValueError("Empty predictions received")
-            
-            logger.info("✓ Model prediction successful")
-            return predictions
-            
-        except Exception as e:
-            logger.error(f"❌ Model test failed: {e}")
-            raise
-
-    async def test_network(self, data) -> Optional[Dict[str, Any]]:
-        """Test and validate network collaboration."""
-        try:
-            # Test secure data sharing
-            insights = self.network.share_insights(data.to_json())
-            if not insights:
-                raise ValueError("Failed to share insights")
-            
-            # Test collaborative prediction
-            collab_prediction = await self.network.predict_demand(data.to_json())
-            if not collab_prediction:
-                raise ValueError("Collaborative prediction failed")
-            
-            logger.info("✓ Network collaboration successful")
-            return {
-                "insights": insights,
-                "predictions": collab_prediction
-            }
-            
-        except Exception as e:
-            logger.error(f"❌ Network test failed: {e}")
-            raise
-
     def get_progress(self) -> Dict[str, str]:
-        """Get current progress status with validation."""
+        """Get current progress status."""
         return {
             step: "✓" if status else "❌"
             for step, status in self.progress.items()
@@ -196,9 +171,11 @@ if __name__ == "__main__":
     
     async def main():
         try:
+            # Run complete demo
             demo = FullDemo()
             success = await demo.run_demo()
             
+            # Show progress
             logger.info("\nDemo Status:")
             for step, status in demo.get_progress().items():
                 logger.info(f"{step}: {status}")
@@ -213,4 +190,5 @@ if __name__ == "__main__":
             logger.error(f"❌ Demo failed: {e}")
             exit(1)
 
+    # Run async demo
     asyncio.run(main())

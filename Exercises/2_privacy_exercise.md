@@ -1,12 +1,14 @@
 # Exercise 2: Data Privacy
 
-## Objective
+## Prerequisites
 
-Implement basic data encryption and privacy preservation using Nillion's AIVM.
+- Completed Exercise 1
+- AIVM devnet running
+- Environment activated
 
 ## Steps
 
-### **Generate Test Data**
+### **1. Generate Test Data**
 
 ```python
 from food_bank_data import generate_synthetic_data
@@ -16,13 +18,14 @@ data = generate_synthetic_data(num_entries=10)
 print("Sample data:", data.head())
 ```
 
-### **Encrypt Data**
+### **2. Encrypt Data**
 
 ```python
 import aivm_client as aic
 
-# Encrypt sensitive data
-encrypted_data = aic.BertTinyCryptensor(data.to_json())
+# Tokenize and encrypt sensitive data
+tokenized_data = aic.tokenize(data.to_json())
+encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
 print("Data encrypted successfully")
 ```
 

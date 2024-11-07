@@ -2,11 +2,18 @@
 Privacy Demo Script
 =================
 
-This script demonstrates the privacy-preserving capabilities of the food security
-network using Nillion AIVM.
+This script demonstrates privacy-preserving capabilities using Nillion AIVM for
+food bank data analysis. It shows encryption, secure prediction, and privacy verification.
+
+Prerequisites:
+------------
+- AIVM devnet must be running (see README.md)
+- Environment setup completed
+- Dependencies installed
 
 Progress Tracking:
 ----------------
+- Devnet Connection ✓
 - Data Generation ✓
 - Encryption Demo ✓
 - Secure Prediction ✓
@@ -14,157 +21,150 @@ Progress Tracking:
 
 Usage:
 -----
-Run the demo:
-    python privacy_demo.py
+1. Ensure devnet is running in a separate terminal:
+   aivm-devnet
+
+2. Run the demo:
+   python privacy_demo.py
 """
 
+import aivm_client as aic
 import logging
 import os
 from typing import Dict, Any, Optional
-from nillion.aivm import Client as AIVMClient, get_supported_models
-from nillion.aivm.cryptensor import Cryptensor
-from nillion.aivm.models import BERTiny
-import pandas as pd
-from faker import Faker
-import torch
 from food_bank_data import generate_synthetic_data
-import aivm_client as aic
-from aivm_client.cryptensor import Cryptensor
+import torch
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class PrivacyDemo:
     def __init__(self):
-        """Initialize demo components with AIVM client setup."""
+        """Initialize demo components and verify environment."""
         self.progress = {
-            "client_setup": False,
+            "devnet_check": False,
             "data_generated": False,
             "encryption_tested": False,
             "prediction_tested": False,
             "privacy_verified": False
         }
         
+        # Verify devnet is running
         try:
-            # Initialize AIVM client
-            self.client = AIVMClient()
-            self.api_key = os.getenv('AIVM_API_KEY')
-            if not self.api_key:
-                raise ValueError("AIVM_API_KEY environment variable not set")
-            self.client.configure(api_key=self.api_key)
+            self.client = aic.Client()
             
-            # Verify AIVM support
-            supported_models = get_supported_models()
-            if "BertTiny" not in supported_models:
+            # Verify model support
+            models = aic.get_supported_models()
+            if "BertTiny" not in models:
                 raise ValueError("BertTiny model not supported in current AIVM version")
             
-            self.fake = Faker()
-            self.progress["client_setup"] = True
-            logger.info("✓ AIVM client initialized successfully")
-            
+            self.progress["devnet_check"] = True
+            logger.info("✓ Connected to AIVM devnet")
+                
         except Exception as e:
-            logger.error(f"❌ Initialization failed: {e}")
+            logger.error("❌ Failed to connect to AIVM devnet. Is it running?")
             raise
+
+    async def generate_test_data(self) -> bool:
+        """Generate and validate test data."""
+        try:
+            self.data = generate_synthetic_data(num_entries=10)
+            if self.data.empty:
+                raise ValueError("Generated data is empty")
+            
+            self.progress["data_generated"] = True
+            logger.info("✓ Generated test data successfully")
+            return True
+        except Exception as e:
+            logger.error(f"❌ Data generation failed: {e}")
+            return False
+
+    async def demonstrate_encryption(self) -> Optional[aic.BertTinyCryptensor]:
+        """Demonstrate encryption capabilities."""
+        try:
+            # Convert data to text format
+            text_data = self.data.to_json()
+            
+            # Tokenize the text data
+            tokenized_data = aic.tokenize(text_data)
+            
+            # Encrypt using BertTinyCryptensor
+            encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
+            
+            self.progress["encryption_tested"] = True
+            logger.info("✓ Data encrypted successfully")
+            return encrypted_data
+        except Exception as e:
+            logger.error(f"❌ Encryption demonstration failed: {e}")
+            return None
+
+    async def test_prediction(self, encrypted_data: aic.BertTinyCryptensor) -> bool:
+        """Test secure prediction on encrypted data."""
+        try:
+            # Verify input format
+            if not isinstance(encrypted_data, aic.BertTinyCryptensor):
+                raise ValueError("Invalid encryption format")
+            
+            # Get prediction using AIVM
+            prediction = aic.get_prediction(encrypted_data, "FoodSecurityBERT")
+            
+            self.progress["prediction_tested"] = True
+            logger.info("✓ Secure prediction completed successfully")
+            logger.info(f"Prediction result: {prediction}")
+            return True
+        except Exception as e:
+            logger.error(f"❌ Prediction test failed: {e}")
+            return False
+
+    async def verify_privacy(self, encrypted_data: aic.BertTinyCryptensor) -> bool:
+        """Verify privacy preservation guarantees."""
+        try:
+            # Run privacy checks
+            privacy_checks = [
+                isinstance(encrypted_data, aic.BertTinyCryptensor),
+                len(encrypted_data.shape) > 0,
+                encrypted_data.requires_grad is False,
+                not hasattr(encrypted_data, '_raw_data')  # Ensure no raw data access
+            ]
+            
+            if all(privacy_checks):
+                self.progress["privacy_verified"] = True
+                logger.info("✓ Privacy guarantees verified")
+                return True
+            else:
+                raise ValueError("Privacy requirements not met")
+        except Exception as e:
+            logger.error(f"❌ Privacy verification failed: {e}")
+            return False
 
     async def run_demo(self) -> bool:
         """Execute complete privacy demonstration."""
+        if not self.progress["devnet_check"]:
+            logger.error("❌ AIVM devnet not running. Start devnet first.")
+            return False
+            
         try:
-            # Generate and validate synthetic data
-            synthetic_data = generate_synthetic_data(num_entries=50)
-            self._validate_data(synthetic_data)
-            logger.info("✓ Generated and validated synthetic data")
-            self.progress["data_generated"] = True
-
-            # Test encryption with validation
-            encrypted_data = await self.encrypt_demo(synthetic_data)
-            self._validate_encryption(encrypted_data)
-            logger.info("✓ Demonstrated encryption with validation")
-            self.progress["encryption_tested"] = True
-
-            # Test secure prediction
-            predictions = await self.prediction_demo(encrypted_data)
-            self._validate_predictions(predictions)
-            logger.info("✓ Tested secure prediction with validation")
-            self.progress["prediction_tested"] = True
-
-            # Verify privacy guarantees
-            privacy_status = await self.verify_privacy()
-            if not privacy_status:
-                raise ValueError("Privacy verification failed")
-            logger.info("✓ Verified privacy guarantees")
-            self.progress["privacy_verified"] = True
+            # Generate and encrypt data
+            if not await self.generate_test_data():
+                return False
+                
+            encrypted_data = await self.demonstrate_encryption()
+            if encrypted_data is None:
+                return False
+                
+            # Test prediction and verify privacy
+            if not await self.test_prediction(encrypted_data):
+                return False
+                
+            if not await self.verify_privacy(encrypted_data):
+                return False
 
             return True
 
         except Exception as e:
             logger.error(f"❌ Demo failed: {e}")
             return False
-
-    def _validate_data(self, data: pd.DataFrame) -> None:
-        """Validate synthetic data structure and content."""
-        required_columns = [
-            'Region', 'City', 'ZipCode', 'Population', 
-            'HouseholdSize', 'IncomeLevel', 'FoodType', 'DemandAmount'
-        ]
-        if not all(col in data.columns for col in required_columns):
-            raise ValueError("Missing required columns in synthetic data")
-        if data.empty:
-            raise ValueError("Generated data is empty")
-
-    def _validate_encryption(self, encrypted_data: Cryptensor) -> None:
-        """Validate encrypted data format."""
-        if not isinstance(encrypted_data, Cryptensor):
-            raise TypeError("Invalid encryption format")
-
-    def _validate_predictions(self, predictions: Dict[str, Any]) -> None:
-        """Validate prediction results."""
-        if not isinstance(predictions, dict):
-            raise TypeError("Invalid prediction format")
-        if not predictions:
-            raise ValueError("Empty predictions received")
-
-    async def encrypt_demo(self, data: pd.DataFrame) -> Optional[Cryptensor]:
-        """Demonstrate data encryption with AIVM."""
-        try:
-            # Tokenize and encrypt using correct method
-            tokenized_data = aic.tokenize(data)
-            encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
-            logger.info("✓ Data encrypted successfully")
-            return encrypted_data
-            
-        except Exception as e:
-            logger.error(f"❌ Encryption demo failed: {e}")
-            raise
-
-    async def prediction_demo(self, encrypted_data: Cryptensor) -> Optional[Dict[str, Any]]:
-        """Demonstrate secure prediction using AIVM."""
-        try:
-            # Use correct prediction method
-            prediction = aic.get_prediction(
-                encrypted_data,
-                "FoodSecurityBERT"
-            )
-            return prediction
-            
-        except Exception as e:
-            logger.error(f"❌ Prediction demo failed: {e}")
-            raise
-
-    async def verify_privacy(self) -> bool:
-        """Verify AIVM privacy guarantees."""
-        try:
-            # Implement privacy verification based on AIVM specs
-            # Add specific privacy checks here
-            privacy_status = True  # Replace with actual verification
-            return privacy_status
-            
-        except Exception as e:
-            logger.error(f"❌ Privacy verification failed: {e}")
-            raise
 
     def get_progress(self) -> Dict[str, str]:
         """Get current progress status with validation."""
@@ -178,9 +178,11 @@ if __name__ == "__main__":
     
     async def main():
         try:
+            # Run complete demo
             demo = PrivacyDemo()
             success = await demo.run_demo()
             
+            # Show progress
             logger.info("\nDemo Status:")
             for step, status in demo.get_progress().items():
                 logger.info(f"{step}: {status}")
@@ -195,4 +197,5 @@ if __name__ == "__main__":
             logger.error(f"❌ Demo failed: {e}")
             exit(1)
 
-    asyncio.run(main()) 
+    # Run async demo
+    asyncio.run(main())

@@ -1,12 +1,14 @@
 # Exercise 4: Network Implementation
 
-## Objective
+## Prerequisites
 
-Set up a basic food security network node.
+- Completed Exercise 3
+- AIVM devnet running
+- Environment activated
 
 ## Steps
 
-### **Initialize Network**
+### **1. Initialize Network**
 
 ```python
 from food_security_network import FoodSecurityNetwork
@@ -16,12 +18,18 @@ network = FoodSecurityNetwork()
 print("Network initialized")
 ```
 
-### **Test Collaboration**
+### **2. Test Collaboration**
 
 ```python
-# Test secure prediction
+import aivm_client as aic
+
+# Prepare and encrypt data
 data = "Example demand data"
-prediction = await network.predict_demand(data)
+tokenized_data = aic.tokenize(data)
+encrypted_data = aic.BertTinyCryptensor(*tokenized_data)
+
+# Get secure prediction
+prediction = await network.predict_demand(encrypted_data)
 print("Secure prediction:", prediction)
 ```
 

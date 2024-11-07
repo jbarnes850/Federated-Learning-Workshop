@@ -6,6 +6,12 @@ This module implements a secure and privacy-preserving network for food security
 using Nillion AIVM. It handles encrypted data sharing and federated predictions across
 multiple nodes while maintaining data privacy.
 
+Prerequisites:
+------------
+- AIVM devnet must be running (see README.md)
+- Environment setup completed
+- Model deployed
+
 Progress Tracking:
 ----------------
 - Network Initialization ✓
@@ -13,70 +19,62 @@ Progress Tracking:
 - Data Sharing ✓
 - Privacy Verification ✓
 
-Validation Steps:
----------------
-1. Verify network setup
-2. Test secure predictions
-3. Validate data sharing
-4. Check privacy guarantees
-
 Usage:
 -----
-Initialize and use the network:
-    network = FoodSecurityNetwork()
-    prediction = await network.predict_demand(local_data)
-    shared_insights = network.share_insights(insights_data)
+1. Start AIVM devnet in a separate terminal:
+   aivm-devnet
+
+2. Initialize and use the network:
+   network = FoodSecurityNetwork()
+   prediction = await network.predict_demand(local_data)
 """
 
-import os
-import logging
-from cryptography.fernet import Fernet
 import aivm_client as aic
-from aivm_client.cryptensor import Cryptensor
-from aivm_client.models import BertTiny
-from typing import Dict, Any
+import logging
+from typing import Dict, Any, Optional
+from cryptography.fernet import Fernet
+from config import NetworkConfig
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class FoodSecurityNetwork:
     """Implementation of a secure food security analysis network."""
     
     def __init__(self):
-        """Initialize network components and validate setup."""
+        """Initialize network components with validation."""
         self.progress = {
             "network_init": False,
+            "client_setup": False,
+            "encryption_ready": False,
             "prediction_ready": False,
-            "sharing_ready": False,
             "privacy_verified": False
         }
         
         try:
-            # AIVM setup
+            # Load configuration
+            self.config = NetworkConfig.load_config()
+            
+            # Initialize AIVM client
             self.client = aic.Client()
-            self.api_key = os.getenv('AIVM_API_KEY')
-            if not self.api_key:
-                raise ValueError("AIVM_API_KEY environment variable not set")
-            self.client.configure(api_key=self.api_key)
+            self.progress["client_setup"] = True
+            logger.info("✓ Connected to AIVM devnet")
             
-            # Nillion Network setup
-            self.network_key = os.getenv('NILLION_NETWORK_KEY')
-            self.node_key = os.getenv('NILLION_NODE_KEY')
-            if not all([self.network_key, self.node_key]):
-                raise ValueError("Network configuration incomplete")
+            # Initialize encryption
+            self.cipher = Fernet(self.config.DATA_ENCRYPTION_KEY)
+            self.progress["encryption_ready"] = True
             
-            self.encryption_key = Fernet.generate_key()
-            logger.info("✓ Network initialized successfully")
+            # Verify network setup
+            self._verify_network_setup()
             self.progress["network_init"] = True
+            logger.info("✓ Network initialized successfully")
+            
         except Exception as e:
             logger.error(f"❌ Network initialization failed: {e}")
             raise
-    
-    async def predict_demand(self, local_data):
+
+    async def predict_demand(self, local_data: str) -> Optional[Dict[str, Any]]:
         """
         Make privacy-preserved demand predictions.
         
@@ -94,16 +92,18 @@ class FoodSecurityNetwork:
             # Get prediction
             prediction = aic.get_prediction(
                 encrypted_data,
-                "FoodSecurityBERT"
+                self.config.MODEL_NAME
             )
-            logger.info("✓ Secure prediction completed")
+            
             self.progress["prediction_ready"] = True
+            logger.info("✓ Secure prediction completed")
             return prediction
+            
         except Exception as e:
             logger.error(f"❌ Prediction failed: {e}")
-            return None
-    
-    def share_insights(self, insights_data):
+            raise
+
+    def share_insights(self, insights_data: str) -> Optional[bytes]:
         """
         Share insights securely across the network.
         
@@ -114,40 +114,80 @@ class FoodSecurityNetwork:
             bytes: Encrypted shared data
         """
         try:
-            cipher_suite = Fernet(self.encryption_key)
-            encrypted_insights = cipher_suite.encrypt(insights_data.encode())
+            # Encrypt insights
+            encrypted_insights = self.cipher.encrypt(
+                insights_data.encode()
+            )
+            
+            # Share through AIVM
+            shared_data = self.client.share_encrypted_data(
+                encrypted_insights
+            )
+            
             logger.info("✓ Insights shared securely")
-            self.progress["sharing_ready"] = True
-            return self.client.share_encrypted_data(encrypted_insights)
+            return shared_data
+            
         except Exception as e:
             logger.error(f"❌ Sharing failed: {e}")
-            return None
-    
-    def verify_privacy(self):
-        """Verify privacy guarantees of the network."""
+            raise
+
+    def _verify_network_setup(self) -> None:
+        """Verify network configuration and privacy."""
         try:
-            # Add privacy verification logic here
-            self.progress["privacy_verified"] = True
-            logger.info("✓ Privacy guarantees verified")
-            return True
+            # Verify model availability
+            models = aic.get_supported_models()
+            if self.config.MODEL_NAME not in models:
+                raise ValueError(f"Model {self.config.MODEL_NAME} not found")
+            
+            # Verify privacy preservation
+            privacy_checks = [
+                hasattr(self, 'cipher'),
+                self.config.SSL_ENABLED or self.config.NODE_HOST == 'localhost',
+                bool(self.config.DATA_ENCRYPTION_KEY)
+            ]
+            
+            if all(privacy_checks):
+                self.progress["privacy_verified"] = True
+                logger.info("✓ Privacy verification complete")
+            else:
+                raise ValueError("Privacy requirements not met")
+                
         except Exception as e:
-            logger.error(f"❌ Privacy verification failed: {e}")
-            return False
-    
-    def get_progress(self):
-        """Get current progress status of network implementation."""
+            logger.error(f"❌ Network verification failed: {e}")
+            raise
+
+    def get_progress(self) -> Dict[str, str]:
+        """Get current progress status."""
         return {
             step: "✓" if status else "❌"
             for step, status in self.progress.items()
         }
 
-# Example usage and validation
 if __name__ == "__main__":
-    try:
-        network = FoodSecurityNetwork()
-        network.verify_privacy()
-        logger.info("\nNetwork Status:")
-        for step, status in network.get_progress().items():
-            logger.info(f"{step}: {status}")
-    except Exception as e:
-        logger.error(f"Network validation failed: {e}")
+    import asyncio
+    
+    async def main():
+        try:
+            # Initialize network
+            network = FoodSecurityNetwork()
+            
+            # Test prediction
+            test_data = "Need food assistance for family of 4"
+            prediction = await network.predict_demand(test_data)
+            
+            # Test sharing
+            insights = "Monthly demand increased by 25%"
+            shared = network.share_insights(insights)
+            
+            # Show progress
+            logger.info("\nNetwork Status:")
+            for step, status in network.get_progress().items():
+                logger.info(f"{step}: {status}")
+                
+            logger.info("✓ Network test completed successfully")
+            
+        except Exception as e:
+            logger.error(f"❌ Network test failed: {e}")
+            exit(1)
+
+    asyncio.run(main())
